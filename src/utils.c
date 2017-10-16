@@ -1,6 +1,7 @@
 /* Various utility functions.
    Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
-   2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+   2005, 2006, 2007, 2008, 2009, 2010, 2011, 2015 Free Software
+   Foundation, Inc.
 
 This file is part of GNU Wget.
 
@@ -30,27 +31,14 @@ as that of the covered work.  */
 
 #include "wget.h"
 
+#include "sha256.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#ifdef HAVE_SYS_TIME_H
-# include <sys/time.h>
-#endif
-#ifdef HAVE_UNISTD_H
-# include <unistd.h>
-#endif
-#ifdef HAVE_MMAP
-# include <sys/mman.h>
-#endif
+#include <unistd.h>
 #ifdef HAVE_PROCESS_H
 # include <process.h>  /* getpid() */
-#endif
-#ifdef HAVE_UTIME_H
-# include <utime.h>
-#endif
-#ifdef HAVE_SYS_UTIME_H
-# include <sys/utime.h>
 #endif
 #include <errno.h>
 #include <fcntl.h>
@@ -58,17 +46,35 @@ as that of the covered work.  */
 #include <stdarg.h>
 #include <locale.h>
 
-/* For TIOCGWINSZ and friends: */
-#ifdef HAVE_SYS_IOCTL_H
-# include <sys/ioctl.h>
+#if HAVE_UTIME
+# include <sys/types.h>
+# ifdef HAVE_UTIME_H
+#  include <utime.h>
+# endif
+
+# ifdef HAVE_SYS_UTIME_H
+#  include <sys/utime.h>
+# endif
 #endif
-#ifdef HAVE_TERMIOS_H
+
+#include <sys/time.h>
+
+#include <sys/stat.h>
+
+/* For TIOCGWINSZ and friends: */
+#ifndef WINDOWS
+# include <sys/ioctl.h>
 # include <termios.h>
 #endif
 
 /* Needed for Unix version of run_with_timeout. */
 #include <signal.h>
 #include <setjmp.h>
+
+#include <regex.h>
+#ifdef HAVE_LIBPCRE
+# include <pcre.h>
+#endif
 
 #ifndef HAVE_SIGSETJMP
 /* If sigsetjmp is a macro, configure won't pick it up. */
@@ -79,6 +85,18 @@ as that of the covered work.  */
 
 #if defined HAVE_SIGSETJMP || defined HAVE_SIGBLOCK
 # define USE_SIGNAL_TIMEOUT
+#endif
+
+/* Some systems (Linux libc5, "NCR MP-RAS 3.0", and others) don't
+   provide MAP_FAILED, a symbolic constant for the value returned by
+   mmap() when it doesn't work.  Usually, this constant should be -1.
+   This only makes sense for files that use mmap() and include
+   sys/mman.h *before* sysdep.h, but doesn't hurt others.  */
+#ifdef HAVE_MMAP
+# include <sys/mman.h>
+# ifndef MAP_FAILED
+#  define MAP_FAILED ((void *) -1)
+# endif
 #endif
 
 #include "utils.h"
@@ -92,7 +110,10 @@ as that of the covered work.  */
 #include "test.h"
 #endif
 
-static void
+#include "exits.h"
+#include "c-strcase.h"
+
+_Noreturn static void
 memfatal (const char *context, long attempted_size)
 {
   /* Make sure we don't try to store part of the log line, and thus
@@ -115,7 +136,7 @@ memfatal (const char *context, long attempted_size)
                  exec_name, context, attempted_size);
     }
 
-  exit (1);
+  exit (WGET_EXIT_GENERIC_ERROR);
 }
 
 /* Character property table for (re-)escaping VMS ODS5 extended file
@@ -138,7 +159,8 @@ memfatal (const char *context, long attempted_size)
       Vertical bar (|)
 
    Characters escaped by "^":
-      SP  !  #  %  &  '  (  )  +  ,  .  ;  =  @  [  ]  ^  `  {  }  ~
+      SP  !  "  #  %  &  '  (  )  +  ,  .  :  ;  =
+       @  [  \  ]  ^  `  {  |  }  ~
 
    Either "^_" or "^ " is accepted as a space.  Period (.) is a special
    case.  Note that un-escaped < and > can also confuse a directory
@@ -172,22 +194,22 @@ unsigned char char_prop[ 256] = {
     0,  0,  0,  0,  0,  0,  0,  0,   0,  0,  0,  0,  0,  0,  0,  0,
 
 /*  SP  !   "   #   $   %   &   '    (   )   *   +   ,   -   .   /  */
-    2,  1,  0,  1, 16,  1,  1,  1,   1,  1,  0,  1,  1, 16,  4,  0,
+    2,  1,  1,  1, 16,  1,  1,  1,   1,  1,  0,  1,  1, 16,  4,  0,
 
 /*  0   1   2   3   4   5   6   7    8   9   :   ;   <   =   >   ?  */
-   80, 80, 80, 80, 80, 80, 80, 80,  80, 80,  0,  1,  1,  1,  1,  1,
+   80, 80, 80, 80, 80, 80, 80, 80,  80, 80,  1,  1,  1,  1,  1,  1,
 
 /*  @   A   B   C   D   E   F   G    H   I   J   K   L   M   N   O  */
     1, 80, 80, 80, 80, 80, 80, 16,  16, 16, 16, 16, 16, 16, 16, 16,
 
 /*  P   Q   R   S   T   U   V   W    X   Y   Z   [   \   ]   ^   _  */
-   16, 16, 16, 16, 16, 16, 16, 16,  16, 16, 16,  1,  0,  1,  1, 16,
+   16, 16, 16, 16, 16, 16, 16, 16,  16, 16, 16,  1,  1,  1,  1, 16,
 
 /*  `   a   b   c   d   e   f   g    h   i   j   k   l   m   n   o  */
     1, 96, 96, 96, 96, 96, 96, 32,  32, 32, 32, 32, 32, 32, 32, 32,
 
 /*  p   q   r   s   t   u   v   w    x   y   z   {   |   }   ~  DEL */
-   32, 32, 32, 32, 32, 32, 32, 32,  32, 32, 32,  1,  0,  1, 17,  8,
+   32, 32, 32, 32, 32, 32, 32, 32,  32, 32, 32,  1,  1,  1, 17,  8,
 
     8,  8,  8,  8,  8,  8,  8,  8,   8,  8,  8,  8,  8,  8,  8,  8,
     8,  8,  8,  8,  8,  8,  8,  8,   8,  8,  8,  8,  8,  8,  8,  8,
@@ -213,14 +235,20 @@ xstrdup_lower (const char *s)
 
 /* Copy the string formed by two pointers (one on the beginning, other
    on the char after the last char) to a new, malloc-ed location.
-   0-terminate it.  */
+   0-terminate it.
+   If both pointers are NULL, the function returns an empty string.  */
 char *
 strdupdelim (const char *beg, const char *end)
 {
-  char *res = xmalloc (end - beg + 1);
-  memcpy (res, beg, end - beg);
-  res[end - beg] = '\0';
-  return res;
+  if (beg && beg <= end)
+    {
+      char *res = xmalloc (end - beg + 1);
+      memcpy (res, beg, end - beg);
+      res[end - beg] = '\0';
+      return res;
+    }
+
+  return xstrdup("");
 }
 
 /* Parse a string containing comma-separated elements, and return a
@@ -258,7 +286,7 @@ sepstring (const char *s)
   res[i + 1] = NULL;
   return res;
 }
-
+
 /* Like sprintf, but prints into a string of sufficient size freshly
    allocated with malloc, which is returned.  If unable to print due
    to invalid format, returns NULL.  Inability to allocate needed
@@ -269,13 +297,6 @@ sepstring (const char *s)
    Internally the function either calls vasprintf or loops around
    vsnprintf until the correct size is found.  Since Wget also ships a
    fallback implementation of vsnprintf, this should be portable.  */
-
-/* Constant is using for limits memory allocation for text buffer.
-   Applicable in situation when: vasprintf is not available in the system
-   and vsnprintf return -1 when long line is truncated (in old versions of
-   glibc and in other system where C99 doesn`t support) */
-
-#define FMT_MAX_LENGTH 1048576
 
 char *
 aprintf (const char *fmt, ...)
@@ -295,6 +316,13 @@ aprintf (const char *fmt, ...)
     return NULL;
   return str;
 #else  /* not HAVE_VASPRINTF */
+
+/* Constant is using for limits memory allocation for text buffer.
+   Applicable in situation when: vasprintf is not available in the system
+   and vsnprintf return -1 when long line is truncated (in old versions of
+   glibc and in other system where C99 doesn`t support) */
+
+#define FMT_MAX_LENGTH 1048576
 
   /* vasprintf is unavailable.  snprintf into a small buffer and
      resize it as necessary. */
@@ -324,7 +352,7 @@ aprintf (const char *fmt, ...)
         {                               /* maybe we have some wrong
                                            format string? */
           logprintf (LOG_ALWAYS,
-                     _("%s: aprintf: text buffer is too big (%ld bytes), "
+                     _("%s: aprintf: text buffer is too big (%d bytes), "
                        "aborting.\n"),
                      exec_name, size);  /* printout a log message */
           abort ();                     /* and abort... */
@@ -340,6 +368,32 @@ aprintf (const char *fmt, ...)
 #endif /* not HAVE_VASPRINTF */
 }
 
+#ifndef HAVE_STRLCPY
+/* strlcpy() is a BSD function that sometimes is really handy.
+ * It is the same as snprintf(dst,dstsize,"%s",src), but much faster. */
+
+size_t
+strlcpy (char *dst, const char *src, size_t size)
+{
+  const char *old = src;
+
+  /* Copy as many bytes as will fit */
+  if (size)
+    {
+      while (--size)
+        {
+          if (!(*dst++ = *src++))
+            return src - old - 1;
+        }
+
+      *dst = 0;
+    }
+
+  while (*src++);
+  return src - old - 1;
+}
+#endif
+
 /* Concatenate the NULL-terminated list of string arguments into
    freshly allocated space.  */
 
@@ -347,47 +401,30 @@ char *
 concat_strings (const char *str0, ...)
 {
   va_list args;
-  int saved_lengths[5];         /* inspired by Apache's apr_pstrcat */
-  char *ret, *p;
+  const char *arg;
+  size_t length = 0, pos = 0;
+  char *s;
 
-  const char *next_str;
-  int total_length = 0;
-  size_t argcount;
+  if (!str0)
+    return NULL;
 
-  /* Calculate the length of and allocate the resulting string. */
-
-  argcount = 0;
+  /* calculate the length of the resulting string */
   va_start (args, str0);
-  for (next_str = str0; next_str != NULL; next_str = va_arg (args, char *))
-    {
-      int len = strlen (next_str);
-      if (argcount < countof (saved_lengths))
-        saved_lengths[argcount++] = len;
-      total_length += len;
-    }
+  for (arg = str0; arg; arg = va_arg (args, const char *))
+    length += strlen(arg);
   va_end (args);
-  p = ret = xmalloc (total_length + 1);
 
-  /* Copy the strings into the allocated space. */
+  s = xmalloc (length + 1);
 
-  argcount = 0;
+  /* concatenate strings */
   va_start (args, str0);
-  for (next_str = str0; next_str != NULL; next_str = va_arg (args, char *))
-    {
-      int len;
-      if (argcount < countof (saved_lengths))
-        len = saved_lengths[argcount++];
-      else
-        len = strlen (next_str);
-      memcpy (p, next_str, len);
-      p += len;
-    }
+  for (arg = str0; arg; arg = va_arg (args, const char *))
+    pos += strlcpy(s + pos, arg, length - pos + 1);
   va_end (args);
-  *p = '\0';
 
-  return ret;
+  return s;
 }
-
+
 /* Format the provided time according to the specified format.  The
    format is a string with format elements supported by strftime.  */
 
@@ -421,7 +458,7 @@ datetime_str (time_t t)
 {
   return fmttime(t, "%Y-%m-%d %H:%M:%S");
 }
-
+
 /* The Windows versions of the following two functions are defined in
    mswindows.c. On MSDOS this function should never be called. */
 
@@ -462,7 +499,7 @@ fork_to_background (void)
     {
       /* parent, error */
       perror ("fork");
-      exit (1);
+      exit (WGET_EXIT_GENERIC_ERROR);
     }
   else if (pid != 0)
     {
@@ -470,20 +507,23 @@ fork_to_background (void)
       printf (_("Continuing in background, pid %d.\n"), (int) pid);
       if (logfile_changed)
         printf (_("Output will be written to %s.\n"), quote (opt.lfilename));
-      exit (0);                 /* #### should we use _exit()? */
+      exit (WGET_EXIT_SUCCESS);                 /* #### should we use _exit()? */
     }
 
   /* child: give up the privileges and keep running. */
   setsid ();
-  freopen ("/dev/null", "r", stdin);
-  freopen ("/dev/null", "w", stdout);
-  freopen ("/dev/null", "w", stderr);
+  if (freopen ("/dev/null", "r", stdin) == NULL)
+    DEBUGP (("Failed to redirect stdin to /dev/null.\n"));
+  if (freopen ("/dev/null", "w", stdout) == NULL)
+    DEBUGP (("Failed to redirect stdout to /dev/null.\n"));
+  if (freopen ("/dev/null", "w", stderr) == NULL)
+    DEBUGP (("Failed to redirect stderr to /dev/null.\n"));
 }
 #endif /* !WINDOWS && !MSDOS */
 
 #endif /* def __VMS [else] */
 
-
+
 /* "Touch" FILE, i.e. make its mtime ("modified time") equal the time
    specified with TM.  The atime ("access time") is set to the current
    time.  */
@@ -491,18 +531,40 @@ fork_to_background (void)
 void
 touch (const char *file, time_t tm)
 {
-#ifdef HAVE_STRUCT_UTIMBUF
+#if HAVE_UTIME
+# ifdef HAVE_STRUCT_UTIMBUF
   struct utimbuf times;
-#else
+# else
   struct {
     time_t actime;
     time_t modtime;
   } times;
-#endif
+# endif
   times.modtime = tm;
   times.actime = time (NULL);
   if (utime (file, &times) == -1)
     logprintf (LOG_NOTQUIET, "utime(%s): %s\n", file, strerror (errno));
+#else
+  struct timespec timespecs[2];
+  int fd;
+
+  fd = open (file, O_WRONLY);
+  if (fd < 0)
+    {
+      logprintf (LOG_NOTQUIET, "open(%s): %s\n", file, strerror (errno));
+      return;
+    }
+
+  timespecs[0].tv_sec = time (NULL);
+  timespecs[0].tv_nsec = 0L;
+  timespecs[1].tv_sec = tm;
+  timespecs[1].tv_nsec = 0L;
+
+  if (futimens (fd, timespecs) == -1)
+    logprintf (LOG_NOTQUIET, "futimens(%s): %s\n", file, strerror (errno));
+
+  close (fd);
+#endif
 }
 
 /* Checks if FILE is a symbolic link, and removes it if it is.  Does
@@ -511,7 +573,7 @@ int
 remove_link (const char *file)
 {
   int err = 0;
-  struct_stat st;
+  struct stat st;
 
   if (lstat (file, &st) == 0 && S_ISLNK (st.st_mode))
     {
@@ -537,7 +599,7 @@ file_exists_p (const char *filename)
 #ifdef HAVE_ACCESS
   return access (filename, F_OK) >= 0;
 #else
-  struct_stat buf;
+  struct stat buf;
   return stat (filename, &buf) >= 0;
 #endif
 }
@@ -547,7 +609,7 @@ file_exists_p (const char *filename)
 bool
 file_non_directory_p (const char *path)
 {
-  struct_stat buf;
+  struct stat buf;
   /* Use lstat() rather than stat() so that symbolic links pointing to
      directories can be identified correctly.  */
   if (lstat (path, &buf) != 0)
@@ -574,7 +636,7 @@ file_size (const char *filename)
   fclose (fp);
   return size;
 #else
-  struct_stat st;
+  struct stat st;
   if (stat (filename, &st) < 0)
     return -1;
   return st.st_size;
@@ -672,7 +734,7 @@ unique_create (const char *name, bool binary, char **opened_name)
       xfree (uname);
       uname = unique_name (name, false);
     }
-  if (opened_name && fp != NULL)
+  if (opened_name)
     {
       if (fp)
         *opened_name = uname;
@@ -743,8 +805,7 @@ fopen_excl (const char *fname, int binary)
       open_id = 13;
       fd = open( fname,                 /* File name. */
        flags,                           /* Flags. */
-       0777,                            /* Mode for default protection.
-*/
+       0777,                            /* Mode for default protection. */
        "rfm=stmlf",                     /* Stream_LF. */
        OPEN_OPT_ARGS);                  /* Access callback. */
     }
@@ -772,7 +833,7 @@ fopen_excl (const char *fname, int binary)
   return fopen (fname, binary ? "wb" : "w");
 #endif /* not O_EXCL */
 }
-
+
 /* Create DIRECTORY.  If some of the pathname components of DIRECTORY
    are missing, create them first.  In case any mkdir() call fails,
    return its error status.  Returns 0 on successful completion.
@@ -838,7 +899,7 @@ file_merge (const char *base, const char *file)
 
   return result;
 }
-
+
 /* Like fnmatch, but performs a case-insensitive match.  */
 
 int
@@ -870,12 +931,14 @@ static bool in_acclist (const char *const *, const char *, bool);
 bool
 acceptable (const char *s)
 {
-  int l = strlen (s);
+  const char *p;
 
-  while (l && s[l] != '/')
-    --l;
-  if (s[l] == '/')
-    s += (l + 1);
+  if (opt.output_document && strcmp (s, opt.output_document) == 0)
+    return true;
+
+  if ((p = strrchr (s, '/')))
+    s = p + 1;
+
   if (opt.accepts)
     {
       if (opt.rejects)
@@ -886,6 +949,20 @@ acceptable (const char *s)
     }
   else if (opt.rejects)
     return !in_acclist ((const char *const *)opt.rejects, s, true);
+
+  return true;
+}
+
+/* Determine whether an URL is acceptable to be followed, according to
+   regex patterns to accept/reject.  */
+bool
+accept_url (const char *s)
+{
+  if (opt.acceptregex && !opt.regex_match_fun (opt.acceptregex, s))
+    return false;
+  if (opt.rejectregex && opt.regex_match_fun (opt.rejectregex, s))
+    return false;
+
   return true;
 }
 
@@ -911,16 +988,16 @@ subdir_p (const char *d1, const char *d2)
    first element that matches DIR, through wildcards or front comparison (as
    appropriate).  */
 static bool
-dir_matches_p (char **dirlist, const char *dir)
+dir_matches_p (const char **dirlist, const char *dir)
 {
-  char **x;
+  const char **x;
   int (*matcher) (const char *, const char *, int)
     = opt.ignore_case ? fnmatch_nocase : fnmatch;
 
   for (x = dirlist; *x; x++)
     {
       /* Remove leading '/' */
-      char *p = *x + (**x == '/');
+      const char *p = *x + (**x == '/');
       if (has_wildcards_p (p))
         {
           if (matcher (p, dir, FNM_PATHNAME) == 0)
@@ -972,29 +1049,15 @@ accdir (const char *directory)
 bool
 match_tail (const char *string, const char *tail, bool fold_case)
 {
-  int i, j;
+  int pos = strlen (string) - strlen (tail);
 
-  /* We want this to be fast, so we code two loops, one with
-     case-folding, one without. */
+  if (pos < 0)
+    return false;  /* tail is longer than string.  */
 
   if (!fold_case)
-    {
-      for (i = strlen (string), j = strlen (tail); i >= 0 && j >= 0; i--, j--)
-        if (string[i] != tail[j])
-          break;
-    }
+    return !strcmp (string + pos, tail);
   else
-    {
-      for (i = strlen (string), j = strlen (tail); i >= 0 && j >= 0; i--, j--)
-        if (c_tolower (string[i]) != c_tolower (tail[j]))
-          break;
-    }
-
-  /* If the tail was exhausted, the match was succesful.  */
-  if (j == -1)
-    return true;
-  else
-    return false;
+    return !strcasecmp (string + pos, tail);
 }
 
 /* Checks whether string S matches each element of ACCEPTS.  A list
@@ -1043,15 +1106,12 @@ in_acclist (const char *const *accepts, const char *s, bool backward)
 char *
 suffix (const char *str)
 {
-  int i;
+  char *p;
 
-  for (i = strlen (str); i && str[i] != '/' && str[i] != '.'; i--)
-    ;
+  if ((p = strrchr (str, '.')) && !strchr (p + 1, '/'))
+    return p + 1;
 
-  if (str[i++] == '.')
-    return (char *)str + i;
-  else
-    return NULL;
+  return NULL;
 }
 
 /* Return true if S contains globbing wildcards (`*', `?', `[' or
@@ -1060,10 +1120,7 @@ suffix (const char *str)
 bool
 has_wildcards_p (const char *s)
 {
-  for (; *s; s++)
-    if (*s == '*' || *s == '?' || *s == '[' || *s == ']')
-      return true;
-  return false;
+  return !!strpbrk (s, "*?[]");
 }
 
 /* Return true if FNAME ends with a typical HTML suffix.  The
@@ -1083,83 +1140,33 @@ has_html_suffix_p (const char *fname)
 
   if ((suf = suffix (fname)) == NULL)
     return false;
-  if (!strcasecmp (suf, "html"))
+  if (!c_strcasecmp (suf, "html"))
     return true;
-  if (!strcasecmp (suf, "htm"))
+  if (!c_strcasecmp (suf, "htm"))
     return true;
-  if (suf[0] && !strcasecmp (suf + 1, "html"))
+  if (suf[0] && !c_strcasecmp (suf + 1, "html"))
     return true;
   return false;
 }
 
-/* Read a line from FP and return the pointer to freshly allocated
-   storage.  The storage space is obtained through malloc() and should
-   be freed with free() when it is no longer needed.
-
-   The length of the line is not limited, except by available memory.
-   The newline character at the end of line is retained.  The line is
-   terminated with a zero character.
-
-   After end-of-file is encountered without anything being read, NULL
-   is returned.  NULL is also returned on error.  To distinguish
-   between these two cases, use the stdio function ferror().  */
-
-char *
-read_whole_line (FILE *fp)
-{
-  int length = 0;
-  int bufsize = 82;
-  char *line = xmalloc (bufsize);
-
-  while (fgets (line + length, bufsize - length, fp))
-    {
-      length += strlen (line + length);
-      if (length == 0)
-        /* Possible for example when reading from a binary file where
-           a line begins with \0.  */
-        continue;
-
-      if (line[length - 1] == '\n')
-        break;
-
-      /* fgets() guarantees to read the whole line, or to use up the
-         space we've given it.  We can double the buffer
-         unconditionally.  */
-      bufsize <<= 1;
-      line = xrealloc (line, bufsize);
-    }
-  if (length == 0 || ferror (fp))
-    {
-      xfree (line);
-      return NULL;
-    }
-  if (length + 1 < bufsize)
-    /* Relieve the memory from our exponential greediness.  We say
-       `length + 1' because the terminating \0 is not included in
-       LENGTH.  We don't need to zero-terminate the string ourselves,
-       though, because fgets() does that.  */
-    line = xrealloc (line, length + 1);
-  return line;
-}
-
 /* Read FILE into memory.  A pointer to `struct file_memory' are
    returned; use struct element `content' to access file contents, and
    the element `length' to know the file length.  `content' is *not*
    zero-terminated, and you should *not* read or write beyond the [0,
    length) range of characters.
 
-   After you are done with the file contents, call read_file_free to
+   After you are done with the file contents, call wget_read_file_free to
    release the memory.
 
    Depending on the operating system and the type of file that is
-   being read, read_file() either mmap's the file into memory, or
+   being read, wget_read_file() either mmap's the file into memory, or
    reads the file into the core using read().
 
    If file is named "-", fileno(stdin) is used for reading instead.
    If you want to read from a real file named "-", use "./-" instead.  */
 
 struct file_memory *
-read_file (const char *file)
+wget_read_file (const char *file)
 {
   int fd;
   struct file_memory *fm;
@@ -1183,7 +1190,7 @@ read_file (const char *file)
 
 #ifdef HAVE_MMAP
   {
-    struct_fstat buf;
+    struct stat buf;
     if (fstat (fd, &buf) < 0)
       goto mmap_lose;
     fm->length = buf.st_size;
@@ -1269,7 +1276,7 @@ read_file (const char *file)
    memory needed to hold the FM structure itself.  */
 
 void
-read_file_free (struct file_memory *fm)
+wget_read_file_free (struct file_memory *fm)
 {
 #ifdef HAVE_MMAP
   if (fm->mmap_p)
@@ -1283,7 +1290,7 @@ read_file_free (struct file_memory *fm)
     }
   xfree (fm);
 }
-
+
 /* Free the pointers in a NULL-terminated vector of pointers, then
    free the pointer itself.  */
 void
@@ -1293,7 +1300,10 @@ free_vec (char **vec)
     {
       char **p = vec;
       while (*p)
-        xfree (*p++);
+        {
+          xfree (*p);
+          p++;
+        }
       xfree (vec);
     }
 }
@@ -1323,7 +1333,7 @@ merge_vecs (char **v1, char **v2)
   for (j = 0; v2[j]; j++)
     ;
   /* Reallocate v1.  */
-  v1 = xrealloc (v1, (i + j + 1) * sizeof (char **));
+  v1 = xrealloc (v1, (i + j + 1) * sizeof (char *));
   memcpy (v1 + i, v2, (j + 1) * sizeof (char *));
   xfree (v2);
   return v1;
@@ -1352,7 +1362,7 @@ vec_append (char **vec, const char *str)
   vec[cnt] = NULL;
   return vec;
 }
-
+
 /* Sometimes it's useful to create "sets" of strings, i.e. special
    hash tables where you want to store strings as keys and merely
    query for their existence.  Here is a set of utility routines that
@@ -1417,7 +1427,7 @@ free_keys_and_values (struct hash_table *ht)
       xfree (iter.value);
     }
 }
-
+
 /* Get digit grouping data for thousand separors by calling
    localeconv().  The data includes separator string and grouping info
    and is cached after the first call to the function.
@@ -1544,7 +1554,7 @@ with_thousand_seps (wgint n)
    some detail.  */
 
 char *
-human_readable (HR_NUMTYPE n)
+human_readable (HR_NUMTYPE n, const int acc, const int decimals)
 {
   /* These suffixes are compatible with those of GNU `ls -lh'. */
   static char powers[] =
@@ -1577,10 +1587,10 @@ human_readable (HR_NUMTYPE n)
       if ((n / 1024) < 1024 || i == countof (powers) - 1)
         {
           double val = n / 1024.0;
-          /* Print values smaller than 10 with one decimal digits, and
-             others without any decimals.  */
+          /* Print values smaller than the accuracy level (acc) with (decimal)
+           * decimal digits, and others without any decimals.  */
           snprintf (buf, sizeof (buf), "%.*f%c",
-                    val < 10 ? 1 : 0, val, powers[i]);
+                    val < acc ? decimals : 0, val, powers[i]);
           return buf;
         }
       n /= 1024;
@@ -1797,7 +1807,18 @@ number_to_static_string (wgint number)
   ringpos = (ringpos + 1) % RING_SIZE;
   return buf;
 }
-
+
+/* Converts the byte to bits format if --report-bps option is enabled
+ */
+wgint
+convert_to_bits (wgint num)
+{
+  if (opt.report_bps)
+    return num * 8;
+  return num;
+}
+
+
 /* Determine the width of the terminal we're running on.  If that's
    not possible, return 0.  */
 
@@ -1810,7 +1831,7 @@ determine_screen_width (void)
   int fd;
   struct winsize wsz;
 
-  if (opt.lfilename != NULL)
+  if (opt.lfilename != NULL && opt.show_progress != 1)
     return 0;
 
   fd = fileno (stderr);
@@ -1827,7 +1848,7 @@ determine_screen_width (void)
   return 0;
 #endif /* neither TIOCGWINSZ nor WINDOWS */
 }
-
+
 /* Whether the rnd system (either rand or [dl]rand48) has been
    seeded.  */
 static int rnd_seeded;
@@ -1847,7 +1868,14 @@ static int rnd_seeded;
 int
 random_number (int max)
 {
-#ifdef HAVE_DRAND48
+#ifdef HAVE_RANDOM
+  if (!rnd_seeded)
+    {
+      srandom ((long) time (NULL) ^ (long) getpid ());
+      rnd_seeded = 1;
+    }
+  return random () % max;
+#elif defined HAVE_DRAND48
   if (!rnd_seeded)
     {
       srand48 ((long) time (NULL) ^ (long) getpid ());
@@ -1882,7 +1910,9 @@ random_number (int max)
 double
 random_float (void)
 {
-#ifdef HAVE_DRAND48
+#ifdef HAVE_RANDOM
+    return ((double) random_number (RAND_MAX)) / RAND_MAX;
+#elif defined HAVE_DRAND48
   if (!rnd_seeded)
     {
       srand48 ((long) time (NULL) ^ (long) getpid ());
@@ -1896,7 +1926,7 @@ random_float (void)
           + random_number (10000) / (10000.0 * 10000.0 * 10000.0 * 10000.0));
 #endif /* not HAVE_DRAND48 */
 }
-
+
 /* Implementation of run_with_timeout, a generic timeout-forcing
    routine for systems with Unix-like signal handling.  */
 
@@ -1906,8 +1936,8 @@ random_float (void)
 
 static sigjmp_buf run_with_timeout_env;
 
-static void
-abort_run_with_timeout (int sig)
+_Noreturn static void
+abort_run_with_timeout (int sig _GL_UNUSED)
 {
   assert (sig == SIGALRM);
   siglongjmp (run_with_timeout_env, -1);
@@ -1917,16 +1947,17 @@ abort_run_with_timeout (int sig)
 
 static jmp_buf run_with_timeout_env;
 
-static void
-abort_run_with_timeout (int sig)
+static void _Noreturn
+abort_run_with_timeout (int sig _GL_UNUSED)
 {
   assert (sig == SIGALRM);
   /* We don't have siglongjmp to preserve the set of blocked signals;
      if we longjumped out of the handler at this point, SIGALRM would
      remain blocked.  We must unblock it manually. */
-  int mask = siggetmask ();
-  mask &= ~sigmask (SIGALRM);
-  sigsetmask (mask);
+  sigset_t set;
+  sigemptyset (&set);
+  sigaddset (&set, SIGALRM);
+  sigprocmask (SIG_BLOCK, &set, NULL);
 
   /* Now it's safe to longjump. */
   longjmp (run_with_timeout_env, -1);
@@ -2020,12 +2051,15 @@ run_with_timeout (double timeout, void (*fun) (void *), void *arg)
       return false;
     }
 
-  signal (SIGALRM, abort_run_with_timeout);
   if (SETJMP (run_with_timeout_env) != 0)
     {
       /* Longjumped out of FUN with a timeout. */
       signal (SIGALRM, SIG_DFL);
       return true;
+    }
+  else
+    {
+      signal (SIGALRM, abort_run_with_timeout);
     }
   alarm_set (timeout);
   fun (arg);
@@ -2054,7 +2088,7 @@ run_with_timeout (double timeout, void (*fun) (void *), void *arg)
 }
 #endif /* not WINDOWS */
 #endif /* not USE_SIGNAL_TIMEOUT */
-
+
 #ifndef WINDOWS
 
 /* Sleep the specified amount of seconds.  On machines without
@@ -2114,8 +2148,8 @@ xsleep (double seconds)
    This implementation does not emit newlines after 76 characters of
    base64 data.  */
 
-int
-base64_encode (const void *data, int length, char *dest)
+size_t
+wget_base64_encode (const void *data, size_t length, char *dest)
 {
   /* Conversion table.  */
   static const char tbl[64] = {
@@ -2177,13 +2211,13 @@ base64_encode (const void *data, int length, char *dest)
 
    Since DEST is assumed to contain binary data, it is not
    NUL-terminated.  The function returns the length of the data
-   written to TO.  -1 is returned in case of error caused by malformed
+   written to "TO".  -1 is returned in case of error caused by malformed
    base64 input.
 
    This function originates from Free Recode.  */
 
-int
-base64_decode (const char *base64, void *dest)
+ssize_t
+wget_base64_decode (const char *base64, void *dest)
 {
   /* Table of base64 values for first 128 characters.  Note that this
      assumes ASCII (but so does Wget in other places).  */
@@ -2269,9 +2303,93 @@ base64_decode (const char *base64, void *dest)
   return q - (char *) dest;
 }
 
+#ifdef HAVE_LIBPCRE
+/* Compiles the PCRE regex. */
+void *
+compile_pcre_regex (const char *str)
+{
+  const char *errbuf;
+  int erroffset;
+  pcre *regex = pcre_compile (str, 0, &errbuf, &erroffset, 0);
+  if (! regex)
+    {
+      fprintf (stderr, _("Invalid regular expression %s, %s\n"),
+               quote (str), errbuf);
+      return false;
+    }
+  return regex;
+}
+#endif
+
+/* Compiles the POSIX regex. */
+void *
+compile_posix_regex (const char *str)
+{
+  regex_t *regex = xmalloc (sizeof (regex_t));
+  int errcode = regcomp ((regex_t *) regex, str, REG_EXTENDED | REG_NOSUB);
+  if (errcode != 0)
+    {
+      size_t errbuf_size = regerror (errcode, (regex_t *) regex, NULL, 0);
+      char *errbuf = xmalloc (errbuf_size);
+      regerror (errcode, (regex_t *) regex, errbuf, errbuf_size);
+      fprintf (stderr, _("Invalid regular expression %s, %s\n"),
+               quote (str), errbuf);
+      xfree (errbuf);
+      xfree (regex);
+      return NULL;
+    }
+
+  return regex;
+}
+
+#ifdef HAVE_LIBPCRE
+#define OVECCOUNT 30
+/* Matches a PCRE regex.  */
+bool
+match_pcre_regex (const void *regex, const char *str)
+{
+  size_t l = strlen (str);
+  int ovector[OVECCOUNT];
+
+  int rc = pcre_exec ((pcre *) regex, 0, str, (int) l, 0, 0, ovector, OVECCOUNT);
+  if (rc == PCRE_ERROR_NOMATCH)
+    return false;
+  else if (rc < 0)
+    {
+      logprintf (LOG_VERBOSE, _("Error while matching %s: %d\n"),
+                 quote (str), rc);
+      return false;
+    }
+  else
+    return true;
+}
+#undef OVECCOUNT
+#endif
+
+/* Matches a POSIX regex.  */
+bool
+match_posix_regex (const void *regex, const char *str)
+{
+  int rc = regexec ((regex_t *) regex, str, 0, NULL, 0);
+  if (rc == REG_NOMATCH)
+    return false;
+  else if (rc == 0)
+    return true;
+  else
+    {
+      size_t errbuf_size = regerror (rc, opt.acceptregex, NULL, 0);
+      char *errbuf = xmalloc (errbuf_size);
+      regerror (rc, opt.acceptregex, errbuf, errbuf_size);
+      logprintf (LOG_VERBOSE, _("Error while matching %s: %d\n"),
+                 quote (str), rc);
+      xfree (errbuf);
+      return false;
+    }
+}
+
 #undef IS_ASCII
 #undef NEXT_CHAR
-
+
 /* Simple merge sort for use by stable_sort.  Implementation courtesy
    Zeljko Vrba with additional debugging by Nenad Barbutov.  */
 
@@ -2304,20 +2422,20 @@ mergesort_internal (void *base, void *temp, size_t size, size_t from, size_t to,
 }
 
 /* Stable sort with interface exactly like standard library's qsort.
-   Uses mergesort internally, allocating temporary storage with
-   alloca.  */
+   Uses mergesort internally. */
 
 void
 stable_sort (void *base, size_t nmemb, size_t size,
              int (*cmpfun) (const void *, const void *))
 {
-  if (size > 1)
+  if (nmemb > 1 && size > 1)
     {
-      void *temp = alloca (nmemb * size * sizeof (void *));
+      void *temp = xmalloc (nmemb * size);
       mergesort_internal (base, temp, size, 0, nmemb - 1, cmpfun);
+      xfree(temp);
     }
 }
-
+
 /* Print a decimal number.  If it is equal to or larger than ten, the
    number is rounded.  Otherwise it is printed with one significant
    digit without trailing zeros and with no more than three fractional
@@ -2353,21 +2471,289 @@ print_decimal (double number)
   return buf;
 }
 
+/* Get the maximum name length for the given path. */
+/* Return 0 if length is unknown. */
+long
+get_max_length (const char *path, int length, int name)
+{
+  long ret;
+  char *p, *d;
+
+  /* Make a copy of the path that we can modify. */
+  p = path ? strdupdelim (path, path + length) : strdup ("");
+
+  for (;;)
+    {
+      errno = 0;
+      /* For an empty path query the current directory. */
+#if HAVE_PATHCONF
+      ret = pathconf (*p ? p : ".", name);
+      if (!(ret < 0 && errno == ENOENT))
+        break;
+#else
+      ret = PATH_MAX;
+#endif
+
+      /* The path does not exist yet, but may be created. */
+      /* Already at current or root directory, give up. */
+      if (!*p || strcmp (p, "/") == 0)
+        break;
+
+      /* Remove one directory level and try again. */
+      d = strrchr (p, '/');
+      if (d == p)
+        p[1] = '\0';  /* check root directory */
+      else if (d)
+        *d = '\0';  /* remove last directory part */
+      else
+        *p = '\0';  /* check current directory */
+    }
+
+  xfree (p);
+
+  if (ret < 0)
+    {
+      /* pathconf() has a message for us. */
+      if (errno != 0)
+          perror ("pathconf");
+
+      /* If (errno == 0) then there is no max length.
+         Even on error return 0 so the caller can continue. */
+      return 0;
+    }
+
+  return ret;
+}
+
+void
+wg_hex_to_string (char *str_buffer, const char *hex_buffer, size_t hex_len)
+{
+  size_t i;
+
+  for (i = 0; i < hex_len; i++)
+    {
+      /* Each byte takes 2 characters.  */
+      sprintf (str_buffer + 2 * i, "%02x", (unsigned) (hex_buffer[i] & 0xFF));
+    }
+
+  /* Null-terminate result.  */
+  str_buffer[2 * i] = '\0';
+}
+
+#ifdef HAVE_SSL
+
+/*
+ * Public key pem to der conversion
+ */
+
+static bool
+wg_pubkey_pem_to_der (const char *pem, unsigned char **der, size_t *der_len)
+{
+  char *stripped_pem, *begin_pos, *end_pos;
+  size_t pem_count, stripped_pem_count = 0, pem_len;
+  ssize_t size;
+  unsigned char *base64data;
+
+  *der = NULL;
+  *der_len = 0;
+
+  /* if no pem, exit. */
+  if (!pem)
+    return false;
+
+  begin_pos = strstr (pem, "-----BEGIN PUBLIC KEY-----");
+  if (!begin_pos)
+    return false;
+
+  pem_count = begin_pos - pem;
+  /* Invalid if not at beginning AND not directly following \n */
+  if (0 != pem_count && '\n' != pem[pem_count - 1])
+    return false;
+
+  /* 26 is length of "-----BEGIN PUBLIC KEY-----" */
+  pem_count += 26;
+
+  /* Invalid if not directly following \n */
+  end_pos = strstr (pem + pem_count, "\n-----END PUBLIC KEY-----");
+  if (!end_pos)
+    return false;
+
+  pem_len = end_pos - pem;
+
+  stripped_pem = xmalloc (pem_len - pem_count + 1);
+
+  /*
+   * Here we loop through the pem array one character at a time between the
+   * correct indices, and place each character that is not '\n' or '\r'
+   * into the stripped_pem array, which should represent the raw base64 string
+   */
+  while (pem_count < pem_len) {
+    if ('\n' != pem[pem_count] && '\r' != pem[pem_count])
+      stripped_pem[stripped_pem_count++] = pem[pem_count];
+    ++pem_count;
+  }
+  /* Place the null terminator in the correct place */
+  stripped_pem[stripped_pem_count] = '\0';
+
+  base64data = xmalloc (BASE64_LENGTH(stripped_pem_count));
+
+  size = wget_base64_decode (stripped_pem, base64data);
+
+  if (size < 0) {
+    xfree (base64data);           /* malformed base64 from server */
+  } else {
+    *der = base64data;
+    *der_len = (size_t) size;
+  }
+
+  xfree (stripped_pem);
+
+  return *der_len > 0;
+}
+
+/*
+ * Generic pinned public key check.
+ */
+
+bool
+wg_pin_peer_pubkey (const char *pinnedpubkey, const char *pubkey, size_t pubkeylen)
+{
+  struct file_memory *fm;
+  unsigned char *buf = NULL, *pem_ptr = NULL;
+  size_t size, pem_len;
+  bool pem_read;
+  bool result = false;
+
+  size_t pinkeylen;
+  ssize_t decoded_hash_length;
+  char *pinkeycopy, *begin_pos, *end_pos;
+  unsigned char *sha256sumdigest = NULL, *expectedsha256sumdigest = NULL;
+
+  /* if a path wasn't specified, don't pin */
+  if (!pinnedpubkey)
+    return true;
+  if (!pubkey || !pubkeylen)
+    return result;
+
+  /* only do this if pinnedpubkey starts with "sha256//", length 8 */
+  if (strncmp (pinnedpubkey, "sha256//", 8) == 0) {
+    /* compute sha256sum of public key */
+    sha256sumdigest = xmalloc (SHA256_DIGEST_SIZE);
+    sha256_buffer (pubkey, pubkeylen, sha256sumdigest);
+    expectedsha256sumdigest = xmalloc (SHA256_DIGEST_SIZE + 1);
+
+    /* it starts with sha256//, copy so we can modify it */
+    pinkeylen = strlen (pinnedpubkey) + 1;
+    pinkeycopy = xmalloc (pinkeylen);
+    memcpy (pinkeycopy, pinnedpubkey, pinkeylen);
+
+    /* point begin_pos to the copy, and start extracting keys */
+    begin_pos = pinkeycopy;
+    do
+      {
+        end_pos = strstr (begin_pos, ";sha256//");
+        /*
+         * if there is an end_pos, null terminate,
+         * otherwise it'll go to the end of the original string
+         */
+        if (end_pos)
+          end_pos[0] = '\0';
+
+        /* decode base64 pinnedpubkey, 8 is length of "sha256//" */
+        decoded_hash_length = wget_base64_decode (begin_pos + 8, expectedsha256sumdigest);
+        /* if valid base64, compare sha256 digests directly */
+        if (SHA256_DIGEST_SIZE == decoded_hash_length &&
+           !memcmp (sha256sumdigest, expectedsha256sumdigest, SHA256_DIGEST_SIZE)) {
+          result = true;
+          break;
+        }
+
+        /*
+         * change back the null-terminator we changed earlier,
+         * and look for next begin
+         */
+        if (end_pos) {
+          end_pos[0] = ';';
+          begin_pos = strstr (end_pos, "sha256//");
+        }
+      } while (end_pos && begin_pos);
+
+    xfree (sha256sumdigest);
+    xfree (expectedsha256sumdigest);
+    xfree (pinkeycopy);
+
+    return result;
+  }
+
+  /* fall back to assuming this is a file path */
+  fm = wget_read_file (pinnedpubkey);
+  if (!fm)
+    return result;
+
+  /* Check the file's size */
+  if (fm->length < 0 || fm->length > MAX_PINNED_PUBKEY_SIZE)
+    goto cleanup;
+
+  /*
+   * if the size of our certificate is bigger than the file
+   * size then it can't match
+   */
+  size = (size_t) fm->length;
+  if (pubkeylen > size)
+    goto cleanup;
+
+  /* If the sizes are the same, it can't be base64 encoded, must be der */
+  if (pubkeylen == size) {
+    if (!memcmp (pubkey, fm->content, pubkeylen))
+      result = true;
+    goto cleanup;
+  }
+
+  /*
+   * Otherwise we will assume it's PEM and try to decode it
+   * after placing null terminator
+   */
+  buf = xmalloc (size + 1);
+  memcpy (buf, fm->content, size);
+  buf[size] = '\0';
+
+  pem_read = wg_pubkey_pem_to_der ((const char *) buf, &pem_ptr, &pem_len);
+  /* if it wasn't read successfully, exit */
+  if (!pem_read)
+    goto cleanup;
+
+  /*
+   * if the size of our certificate doesn't match the size of
+   * the decoded file, they can't be the same, otherwise compare
+   */
+  if (pubkeylen == pem_len && !memcmp (pubkey, pem_ptr, pubkeylen))
+    result = true;
+
+ cleanup:
+  xfree (buf);
+  xfree (pem_ptr);
+  wget_read_file_free (fm);
+
+  return result;
+}
+
+#endif /* HAVE_SSL */
+
 #ifdef TESTING
 
 const char *
-test_subdir_p()
+test_subdir_p(void)
 {
-  int i;
-  struct {
-    char *d1;
-    char *d2;
+  static const struct {
+    const char *d1;
+    const char *d2;
     bool result;
   } test_array[] = {
     { "/somedir", "/somedir", true },
     { "/somedir", "/somedir/d2", true },
     { "/somedir/d1", "/somedir", false },
   };
+  unsigned i;
 
   for (i = 0; i < countof(test_array); ++i)
     {
@@ -2381,12 +2767,11 @@ test_subdir_p()
 }
 
 const char *
-test_dir_matches_p()
+test_dir_matches_p(void)
 {
-  int i;
-  struct {
-    char *dirlist[3];
-    char *dir;
+  static struct {
+    const char *dirlist[3];
+    const char *dir;
     bool result;
   } test_array[] = {
     { { "/somedir", "/someotherdir", NULL }, "somedir", true },
@@ -2405,6 +2790,7 @@ test_dir_matches_p()
     { { "/Tmp/has", NULL, NULL }, "/Tmp/has space", false },
     { { "/Tmp/has", NULL, NULL }, "/Tmp/has,comma", false },
   };
+  unsigned i;
 
   for (i = 0; i < countof(test_array); ++i)
     {
@@ -2418,4 +2804,3 @@ test_dir_matches_p()
 }
 
 #endif /* TESTING */
-

@@ -1,6 +1,6 @@
 /* Portable timers.
-   Copyright (C) 2005, 2006, 2007, 2008, 2009 Free Software Foundation,
-   Inc.
+   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2015 Free
+   Software Foundation, Inc.
 
 This file is part of GNU Wget.
 
@@ -57,13 +57,9 @@ as that of the covered work.  */
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#ifdef HAVE_UNISTD_H
-# include <unistd.h>
-#endif
+#include <unistd.h>
 #include <time.h>
-#ifdef HAVE_SYS_TIME_H
-# include <sys/time.h>
-#endif
+#include <sys/time.h>
 
 /* Cygwin currently (as of 2005-04-08, Cygwin 1.5.14) lacks clock_getres,
    but still defines _POSIX_TIMERS!  Because of that we simply use the
@@ -295,7 +291,7 @@ windows_resolution (void)
     return 10;                  /* according to MSDN */
 }
 #endif  /* PTIMER_WINDOWS */
-
+
 /* The code below this point is independent of timer implementation. */
 
 struct ptimer {

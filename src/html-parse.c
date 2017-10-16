@@ -1,6 +1,6 @@
 /* HTML parser for Wget.
    Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
-   2007, 2008, 2009 Free Software Foundation, Inc.
+   2007, 2008, 2009, 2010, 2011, 2015 Free Software Foundation, Inc.
 
 This file is part of GNU Wget.
 
@@ -253,7 +253,7 @@ struct pool {
       (sizevar) = ga_newsize;                                                   \
     }                                                                           \
 } while (0)
-
+
 /* Test whether n+1-sized entity name fits in P.  We don't support
    IE-style non-terminated entities, e.g. "&ltfoo" -> "<foo".
    However, "&lt;foo" will work, as will "&lt!foo", "&lt", etc.  In
@@ -280,7 +280,7 @@ struct tagstack_item {
   struct tagstack_item *next;
 };
 
-struct tagstack_item *
+static struct tagstack_item *
 tagstack_push (struct tagstack_item **head, struct tagstack_item **tail)
 {
   struct tagstack_item *ts = xmalloc(sizeof(struct tagstack_item));
@@ -301,7 +301,7 @@ tagstack_push (struct tagstack_item **head, struct tagstack_item **tail)
 }
 
 /* remove ts and everything after it from the stack */
-void
+static void
 tagstack_pop (struct tagstack_item **head, struct tagstack_item **tail,
               struct tagstack_item *ts)
 {
@@ -343,7 +343,7 @@ tagstack_pop (struct tagstack_item **head, struct tagstack_item **tail,
     }
 }
 
-struct tagstack_item *
+static struct tagstack_item *
 tagstack_find (struct tagstack_item *tail, const char *tagname_begin,
                const char *tagname_end)
 {
@@ -517,7 +517,7 @@ convert_and_copy (struct pool *pool, const char *beg, const char *end, int flags
         *p = c_tolower (*p);
     }
 }
-
+
 /* Originally we used to adhere to rfc 1866 here, and allowed only
    letters, digits, periods, and hyphens as names (of tags or
    attributes).  However, this broke too many pages which used
@@ -528,13 +528,14 @@ convert_and_copy (struct pool *pool, const char *beg, const char *end, int flags
      * whitespace
      * 8-bit and control chars
      * characters that clearly cannot be part of name:
-       '=', '>', '/'.
+       '=', '<', '>', '/'.
 
    This only affects attribute and tag names; attribute values allow
    an even greater variety of characters.  */
 
 #define NAME_CHAR_P(x) ((x) > 32 && (x) < 127                           \
-                        && (x) != '=' && (x) != '>' && (x) != '/')
+                        && (x) != '=' && (x) != '<' && (x) != '>'       \
+                        && (x) != '/')
 
 #ifdef STANDALONE
 static int comment_backout_count;
@@ -619,6 +620,7 @@ advance_declaration (const char *beg, const char *end)
             case '\n':
               ch = *p++;
               break;
+            case '<':
             case '>':
               state = AC_S_DONE;
               break;
@@ -768,7 +770,7 @@ find_comment_end (const char *beg, const char *end)
       }
   return NULL;
 }
-
+
 /* Return true if the string containing of characters inside [b, e) is
    present in hash table HT.  */
 
@@ -795,14 +797,6 @@ name_allowed (const struct hash_table *ht, const char *b, const char *e)
 
 #define SKIP_WS(p) do {                         \
   while (c_isspace (*p)) {                        \
-    ADVANCE (p);                                \
-  }                                             \
-} while (0)
-
-/* Skip non-whitespace, if any. */
-
-#define SKIP_NON_WS(p) do {                     \
-  while (!c_isspace (*p)) {                       \
     ADVANCE (p);                                \
   }                                             \
 } while (0)
@@ -879,7 +873,7 @@ map_html_tags (const char *text, int size,
     if (*p == '!')
       {
         if (!(flags & MHT_STRICT_COMMENTS)
-            && p < end + 3 && p[1] == '-' && p[2] == '-')
+            && p + 3 < end && p[1] == '-' && p[2] == '-')
           {
             /* If strict comments are not enforced and if we know
                we're looking at a comment, simply look for the
@@ -926,7 +920,7 @@ map_html_tags (const char *text, int size,
           }
       }
 
-    if (end_tag && *p != '>')
+    if (end_tag && *p != '>' && *p != '<')
       goto backout_tag;
 
     if (!name_allowed (allowed_tags, tag_name_begin, tag_name_end))
@@ -958,12 +952,12 @@ map_html_tags (const char *text, int size,
             /*              ^  */
             ADVANCE (p);
             SKIP_WS (p);
-            if (*p != '>')
+            if (*p != '<' && *p != '>')
               goto backout_tag;
           }
 
         /* Check for end of tag definition. */
-        if (*p == '>')
+        if (*p == '<' || *p == '>')
           break;
 
         /* Establish bounds of attribute name. */
@@ -978,7 +972,8 @@ map_html_tags (const char *text, int size,
 
         /* Establish bounds of attribute value. */
         SKIP_WS (p);
-        if (NAME_CHAR_P (*p) || *p == '/' || *p == '>')
+
+        if (NAME_CHAR_P (*p) || *p == '/' || *p == '<' || *p == '>')
           {
             /* Minimized attribute syntax allows `=' to be omitted.
                For example, <UL COMPACT> is a valid shorthand for <UL
@@ -1015,7 +1010,7 @@ map_html_tags (const char *text, int size,
                         newline_seen = true;
                         continue;
                       }
-                    else if (newline_seen && *p == '>')
+                    else if (newline_seen && (*p == '<' || *p == '>'))
                       break;
                     ADVANCE (p);
                   }
@@ -1040,7 +1035,7 @@ map_html_tags (const char *text, int size,
                    violated by, for instance, `%' in `width=75%'.
                    We'll be liberal and allow just about anything as
                    an attribute value.  */
-                while (!c_isspace (*p) && *p != '>')
+                while (!c_isspace (*p) && *p != '<' && *p != '>')
                   ADVANCE (p);
                 attr_value_end = p; /* <foo bar=baz qux=quix> */
                                     /*             ^          */
@@ -1138,7 +1133,8 @@ map_html_tags (const char *text, int size,
         }
 
       mapfun (&taginfo, maparg);
-      ADVANCE (p);
+      if (*p != '<')
+        ADVANCE (p);
     }
     goto look_for_tag;
 
@@ -1163,7 +1159,7 @@ map_html_tags (const char *text, int size,
 #undef ADVANCE
 #undef SKIP_WS
 #undef SKIP_NON_WS
-
+
 #ifdef STANDALONE
 static void
 test_mapper (struct taginfo *taginfo, void *arg)
@@ -1184,6 +1180,14 @@ int main ()
   int length = 0;
   int read_count;
   int tag_counter = 0;
+
+#ifdef ENABLE_NLS
+  /* Set the current locale.  */
+  setlocale (LC_ALL, "");
+  /* Set the text message domain.  */
+  bindtextdomain ("wget", LOCALEDIR);
+  textdomain ("wget");
+#endif /* ENABLE_NLS */
 
   while ((read_count = fread (x + length, 1, size - length, stdin)))
     {

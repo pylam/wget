@@ -1,6 +1,6 @@
 /* Messages logging.
    Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
-   2007, 2008, 2009 Free Software Foundation, Inc.
+   2007, 2008, 2009, 2010, 2011, 2015 Free Software Foundation, Inc.
 
 This file is part of GNU Wget.
 
@@ -34,13 +34,12 @@ as that of the covered work.  */
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#ifdef HAVE_UNISTD_H
-# include <unistd.h>
-#endif
+#include <unistd.h>
 #include <assert.h>
 #include <errno.h>
 
 #include "utils.h"
+#include "exits.h"
 #include "log.h"
 
 /* 2005-10-25 SMS.
@@ -74,12 +73,28 @@ as that of the covered work.  */
    - Inhibiting output.  When Wget receives SIGHUP, but redirecting
    the output fails, logging is inhibited.  */
 
-
+
 /* The file descriptor used for logging.  This is NULL before log_init
    is called; logging functions log to stderr then.  log_init sets it
    either to stderr or to a file pointer obtained from fopen().  If
    logging is inhibited, logfp is set back to NULL. */
 static FILE *logfp;
+
+/* Descriptor of the stdout|stderr */
+static FILE *stdlogfp;
+
+/* Descriptor of the wget.log* file (if created) */
+static FILE *filelogfp;
+
+/* Name of log file */
+static char *logfile;
+
+/* Is interactive shell ? */
+static int shell_is_interactive;
+
+/* A second file descriptor pointing to the temporary log file for the
+   WARC writer.  If WARC writing is disabled, this is NULL.  */
+static FILE *warclogfp;
 
 /* If true, it means logging is inhibited, i.e. nothing is printed or
    stored.  */
@@ -139,7 +154,7 @@ static int log_line_current = -1;
 static bool trailing_line;
 
 static void check_redirect_output (void);
-
+
 #define ROT_ADVANCE(num) do {                   \
   if (++num >= SAVED_LOG_LINES)                 \
     num = 0;                                    \
@@ -153,11 +168,7 @@ static void
 free_log_line (int num)
 {
   struct log_ln *ln = log_lines + num;
-  if (ln->malloced_line)
-    {
-      xfree (ln->malloced_line);
-      ln->malloced_line = NULL;
-    }
+  xfree (ln->malloced_line);
   ln->content = NULL;
 }
 
@@ -262,7 +273,7 @@ saved_append (const char *s)
       s = end;
     }
 }
-
+
 /* Check X against opt.verbose and opt.quiet.  The semantics is as
    follows:
 
@@ -276,6 +287,10 @@ saved_append (const char *s)
 #define CHECK_VERBOSE(x)                        \
   switch (x)                                    \
     {                                           \
+    case LOG_PROGRESS:                          \
+      if (!opt.show_progress)                   \
+        return;                                 \
+      break;                                    \
     case LOG_ALWAYS:                            \
       break;                                    \
     case LOG_NOTQUIET:                          \
@@ -306,7 +321,40 @@ get_log_fp (void)
     return logfp;
   return stderr;
 }
-
+
+static FILE *
+get_progress_fp (void)
+{
+  if (opt.show_progress == true)
+      return stderr;
+  return get_log_fp();
+}
+
+/* Returns the file descriptor for the secondary log file. This is
+   WARCLOGFP, except if called before log_init, in which case it
+   returns stderr.  This is useful in case someone calls a logging
+   function before log_init.
+
+   If logging is inhibited, return NULL.  */
+
+static FILE *
+get_warc_log_fp (void)
+{
+  if (inhibit_logging)
+    return NULL;
+  if (warclogfp)
+    return warclogfp;
+  return NULL;
+}
+
+/* Sets the file descriptor for the secondary log file.  */
+
+void
+log_set_warc_log_fp (FILE * fp)
+{
+  warclogfp = fp;
+}
+
 /* Log a literal string S.  The string is logged as-is, without a
    newline appended.  */
 
@@ -314,19 +362,36 @@ void
 logputs (enum log_options o, const char *s)
 {
   FILE *fp;
+  FILE *warcfp;
+  int errno_save = errno;
 
   check_redirect_output ();
-  if ((fp = get_log_fp ()) == NULL)
+  if (o == LOG_PROGRESS)
+    fp = get_progress_fp ();
+  else
+    fp = get_log_fp ();
+
+  errno = errno_save;
+
+  if (fp == NULL)
     return;
+
+  warcfp = get_warc_log_fp ();
+  errno = errno_save;
+
   CHECK_VERBOSE (o);
 
   FPUTS (s, fp);
+  if (warcfp != NULL)
+    FPUTS (s, warcfp);
   if (save_context_p)
     saved_append (s);
   if (flush_log_p)
     logflush ();
   else
     needs_flushing = true;
+
+  errno = errno_save;
 }
 
 struct logvprintf_state {
@@ -349,7 +414,7 @@ struct logvprintf_state {
    (An alternative approach would be to use va_copy, but that's not
    portable.)  */
 
-static bool
+static bool GCC_FORMAT_ATTR (2, 0)
 log_vprintf_internal (struct logvprintf_state *state, const char *fmt,
                       va_list args)
 {
@@ -358,8 +423,9 @@ log_vprintf_internal (struct logvprintf_state *state, const char *fmt,
   int available_size = sizeof (smallmsg);
   int numwritten;
   FILE *fp = get_log_fp ();
+  FILE *warcfp = get_warc_log_fp ();
 
-  if (!save_context_p)
+  if (!save_context_p && warcfp == NULL)
     {
       /* In the simple case just call vfprintf(), to avoid needless
          allocation and games with vsnprintf(). */
@@ -409,10 +475,12 @@ log_vprintf_internal (struct logvprintf_state *state, const char *fmt,
     }
 
   /* Writing succeeded. */
-  saved_append (write_ptr);
+  if (save_context_p)
+    saved_append (write_ptr);
   FPUTS (write_ptr, fp);
-  if (state->bigmsg)
-    xfree (state->bigmsg);
+  if (warcfp != NULL)
+    FPUTS (write_ptr, warcfp);
+  xfree (state->bigmsg);
 
  flush:
   if (flush_log_p)
@@ -428,6 +496,7 @@ void
 logflush (void)
 {
   FILE *fp = get_log_fp ();
+  FILE *warcfp = get_warc_log_fp ();
   if (fp)
     {
 /* 2005-10-25 SMS.
@@ -442,6 +511,10 @@ logflush (void)
       fflush (fp);
 #endif /* def __VMS [else] */
     }
+
+  if (warcfp != NULL)
+    fflush (warcfp);
+
   needs_flushing = false;
 }
 
@@ -489,20 +562,28 @@ logprintf (enum log_options o, const char *fmt, ...)
   va_list args;
   struct logvprintf_state lpstate;
   bool done;
+  int errno_saved = errno;
 
   check_redirect_output ();
+  errno = errno_saved;
   if (inhibit_logging)
     return;
   CHECK_VERBOSE (o);
 
   xzero (lpstate);
+  errno = 0;
   do
     {
       va_start (args, fmt);
       done = log_vprintf_internal (&lpstate, fmt, args);
       va_end (args);
+
+      if (done && errno == EPIPE)
+        exit (WGET_EXIT_GENERIC_ERROR);
     }
   while (!done);
+
+  errno = errno_saved;
 }
 
 #ifdef ENABLE_DEBUG
@@ -532,7 +613,7 @@ debug_logprintf (const char *fmt, ...)
     }
 }
 #endif /* ENABLE_DEBUG */
-
+
 /* Open FILE and set up a logging stream.  If FILE cannot be opened,
    exit with status of 1.  */
 void
@@ -540,11 +621,20 @@ log_init (const char *file, bool appendp)
 {
   if (file)
     {
-      logfp = fopen (file, appendp ? "a" : "w");
-      if (!logfp)
+      if (HYPHENP (file))
         {
-          fprintf (stderr, "%s: %s: %s\n", exec_name, file, strerror (errno));
-          exit (1);
+          stdlogfp = stdout;
+          logfp = stdlogfp;
+        }
+      else
+        {
+          filelogfp = fopen (file, appendp ? "a" : "w");
+          if (!filelogfp)
+            {
+              fprintf (stderr, "%s: %s: %s\n", exec_name, file, strerror (errno));
+              exit (WGET_EXIT_GENERIC_ERROR);
+            }
+          logfp = filelogfp;
         }
     }
   else
@@ -555,7 +645,8 @@ log_init (const char *file, bool appendp)
          stderr only if the user actually specifies `-O -'.  He says
          this inconsistency is harder to document, but is overall
          easier on the user.  */
-      logfp = stderr;
+      stdlogfp = stderr;
+      logfp = stdlogfp;
 
       if (1
 #ifdef HAVE_ISATTY
@@ -570,16 +661,21 @@ log_init (const char *file, bool appendp)
           save_context_p = true;
         }
     }
+
+#ifndef WINDOWS
+  /* Initialize this values so we don't have to ask every time we print line */
+  shell_is_interactive = isatty (STDIN_FILENO);
+#endif
 }
 
-/* Close LOGFP, inhibit further logging and free the memory associated
-   with it.  */
+/* Close LOGFP (only if we opened it, not if it's stderr), inhibit
+   further logging and free the memory associated with it.  */
 void
 log_close (void)
 {
   int i;
 
-  if (logfp)
+  if (logfp && (logfp != stderr))
     fclose (logfp);
   logfp = NULL;
   inhibit_logging = true;
@@ -597,6 +693,7 @@ log_dump_context (void)
 {
   int num = log_line_current;
   FILE *fp = get_log_fp ();
+  FILE *warcfp = get_warc_log_fp ();
   if (!fp)
     return;
 
@@ -608,16 +705,25 @@ log_dump_context (void)
     {
       struct log_ln *ln = log_lines + num;
       if (ln->content)
-        FPUTS (ln->content, fp);
+        {
+          FPUTS (ln->content, fp);
+          if (warcfp != NULL)
+            FPUTS (ln->content, warcfp);
+        }
       ROT_ADVANCE (num);
     }
   while (num != log_line_current);
   if (trailing_line)
     if (log_lines[log_line_current].content)
-      FPUTS (log_lines[log_line_current].content, fp);
+      {
+        FPUTS (log_lines[log_line_current].content, fp);
+        if (warcfp != NULL)
+          FPUTS (log_lines[log_line_current].content, warcfp);
+      }
   fflush (fp);
+  fflush (warcfp);
 }
-
+
 /* String escape functions. */
 
 /* Return the number of non-printable characters in SOURCE.
@@ -789,64 +895,83 @@ log_cleanup (void)
 {
   size_t i;
   for (i = 0; i < countof (ring); i++)
-    xfree_null (ring[i].buffer);
+    xfree (ring[i].buffer);
 }
-
+
 /* When SIGHUP or SIGUSR1 are received, the output is redirected
    elsewhere.  Such redirection is only allowed once. */
-static enum { RR_NONE, RR_REQUESTED, RR_DONE } redirect_request = RR_NONE;
 static const char *redirect_request_signal_name;
 
-/* Redirect output to `wget-log'.  */
+/* Redirect output to `wget-log' or back to stdout/stderr.  */
 
-static void
-redirect_output (void)
+void
+redirect_output (bool to_file, const char *signal_name)
 {
-  char *logfile;
-  logfp = unique_create (DEFAULT_LOGFILE, false, &logfile);
-  if (logfp)
+  if (to_file && logfp != filelogfp)
     {
-      fprintf (stderr, _("\n%s received, redirecting output to %s.\n"),
-               redirect_request_signal_name, quote (logfile));
-      xfree (logfile);
-      /* Dump the context output to the newly opened log.  */
+      if (signal_name)
+        {
+          fprintf (stderr, "\n%s received.", signal_name);
+        }
+      if (!filelogfp)
+        {
+          filelogfp = unique_create (DEFAULT_LOGFILE, false, &logfile);
+          if (filelogfp)
+            {
+              fprintf (stderr, _("\nRedirecting output to %s.\n"),
+                  quote (logfile));
+              /* Store signal name to tell wget it's permanent redirect to log file */
+              redirect_request_signal_name = signal_name;
+              logfp = filelogfp;
+              /* Dump the context output to the newly opened log.  */
+              log_dump_context ();
+            }
+          else
+            {
+              /* Eek!  Opening the alternate log file has failed.  Nothing we
+                can do but disable printing completely. */
+              fprintf (stderr, _("%s: %s; disabling logging.\n"),
+                      (logfile) ? logfile : DEFAULT_LOGFILE, strerror (errno));
+              inhibit_logging = true;
+            }
+        }
+      else
+        {
+          fprintf (stderr, _("\nRedirecting output to %s.\n"),
+              quote (logfile));
+          logfp = filelogfp;
+          log_dump_context ();
+        }
+    }
+  else if (!to_file && logfp != stdlogfp)
+    {
+      logfp = stdlogfp;
       log_dump_context ();
     }
-  else
-    {
-      /* Eek!  Opening the alternate log file has failed.  Nothing we
-         can do but disable printing completely. */
-      fprintf (stderr, _("\n%s received.\n"), redirect_request_signal_name);
-      fprintf (stderr, _("%s: %s; disabling logging.\n"),
-               logfile, strerror (errno));
-      inhibit_logging = true;
-    }
-  save_context_p = false;
 }
 
-/* Check whether a signal handler requested the output to be
-   redirected. */
+/* Check whether there's a need to redirect output. */
 
 static void
 check_redirect_output (void)
 {
-  if (redirect_request == RR_REQUESTED)
+#ifndef WINDOWS
+  /* If it was redirected already to log file by SIGHUP, SIGUSR1 or -o parameter,
+   * it was permanent.
+   * If there was no SIGHUP or SIGUSR1 and shell is interactive
+   * we check if process is fg or bg before every line is printed.*/
+  if (!redirect_request_signal_name && shell_is_interactive && !opt.lfilename)
     {
-      redirect_request = RR_DONE;
-      redirect_output ();
+      if (tcgetpgrp (STDIN_FILENO) != getpgrp ())
+        {
+          /* Process backgrounded */
+          redirect_output (true,NULL);
+        }
+      else
+        {
+          /* Process foregrounded */
+          redirect_output (false,NULL);
+        }
     }
-}
-
-/* Request redirection at a convenient time.  This may be called from
-   a signal handler. */
-
-void
-log_request_redirect_output (const char *signal_name)
-{
-  if (redirect_request == RR_NONE && save_context_p)
-    /* Request output redirection.  The request will be processed by
-       check_redirect_output(), which is called from entry point log
-       functions. */
-    redirect_request = RR_REQUESTED;
-  redirect_request_signal_name = signal_name;
+#endif /* WINDOWS */
 }

@@ -1,7 +1,7 @@
 #! /usr/bin/env perl
 
-#   Copyright (C) 1999, 2000, 2001, 2003, 2007, 2009 Free Software
-#   Foundation, Inc.
+#   Copyright (C) 1999, 2000, 2001, 2003, 2007, 2009, 2010, 2011, 2015
+#   Free Software Foundation, Inc.
 
 # This file is part of GCC.
 
@@ -23,6 +23,7 @@
 # something suitable for a manpage from a Texinfo document.
 
 use warnings;
+BEGIN { eval { require warnings; } and warnings->import; }
 
 $output = 0;
 $skipping = 0;
@@ -290,7 +291,7 @@ while(<$inf>) {
 	if (defined $1) {
             my $thing = $1;
             if ($ic =~ /\@asis/) {
-                $_ = "\n=item $thing\n";
+                $_ = "\n=item C<$thing>\n";
             } else {
                 # Entity escapes prevent munging by the <> processing below.
                 $_ = "\n=item $ic\&LT;$thing\&GT;\n";
@@ -313,6 +314,8 @@ die "No filename or title\n" unless defined $fn && defined $tl;
 
 $sects{NAME} = "$fn \- $tl\n";
 $sects{FOOTNOTES} .= "=back\n" if exists $sects{FOOTNOTES};
+
+print "=encoding utf-8\n\n";
 
 for $sect (qw(NAME SYNOPSIS DESCRIPTION OPTIONS ENVIRONMENT EXITSTATUS
            FILES BUGS NOTES FOOTNOTES SEEALSO AUTHOR COPYRIGHT)) {

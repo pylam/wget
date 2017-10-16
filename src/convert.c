@@ -1,6 +1,6 @@
 /* Conversion of links to local files.
-   Copyright (C) 2003, 2004, 2005, 2006, 2007,
-   2008, 2009 Free Software Foundation, Inc.
+   Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
+   2014, 2015 Free Software Foundation, Inc.
 
 This file is part of GNU Wget.
 
@@ -33,9 +33,7 @@ as that of the covered work.  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef HAVE_UNISTD_H
-# include <unistd.h>
-#endif /* HAVE_UNISTD_H */
+#include <unistd.h>
 #include <errno.h>
 #include <assert.h>
 #include "convert.h"
@@ -47,6 +45,8 @@ as that of the covered work.  */
 #include "res.h"
 #include "html-url.h"
 #include "css-url.h"
+#include "iri.h"
+#include "xstrndup.h"
 
 static struct hash_table *dl_file_url_map;
 struct hash_table *dl_url_file_map;
@@ -59,7 +59,7 @@ struct hash_table *downloaded_css_set;
 static void convert_links (const char *, struct urlpos *);
 
 
-void
+static void
 convert_links_in_hashtable (struct hash_table *downloaded_set,
                             int is_css,
                             int *file_count)
@@ -105,7 +105,8 @@ convert_links_in_hashtable (struct hash_table *downloaded_set,
       for (cur_url = urls; cur_url; cur_url = cur_url->next)
         {
           char *local_name;
-          struct url *u = cur_url->url;
+          struct url *u;
+          struct iri *pi;
 
           if (cur_url->link_base_p)
             {
@@ -119,6 +120,14 @@ convert_links_in_hashtable (struct hash_table *downloaded_set,
           /* We decide the direction of conversion according to whether
              a URL was downloaded.  Downloaded URLs will be converted
              ABS2REL, whereas non-downloaded will be converted REL2ABS.  */
+
+          pi = iri_new ();
+          set_uri_encoding (pi, opt.locale, true);
+
+          u = url_parse (cur_url->url->url, NULL, pi, true);
+          if (!u)
+              continue;
+
           local_name = hash_table_get (dl_url_file_map, u->url);
 
           /* Decide on the conversion type.  */
@@ -128,8 +137,9 @@ convert_links_in_hashtable (struct hash_table *downloaded_set,
                  form.  We do this even if the URL already is in
                  relative form, because our directory structure may
                  not be identical to that on the server (think `-nd',
-                 `--cut-dirs', etc.)  */
-              cur_url->convert = CO_CONVERT_TO_RELATIVE;
+                 `--cut-dirs', etc.). If --convert-file-only was passed,
+                 we only convert the basename portion of the URL.  */
+              cur_url->convert = (opt.convert_file_only ? CO_CONVERT_BASENAME_ONLY : CO_CONVERT_TO_RELATIVE);
               cur_url->local_name = xstrdup (local_name);
               DEBUGP (("will convert url %s to local %s\n", u->url, local_name));
             }
@@ -144,6 +154,9 @@ convert_links_in_hashtable (struct hash_table *downloaded_set,
               cur_url->local_name = NULL;
               DEBUGP (("will convert url %s to complete\n", u->url));
             }
+
+          url_free (u);
+          iri_free (pi);
         }
 
       /* Convert the links in the file.  */
@@ -182,7 +195,7 @@ convert_all_links (void)
   convert_links_in_hashtable (downloaded_css_set, 1, &file_count);
 
   secs = ptimer_measure (timer);
-  logprintf (LOG_VERBOSE, _("Converted %d files in %s seconds.\n"),
+  logprintf (LOG_VERBOSE, _("Converted links in %d files in %s seconds.\n"),
              file_count, print_decimal (secs));
 
   ptimer_destroy (timer);
@@ -193,8 +206,9 @@ static const char *replace_plain (const char*, int, FILE*, const char *);
 static const char *replace_attr (const char *, int, FILE *, const char *);
 static const char *replace_attr_refresh_hack (const char *, int, FILE *,
                                               const char *, int);
-static char *local_quote_string (const char *);
+static char *local_quote_string (const char *, bool);
 static char *construct_relative (const char *, const char *);
+static char *convert_basename (const char *, const struct urlpos *);
 
 /* Change the links in one file.  LINKS is a list of links in the
    document, along with their positions and the desired direction of
@@ -210,7 +224,7 @@ convert_links (const char *file, struct urlpos *links)
   struct urlpos *link;
   int to_url_count = 0, to_file_count = 0;
 
-  logprintf (LOG_VERBOSE, _("Converting %s... "), file);
+  logprintf (LOG_VERBOSE, _("Converting links in %s... "), file);
 
   {
     /* First we do a "dry run": go through the list L and see whether
@@ -228,7 +242,7 @@ convert_links (const char *file, struct urlpos *links)
       }
   }
 
-  fm = read_file (file);
+  fm = wget_read_file (file);
   if (!fm)
     {
       logprintf (LOG_NOTQUIET, _("Cannot convert links in %s: %s\n"),
@@ -248,7 +262,7 @@ convert_links (const char *file, struct urlpos *links)
     {
       logprintf (LOG_NOTQUIET, _("Unable to delete %s: %s\n"),
                  quote (file), strerror (errno));
-      read_file_free (fm);
+      wget_read_file_free (fm);
       return;
     }
   /* Now open the file for writing.  */
@@ -257,7 +271,7 @@ convert_links (const char *file, struct urlpos *links)
     {
       logprintf (LOG_NOTQUIET, _("Cannot convert links in %s: %s\n"),
                  file, strerror (errno));
-      read_file_free (fm);
+      wget_read_file_free (fm);
       return;
     }
 
@@ -291,9 +305,10 @@ convert_links (const char *file, struct urlpos *links)
           /* Convert absolute URL to relative. */
           {
             char *newname = construct_relative (file, link->local_name);
-            char *quoted_newname = local_quote_string (newname);
+            char *quoted_newname = local_quote_string (newname,
+                                                       link->link_css_p);
 
-            if (link->link_css_p)
+            if (link->link_css_p || link->link_noquote_html_p)
               p = replace_plain (p, link->size, fp, quoted_newname);
             else if (!link->link_refresh_p)
               p = replace_attr (p, link->size, fp, quoted_newname);
@@ -303,9 +318,32 @@ convert_links (const char *file, struct urlpos *links)
 
             DEBUGP (("TO_RELATIVE: %s to %s at position %d in %s.\n",
                      link->url->url, newname, link->pos, file));
+
             xfree (newname);
             xfree (quoted_newname);
             ++to_file_count;
+            break;
+          }
+        case CO_CONVERT_BASENAME_ONLY:
+          {
+            char *newname = convert_basename (p, link);
+            char *quoted_newname = local_quote_string (newname, link->link_css_p);
+
+            if (link->link_css_p || link->link_noquote_html_p)
+              p = replace_plain (p, link->size, fp, quoted_newname);
+            else if (!link->link_refresh_p)
+              p = replace_attr (p, link->size, fp, quoted_newname);
+            else
+              p = replace_attr_refresh_hack (p, link->size, fp, quoted_newname,
+                                             link->refresh_timeout);
+
+            DEBUGP (("Converted file part only: %s to %s at position %d in %s.\n",
+                     link->url->url, newname, link->pos, file));
+
+            xfree (newname);
+            xfree (quoted_newname);
+            ++to_file_count;
+
             break;
           }
         case CO_CONVERT_TO_COMPLETE:
@@ -314,8 +352,8 @@ convert_links (const char *file, struct urlpos *links)
             char *newlink = link->url->url;
             char *quoted_newlink = html_quote_string (newlink);
 
-            if (link->link_css_p)
-              p = replace_plain (p, link->size, fp, quoted_newlink);
+            if (link->link_css_p || link->link_noquote_html_p)
+              p = replace_plain (p, link->size, fp, newlink);
             else if (!link->link_refresh_p)
               p = replace_attr (p, link->size, fp, quoted_newlink);
             else
@@ -324,6 +362,7 @@ convert_links (const char *file, struct urlpos *links)
 
             DEBUGP (("TO_COMPLETE: <something> to %s at position %d in %s.\n",
                      newlink, link->pos, file));
+
             xfree (quoted_newlink);
             ++to_url_count;
             break;
@@ -342,7 +381,7 @@ convert_links (const char *file, struct urlpos *links)
   if (p - fm->content < fm->length)
     fwrite (p, 1, fm->length - (p - fm->content), fp);
   fclose (fp);
-  read_file_free (fm);
+  wget_read_file_free (fm);
 
   logprintf (LOG_VERBOSE, "%d-%d\n", to_file_count, to_url_count);
 }
@@ -402,12 +441,87 @@ construct_relative (const char *basefile, const char *linkfile)
         ++basedirs;
     }
 
-  /* Construct LINK as explained above. */
-  link = xmalloc (3 * basedirs + strlen (linkfile) + 1);
-  for (i = 0; i < basedirs; i++)
-    memcpy (link + 3 * i, "../", 3);
-  strcpy (link + 3 * i, linkfile);
+  if (!basedirs && (b = strpbrk (linkfile, "/:")) && *b == ':')
+    {
+      link = xmalloc (2 + strlen (linkfile) + 1);
+      memcpy (link, "./", 2);
+      strcpy (link + 2, linkfile);
+    }
+  else
+    {
+      /* Construct LINK as explained above. */
+      link = xmalloc (3 * basedirs + strlen (linkfile) + 1);
+      for (i = 0; i < basedirs; i++)
+        memcpy (link + 3 * i, "../", 3);
+      strcpy (link + 3 * i, linkfile);
+    }
+
   return link;
+}
+
+/* Construct and return a "transparent proxy" URL
+   reflecting changes made by --adjust-extension to the file component
+   (i.e., "basename") of the original URL, but leaving the "dirname"
+   of the URL (protocol://hostname... portion) untouched.
+
+   Think: populating a squid cache via a recursive wget scrape, where
+   changing URLs to work locally with "file://..." is NOT desirable.
+
+   Example:
+
+   if
+                     p = "//foo.com/bar.cgi?xyz"
+   and
+      link->local_name = "docroot/foo.com/bar.cgi?xyz.css"
+   then
+
+      new_construct_func(p, link);
+   will return
+      "//foo.com/bar.cgi?xyz.css"
+
+   Essentially, we do s/$(basename orig_url)/$(basename link->local_name)/
+*/
+static char *
+convert_basename (const char *p, const struct urlpos *link)
+{
+  int len = link->size;
+  char *url = NULL;
+  char *org_basename = NULL, *local_basename = NULL;
+  char *result = NULL;
+
+  if (*p == '"' || *p == '\'')
+    {
+      len -= 2;
+      p++;
+    }
+
+  url = xstrndup (p, len);
+
+  org_basename = strrchr (url, '/');
+  if (org_basename)
+    org_basename++;
+  else
+    org_basename = url;
+
+  local_basename = strrchr (link->local_name, '/');
+  if (local_basename)
+    local_basename++;
+  else
+    local_basename = url;
+
+  /*
+   * If the basenames differ, graft the adjusted basename (local_basename)
+   * onto the original URL.
+   */
+  if (strcmp (org_basename, local_basename) == 0)
+    result = url;
+  else
+    {
+      result = uri_merge (url, local_basename);
+      xfree (url);
+    }
+
+  return result;
 }
 
 /* Used by write_backup_file to remember which files have been
@@ -453,7 +567,7 @@ write_backup_file (const char *file, downloaded_file_t downloaded_file_return)
     converted_files = make_string_hash_table (0);
 
   /* We can get called twice on the same URL thanks to the
-     convert_all_links() call in main().  If we write the .orig file
+     convert_all_links() call in main.  If we write the .orig file
      each time in such a case, it'll end up containing the first-pass
      conversion, not the original file.  So, see if we've already been
      called on this file. */
@@ -602,18 +716,19 @@ find_fragment (const char *beg, int size, const char **bp, const char **ep)
    because those characters have special meanings in URLs.  */
 
 static char *
-local_quote_string (const char *file)
+local_quote_string (const char *file, bool no_html_quote)
 {
   const char *from;
   char *newname, *to;
 
   char *any = strpbrk (file, "?#%;");
   if (!any)
-    return html_quote_string (file);
+    return no_html_quote ? strdup (file) : html_quote_string (file);
 
   /* Allocate space assuming the worst-case scenario, each character
      having to be quoted.  */
   to = newname = (char *)alloca (3 * strlen (file) + 1);
+  newname[0] = '\0';
   for (from = file; *from; from++)
     switch (*from)
       {
@@ -646,9 +761,9 @@ local_quote_string (const char *file)
       }
   *to = '\0';
 
-  return html_quote_string (newname);
+  return no_html_quote ? strdup (newname) : html_quote_string (newname);
 }
-
+
 /* Book-keeping code for dl_file_url_map, dl_url_file_map,
    downloaded_html_list, and downloaded_html_set.  Other code calls
    these functions to let us know that a file has been downloaded.  */
@@ -823,7 +938,7 @@ register_download (const char *url, const char *file)
   hash_table_put (dl_url_file_map, xstrdup (url), xstrdup (file));
 }
 
-/* Register that FROM has been redirected to TO.  This assumes that TO
+/* Register that FROM has been redirected to "TO".  This assumes that TO
    is successfully downloaded and already registered using
    register_download() above.  */
 
@@ -861,7 +976,7 @@ register_delete_file (const char *file)
 /* Register that FILE is an HTML file that has been downloaded. */
 
 void
-register_html (const char *url, const char *file)
+register_html (const char *file)
 {
   if (!downloaded_html_set)
     downloaded_html_set = make_string_hash_table (0);
@@ -871,7 +986,7 @@ register_html (const char *url, const char *file)
 /* Register that FILE is a CSS file that has been downloaded. */
 
 void
-register_css (const char *url, const char *file)
+register_css (const char *file)
 {
   if (!downloaded_css_set)
     downloaded_css_set = make_string_hash_table (0);
@@ -903,7 +1018,7 @@ convert_cleanup (void)
   if (converted_files)
     string_set_free (converted_files);
 }
-
+
 /* Book-keeping code for downloaded files that enables extension
    hacks.  */
 
@@ -999,7 +1114,7 @@ downloaded_files_free (void)
       downloaded_files_hash = NULL;
     }
 }
-
+
 /* The function returns the pointer to the malloc-ed quoted version of
    string s.  It will recognize and quote numeric and special graphic
    entities, as per RFC1866:
@@ -1075,4 +1190,3 @@ html_quote_string (const char *s)
 /*
  * vim: et ts=2 sw=2
  */
-

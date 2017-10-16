@@ -1,6 +1,6 @@
 /* Collect URLs from CSS source.
-   Copyright (C) 1998, 2000, 2001, 2002, 2003, 2009 Free Software
-   Foundation, Inc.
+   Copyright (C) 1998, 2000, 2001, 2002, 2003, 2009, 2010, 2011, 2014,
+   2015 Free Software Foundation, Inc.
 
 This file is part of GNU Wget.
 
@@ -41,11 +41,7 @@ as that of the covered work.  */
 #include <wget.h>
 
 #include <stdio.h>
-#ifdef HAVE_STRING_H
-# include <string.h>
-#else
-# include <strings.h>
-#endif
+#include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <errno.h>
@@ -55,48 +51,16 @@ as that of the covered work.  */
 #include "convert.h"
 #include "html-url.h"
 #include "css-tokens.h"
+#include "css-url.h"
+#include "xstrndup.h"
 
 /* from lex.yy.c */
 extern char *yytext;
 extern int yyleng;
 typedef struct yy_buffer_state *YY_BUFFER_STATE;
 extern YY_BUFFER_STATE yy_scan_bytes (const char *bytes,int len  );
+extern void yy_delete_buffer (YY_BUFFER_STATE  b);
 extern int yylex (void);
-
-#if 1
-const char *token_names[] = {
-  "CSSEOF",
-  "S",
-  "CDO",
-  "CDC",
-  "INCLUDES",
-  "DASHMATCH",
-  "LBRACE",
-  "PLUS",
-  "GREATER",
-  "COMMA",
-  "STRING",
-  "INVALID",
-  "IDENT",
-  "HASH",
-  "IMPORT_SYM",
-  "PAGE_SYM",
-  "MEDIA_SYM",
-  "CHARSET_SYM",
-  "IMPORTANT_SYM",
-  "EMS",
-  "EXS",
-  "LENGTH",
-  "ANGLE",
-  "TIME",
-  "FREQ",
-  "DIMENSION",
-  "PERCENTAGE",
-  "NUMBER",
-  "URI",
-  "FUNCTION"
-};
-#endif
 
 /*
   Given a detected URI token, get only the URI specified within.
@@ -107,15 +71,9 @@ const char *token_names[] = {
   whitespace after the opening parenthesis and before the closing
   parenthesis.
 */
-char *
+static char *
 get_uri_string (const char *at, int *pos, int *length)
 {
-  char *uri;
-  /*char buf[1024];
-  strncpy(buf,at + *pos, *length);
-  buf[*length] = '\0';
-  DEBUGP (("get_uri_string: \"%s\"\n", buf));*/
-
   if (0 != strncasecmp (at + *pos, "url(", 4))
     return NULL;
 
@@ -124,9 +82,11 @@ get_uri_string (const char *at, int *pos, int *length)
   /* skip leading space */
   while (isspace (at[*pos]))
     {
-    (*pos)++;
-    (*length)--;
+      (*pos)++;
+      if (--(*length) == 0)
+        return NULL;
     }
+
   /* skip trailing space */
   while (isspace (at[*pos + *length - 1]))
     {
@@ -139,14 +99,7 @@ get_uri_string (const char *at, int *pos, int *length)
       *length -= 2;
     }
 
-  uri = xmalloc (*length + 1);
-  if (uri)
-    {
-      strncpy (uri, at + *pos, *length);
-      uri[*length] = '\0';
-    }
-
-  return uri;
+  return xstrndup (at + *pos, *length);
 }
 
 void
@@ -157,15 +110,10 @@ get_urls_css (struct map_context *ctx, int offset, int buf_length)
   int buffer_pos = 0;
   int pos, length;
   char *uri;
-
-  /*
-  strncpy(tmp,ctx->text + offset, buf_length);
-  tmp[buf_length] = '\0';
-  DEBUGP (("get_urls_css: \"%s\"\n", tmp));
-  */
+  YY_BUFFER_STATE b;
 
   /* tell flex to scan from this buffer */
-  yy_scan_bytes (ctx->text + offset, buf_length);
+  b = yy_scan_bytes (ctx->text + offset, buf_length);
 
   while((token = yylex()) != CSSEOF)
     {
@@ -197,7 +145,7 @@ get_urls_css (struct map_context *ctx, int offset, int buf_length)
                   pos++;
                   length -= 2;
                   uri = xmalloc (length + 1);
-                  strncpy (uri, yytext + 1, length);
+                  memcpy (uri, yytext + 1, length);
                   uri[length] = '\0';
                 }
 
@@ -242,6 +190,9 @@ get_urls_css (struct map_context *ctx, int offset, int buf_length)
         }
       buffer_pos += yyleng;
     }
+
+  yy_delete_buffer(b);
+
   DEBUGP (("\n"));
 }
 
@@ -252,7 +203,7 @@ get_urls_css_file (const char *file, const char *url)
   struct map_context ctx;
 
   /* Load the file. */
-  fm = read_file (file);
+  fm = wget_read_file (file);
   if (!fm)
     {
       logprintf (LOG_NOTQUIET, "%s: %s\n", file, strerror (errno));
@@ -261,13 +212,13 @@ get_urls_css_file (const char *file, const char *url)
   DEBUGP (("Loaded %s (size %s).\n", file, number_to_static_string (fm->length)));
 
   ctx.text = fm->content;
-  ctx.head = ctx.tail = NULL;
+  ctx.head = NULL;
   ctx.base = NULL;
   ctx.parent_base = url ? url : opt.base_href;
   ctx.document_file = file;
   ctx.nofollow = 0;
 
   get_urls_css (&ctx, 0, fm->length);
-  read_file_free (fm);
+  wget_read_file_free (fm);
   return ctx.head;
 }

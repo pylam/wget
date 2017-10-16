@@ -76,6 +76,14 @@ main (int argc, char *argv[])
   int        option;
   int        fd;
 
+#ifdef ENABLE_NLS
+  /* Set the current locale.  */
+  setlocale (LC_ALL, "");
+  /* Set the text message domain.  */
+  bindtextdomain ("wget", LOCALEDIR);
+  textdomain ("wget");
+#endif /* ENABLE_NLS */
+
   /* Parse options. */
   while ((option = getopt (argc, argv, "c")) != -1)
     {
@@ -125,6 +133,12 @@ main (int argc, char *argv[])
   if (ftruncate(fd, sz) == -1)
     {
       perror (PROGRAM_NAME ": truncate");
+      exit (EXIT_FAILURE);
+    }
+
+  if (close (fd) < 0)
+    {
+      perror (PROGRAM_NAME ": close");
       exit (EXIT_FAILURE);
     }
 

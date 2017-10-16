@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
@@ -42,11 +42,12 @@ my $pageindex = <<EOF;
 </html>
 EOF
 
+# specifying a wrong charset in http-equiv - it will be overridden by Content-Type HTTP header
 my $pagefrancais = <<EOF;
 <html>
 <head>
   <title>La seule page en français</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
   <p>
@@ -131,18 +132,11 @@ my %urls = (
         content => "",
     },
     '/p1_fran%C3%A7ais.html' => {	# UTF-8 encoded
-        code => "404",
-        msg => "File not found",
-        headers => {
-            "Content-type" => "text/html; charset=UTF-8",
-        },
-        content => $page404,
-    },
-    '/p1_fran%E7ais.html' => {
         code => "200",
         msg => "Ok",
         headers => {
-            "Content-type" => "text/html; charset=UTF-8",
+            # Content-Type header overrides http-equiv Content-Type
+            "Content-type" => "text/html; charset=ISO-8859-15",
         },
         content => $pagefrancais,
     },
@@ -150,22 +144,14 @@ my %urls = (
         code => "200",
         msg => "Ok",
         request_headers => {
-            "Referer" => qr|http://localhost:[0-9]+/p1_fran%E7ais.html|,
+            "Referer" => qr|http://localhost:[0-9]+/p1_fran%C3%A7ais.html|,
         },
         headers => {
-            "Content-type" => "text/html; charset=ISO-8859-1",
+            "Content-type" => "text/html; charset=UTF-8",
         },
         content => $pageeen,
     },
     '/p3_%E2%82%AC%E2%82%AC%E2%82%AC.html' => {	# UTF-8 encoded
-        code => "200",
-        msg => "Ok",
-        headers => {
-            "Content-type" => "text/plain; charset=ISO-8859-1",
-        },
-        content => $pageeuro,
-    },
-    '/p3_%A4%A4%A4.html' => {
         code => "200",
         msg => "Ok",
         headers => {
@@ -186,7 +172,7 @@ my %urls = (
     },
 );
 
-my $cmdline = $WgetTest::WGETPATH . " -d --iri --restrict-file-names=nocontrol -nH -r http://localhost:{{port}}/";
+my $cmdline = $WgetTest::WGETPATH . " --iri --trust-server-names --restrict-file-names=nocontrol -nH -r http://localhost:{{port}}/";
 
 my $expected_error_code = 0;
 
@@ -197,7 +183,7 @@ my %expected_downloaded_files = (
     'robots.txt' => {
         content => "",
     },
-    "p1_fran${ccedilla_l15}ais.html" => {
+    "p1_fran${ccedilla_u8}ais.html" => {
         content => $pagefrancais,
     },
     "p2_${eacute_u8}${eacute_u8}n.html" => {
@@ -213,12 +199,10 @@ my %expected_downloaded_files = (
 
 ###############################################################################
 
-my $the_test = HTTPTest->new (name => "Test-iri",
-                              input => \%urls,
+my $the_test = HTTPTest->new (input => \%urls,
                               cmdline => $cmdline,
                               errcode => $expected_error_code,
                               output => \%expected_downloaded_files);
 exit $the_test->run();
 
 # vim: et ts=4 sw=4
-

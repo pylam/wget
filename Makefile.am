@@ -1,6 +1,6 @@
 # Makefile for `Wget' utility
-# Copyright (C) 1995, 1996, 1997, 2006, 2007,
-#   2008, 2009 Free Software Foundation, Inc.
+# Copyright (C) 1995, 1996, 1997, 2006, 2007, 2008, 2009, 2010, 2011
+# Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,14 +38,45 @@ distuninstallcheck_listfiles = find . -type f | \
 			       grep -Ev '(/share/info/dir|/etc/wgetrc)$$'
 
 # Search for macros in the m4 subdirectory:
-ACLOCAL_AMFLAGS = -I m4 -I md5/m4
+ACLOCAL_AMFLAGS = -I m4
 
 # subdirectories in the distribution
-SUBDIRS = lib md5 src doc po tests util windows
+SUBDIRS = lib src doc po tests util testenv
 
-EXTRA_DIST = ChangeLog.README configure.bat MAILING-LIST \
-             msdos/ChangeLog msdos/config.h msdos/Makefile.DJ \
-             msdos/Makefile.WC ABOUT-NLS autogen.sh \
-             build-aux/build_info.pl
+EXTRA_DIST = MAILING-LIST \
+             msdos/config.h msdos/Makefile.DJ \
+             msdos/Makefile.WC ABOUT-NLS \
+             build-aux/build_info.pl build-aux/git-version-gen .version
 
 CLEANFILES = *~ *.bak $(DISTNAME).tar.gz
+
+BUILT_SOURCES = .version
+
+clean-generic:
+	rm -f install-info
+
+.version:
+	echo $(VERSION) > $@-t && mv $@-t $@
+
+# Arrange so that .tarball-version appears only in the distribution
+# tarball, and never in a checked-out repository.
+dist-hook: gen-ChangeLog
+	$(AM_V_GEN)echo $(VERSION) > $(distdir)/.tarball-version
+
+gen_start_date = 2014-12-10
+.PHONY: gen-ChangeLog
+gen-ChangeLog:
+	$(AM_V_GEN)if test -d .git; then				\
+	  log_fix="$(srcdir)/build-aux/git-log-fix";			\
+	  test -e "$$log_fix"						\
+	    || amend_git_log=;						\
+	  $(top_srcdir)/build-aux/gitlog-to-changelog			\
+	    $$amend_git_log --since=$(gen_start_date) > $(distdir)/cl-t && \
+            echo >>  $(distdir)/cl-t &&                                 \
+            cat ChangeLog-2014-12-10 >>  $(distdir)/cl-t &&             \
+	    { rm -f $(distdir)/ChangeLog &&				\
+	      mv $(distdir)/cl-t $(distdir)/ChangeLog; }		\
+	fi
+
+check-valgrind:
+	TESTS_ENVIRONMENT="VALGRIND_TESTS=1" $(MAKE) check

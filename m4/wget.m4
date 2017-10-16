@@ -1,6 +1,7 @@
 dnl Wget-specific Autoconf macros.
 dnl Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
-dnl 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+dnl 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Free Software
+dnl Foundation, Inc.
 
 dnl This program is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
@@ -26,119 +27,6 @@ dnl Corresponding Source for a non-source form of such a combination
 dnl shall include the source code for the parts of OpenSSL used as well
 dnl as that of the covered work.
 
-dnl
-dnl Check for `struct utimbuf'.
-dnl
-
-AC_DEFUN([WGET_STRUCT_UTIMBUF], [
-  AC_CHECK_TYPES([struct utimbuf], [], [], [
-#include <stdio.h>
-#if HAVE_SYS_TYPES_H
-# include <sys/types.h>
-#endif
-#if HAVE_UTIME_H
-# include <utime.h>
-#endif
-  ])
-])
-
-
-dnl Check for socklen_t.  The third argument of accept, getsockname,
-dnl etc. is int * on some systems, but size_t * on others.  POSIX
-dnl finally standardized on socklen_t, but older systems don't have
-dnl it.  If socklen_t exists, we use it, else if accept() accepts
-dnl size_t *, we use that, else we use int.
-
-AC_DEFUN([WGET_SOCKLEN_T], [
-  AC_MSG_CHECKING(for socklen_t)
-  AC_COMPILE_IFELSE([
-#include <sys/types.h>
-#include <sys/socket.h>
-socklen_t x;
-  ], [AC_MSG_RESULT(socklen_t)], [
-    AC_COMPILE_IFELSE([
-#include <sys/types.h>
-#include <sys/socket.h>
-int accept (int, struct sockaddr *, size_t *);
-    ], [
-      AC_MSG_RESULT(size_t)
-      AC_DEFINE([socklen_t], [size_t],
-                [Define to int or size_t on systems without socklen_t.])
-    ], [
-      AC_MSG_RESULT(int)
-      AC_DEFINE([socklen_t], [int],
-                [Define to int or size_t on systems without socklen_t.])
-    ])
-  ])
-])
-
-dnl Check whether fnmatch.h can be included.  This doesn't use
-dnl AC_FUNC_FNMATCH because Wget is already careful to only use
-dnl fnmatch on certain OS'es.  However, fnmatch.h is sometimes broken
-dnl even on those because Apache installs its own fnmatch.h to
-dnl /usr/local/include (!), which GCC uses before /usr/include.
-
-AC_DEFUN([WGET_FNMATCH], [
-  AC_MSG_CHECKING([for working fnmatch.h])
-  AC_COMPILE_IFELSE([#include <fnmatch.h>
-                    ], [
-    AC_MSG_RESULT(yes)
-    AC_DEFINE([HAVE_WORKING_FNMATCH_H], 1,
-              [Define if fnmatch.h can be included.])
-  ], [
-    AC_MSG_RESULT(no)
-  ])
-])
-
-dnl Check for nanosleep.  For nanosleep to work on Solaris, we must
-dnl link with -lrt (recently) or with -lposix4 (older releases).
-
-AC_DEFUN([WGET_NANOSLEEP], [
-  AC_CHECK_FUNCS(nanosleep, [], [
-    AC_CHECK_LIB(rt, nanosleep, [
-      AC_DEFINE([HAVE_NANOSLEEP], 1,
-                [Define if you have the nanosleep function.])
-      LIBS="-lrt $LIBS"
-    ], [
-      AC_CHECK_LIB(posix4, nanosleep, [
-	AC_DEFINE([HAVE_NANOSLEEP], 1,
-		  [Define if you have the nanosleep function.])
-	LIBS="-lposix4 $LIBS"
-      ])
-    ])
-  ])
-])
-
-AC_DEFUN([WGET_POSIX_CLOCK], [
-  AC_CHECK_FUNCS(clock_gettime, [], [
-    AC_CHECK_LIB(rt, clock_gettime)
-  ])
-])
-
-dnl Check whether we need to link with -lnsl and -lsocket, as is the
-dnl case on e.g. Solaris.
-
-AC_DEFUN([WGET_NSL_SOCKET], [
-  dnl On Solaris, -lnsl is needed to use gethostbyname.  But checking
-  dnl for gethostbyname is not enough because on "NCR MP-RAS 3.0"
-  dnl gethostbyname is in libc, but -lnsl is still needed to use
-  dnl -lsocket, as well as for functions such as inet_ntoa.  We look
-  dnl for such known offenders and if one of them is not found, we
-  dnl check if -lnsl is needed.
-  wget_check_in_nsl=NONE
-  AC_CHECK_FUNCS(gethostbyname, [], [
-    wget_check_in_nsl=gethostbyname
-  ])
-  AC_CHECK_FUNCS(inet_ntoa, [], [
-    wget_check_in_nsl=inet_ntoa
-  ])
-  if test $wget_check_in_nsl != NONE; then
-    AC_CHECK_LIB(nsl, $wget_check_in_nsl)
-  fi
-  AC_CHECK_LIB(socket, socket)
-])
-
-
 dnl ************************************************************
 dnl START OF IPv6 AUTOCONFIGURATION SUPPORT MACROS
 dnl ************************************************************
@@ -151,8 +39,18 @@ AC_DEFUN([TYPE_STRUCT_SOCKADDR_IN6],[
     wget_have_sockaddr_in6=no
   ],[
 #include <sys/types.h>
+#ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
+#endif
+#ifdef HAVE_WINSOCK2_H
+#include <winsock2.h>
+#endif
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
   ])
 
   if test "X$wget_have_sockaddr_in6" = "Xyes"; then :
@@ -174,8 +72,18 @@ AC_DEFUN([MEMBER_SIN6_SCOPE_ID],[
       wget_member_sin6_scope_id=no
     ],[
 #include <sys/types.h>
+#ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
+#endif
+#ifdef HAVE_WINSOCK2_H
+#include <winsock2.h>
+#endif
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
     ])
   fi
 
@@ -193,13 +101,23 @@ AC_DEFUN([PROTO_INET6],[
   AC_CACHE_CHECK([for INET6 protocol support], [wget_cv_proto_inet6],[
     AC_TRY_CPP([
 #include <sys/types.h>
+#ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
-
+#endif
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
+#endif
+#ifdef HAVE_WINSOCK2_H
+#include <winsock2.h>
+#endif
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
 #ifndef PF_INET6
 #error Missing PF_INET6
 #endif
 #ifndef AF_INET6
-#error Mlssing AF_INET6
+#error Missing AF_INET6
 #endif
     ],[
       wget_cv_proto_inet6=yes
@@ -219,8 +137,13 @@ AC_DEFUN([PROTO_INET6],[
 AC_DEFUN([WGET_STRUCT_SOCKADDR_STORAGE],[
   AC_CHECK_TYPES([struct sockaddr_storage],[], [], [
 #include <sys/types.h>
+#ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
-  ])
+#endif
+#ifdef HAVE_WINSOCK2_H
+#include <winsock2.h>
+#endif
+])
 ])
 
 dnl ************************************************************

@@ -1,6 +1,7 @@
 /* Establishing and handling network connections.
    Copyright (C) 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003,
-   2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+   2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2015 Free Software
+   Foundation, Inc.
 
 This file is part of GNU Wget.
 
@@ -30,15 +31,16 @@ as that of the covered work.  */
 
 #include "wget.h"
 
+#include "exits.h"
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef HAVE_UNISTD_H
-# include <unistd.h>
-#endif
+#include <unistd.h>
 #include <assert.h>
 
+#include <sys/socket.h>
+#include <sys/select.h>
+
 #ifndef WINDOWS
-# include <sys/socket.h>
 # ifdef __VMS
 #  include "vms_ip.h"
 # else /* def __VMS */
@@ -52,21 +54,18 @@ as that of the covered work.  */
 
 #include <errno.h>
 #include <string.h>
-#ifdef HAVE_SYS_SELECT_H
-# include <sys/select.h>
-#endif /* HAVE_SYS_SELECT_H */
-#ifdef HAVE_SYS_TIME_H
-# include <sys/time.h>
+#include <sys/time.h>
+
+#ifdef ENABLE_IRI
+#include <idn2.h>
 #endif
+
 #include "utils.h"
 #include "host.h"
 #include "connect.h"
 #include "hash.h"
 
-/* Apparently needed for Interix: */
-#ifdef HAVE_STDINT_H
-# include <stdint.h>
-#endif
+#include <stdint.h>
 
 /* Define sockaddr_storage where unavailable (presumably on IPv4-only
    hosts).  */
@@ -175,7 +174,7 @@ sockaddr_size (const struct sockaddr *sa)
       abort ();
     }
 }
-
+
 /* Resolve the bind address specified via --bind-address and store it
    to SA.  The resolved value is stored in a static variable and
    reused after the first invocation of this function.
@@ -220,7 +219,7 @@ resolve_bind_address (struct sockaddr *sa)
   should_bind = true;
   return true;
 }
-
+
 struct cwt_context {
   int fd;
   const struct sockaddr *addr;
@@ -257,7 +256,7 @@ connect_with_timeout (int fd, const struct sockaddr *addr, socklen_t addrlen,
     errno = ETIMEDOUT;
   return ctx.result;
 }
-
+
 /* Connect via TCP to the specified address and port.
 
    If PRINT is non-NULL, it is the host name to print that we're
@@ -277,7 +276,7 @@ connect_to_ip (const ip_address *ip, int port, const char *print)
       const char *txt_addr = print_address (ip);
       if (0 != strcmp (print, txt_addr))
         {
-				  char *str = NULL, *name;
+          char *str = NULL, *name;
 
           if (opt.enable_iri && (name = idn_decode ((char *) print)) != NULL)
             {
@@ -285,17 +284,23 @@ connect_to_ip (const ip_address *ip, int port, const char *print)
               str = xmalloc (len);
               snprintf (str, len, "%s (%s)", name, print);
               str[len-1] = '\0';
-              xfree (name);
+              idn2_free (name);
             }
 
           logprintf (LOG_VERBOSE, _("Connecting to %s|%s|:%d... "),
                      str ? str : escnonprint_uri (print), txt_addr, port);
 
-					if (str)
-					  xfree (str);
+          xfree (str);
         }
       else
-        logprintf (LOG_VERBOSE, _("Connecting to %s:%d... "), txt_addr, port);
+        {
+           if (ip->family == AF_INET)
+               logprintf (LOG_VERBOSE, _("Connecting to %s:%d... "), txt_addr, port);
+#ifdef ENABLE_IPV6
+           else if (ip->family == AF_INET6)
+               logprintf (LOG_VERBOSE, _("Connecting to [%s]:%d... "), txt_addr, port);
+#endif
+        }
     }
 
   /* Store the sockaddr info to SA.  */
@@ -327,8 +332,10 @@ connect_to_ip (const ip_address *ip, int port, const char *print)
       if (bufsize < 512)
         bufsize = 512;          /* avoid pathologically small values */
 #ifdef SO_RCVBUF
-      setsockopt (sock, SOL_SOCKET, SO_RCVBUF,
-                  (void *)&bufsize, (socklen_t)sizeof (bufsize));
+      if (setsockopt (sock, SOL_SOCKET, SO_RCVBUF,
+                  (void *) &bufsize, (socklen_t) sizeof (bufsize)))
+        logprintf (LOG_NOTQUIET, _("setsockopt SO_RCVBUF failed: %s\n"),
+                   strerror (errno));
 #endif
       /* When we add limit_rate support for writing, which is useful
          for POST, we should also set SO_SNDBUF here.  */
@@ -365,9 +372,16 @@ connect_to_ip (const ip_address *ip, int port, const char *print)
        logprintf.  */
     int save_errno = errno;
     if (sock >= 0)
-      fd_close (sock);
+      {
+#ifdef WIN32
+	/* If the connection timed out, fd_close will hang in Gnulib's
+	   close_fd_maybe_socket, inside the call to WSAEnumNetworkEvents.  */
+	if (errno != ETIMEDOUT)
+#endif
+	  fd_close (sock);
+      }
     if (print)
-      logprintf (LOG_VERBOSE, _("failed: %s.\n"), strerror (errno));
+      logprintf (LOG_NOTQUIET, _("failed: %s.\n"), strerror (errno));
     errno = save_errno;
     return -1;
   }
@@ -429,7 +443,7 @@ connect_to_host (const char *host, int port)
 
   return -1;
 }
-
+
 /* Create a socket, bind it to local interface BIND_ADDRESS on port
    *PORT, set up a listen backlog, and return the resulting socket, or
    -1 in case of error.
@@ -460,7 +474,9 @@ bind_local (const ip_address *bind_address, int *port)
     return -1;
 
 #ifdef SO_REUSEADDR
-  setsockopt (sock, SOL_SOCKET, SO_REUSEADDR, setopt_ptr, setopt_size);
+  if (setsockopt (sock, SOL_SOCKET, SO_REUSEADDR, setopt_ptr, setopt_size))
+    logprintf (LOG_NOTQUIET, _("setsockopt SO_REUSEADDR failed: %s\n"),
+               strerror (errno));
 #endif
 
   xzero (ss);
@@ -542,10 +558,11 @@ bool
 socket_ip_address (int sock, ip_address *ip, int endpoint)
 {
   struct sockaddr_storage storage;
-  struct sockaddr *sockaddr = (struct sockaddr *)&storage;
+  struct sockaddr *sockaddr = (struct sockaddr *) &storage;
   socklen_t addrlen = sizeof (storage);
   int ret;
 
+  memset (sockaddr, 0, addrlen);
   if (endpoint == ENDPOINT_LOCAL)
     ret = getsockname (sock, sockaddr, &addrlen);
   else if (endpoint == ENDPOINT_PEER)
@@ -555,6 +572,7 @@ socket_ip_address (int sock, ip_address *ip, int endpoint)
   if (ret < 0)
     return false;
 
+  memset(ip, 0, sizeof(ip_address));
   ip->family = sockaddr->sa_family;
   switch (sockaddr->sa_family)
     {
@@ -580,6 +598,36 @@ socket_ip_address (int sock, ip_address *ip, int endpoint)
     default:
       abort ();
     }
+}
+
+/* Get the socket family of connection on FD and store
+   Return family type on success, -1 otherwise.
+
+   If ENDPOINT is ENDPOINT_LOCAL, it returns the sock family of the local
+   (client) side of the socket.  Else if ENDPOINT is ENDPOINT_PEER, it
+   returns the sock family of the remote (peer's) side of the socket.  */
+
+int
+socket_family (int sock, int endpoint)
+{
+  struct sockaddr_storage storage;
+  struct sockaddr *sockaddr = (struct sockaddr *) &storage;
+  socklen_t addrlen = sizeof (storage);
+  int ret;
+
+  memset (sockaddr, 0, addrlen);
+
+  if (endpoint == ENDPOINT_LOCAL)
+    ret = getsockname (sock, sockaddr, &addrlen);
+  else if (endpoint == ENDPOINT_PEER)
+    ret = getpeername (sock, sockaddr, &addrlen);
+  else
+    abort ();
+
+  if (ret < 0)
+    return -1;
+
+  return sockaddr->sa_family;
 }
 
 /* Return true if the error from the connect code can be considered
@@ -646,6 +694,11 @@ select_fd (int fd, double maxtime, int wait_for)
   struct timeval tmout;
   int result;
 
+  if (fd >= FD_SETSIZE)
+    {
+      logprintf (LOG_NOTQUIET, _("Too many fds open.  Cannot use select on a fd >= %d\n"), FD_SETSIZE);
+      exit (WGET_EXIT_GENERIC_ERROR);
+    }
   FD_ZERO (&fdset);
   FD_SET (fd, &fdset);
   if (wait_for & WAIT_FOR_READ)
@@ -657,7 +710,14 @@ select_fd (int fd, double maxtime, int wait_for)
   tmout.tv_usec = 1000000 * (maxtime - (long) maxtime);
 
   do
+  {
     result = select (fd + 1, rd, wr, NULL, &tmout);
+#ifdef WINDOWS
+    /* gnulib select() converts blocking sockets to nonblocking in windows.
+       wget uses blocking sockets so we must convert them back to blocking.  */
+    set_windows_fd_as_blocking_socket (fd);
+#endif
+  }
   while (result < 0 && errno == EINTR);
 
   return result;
@@ -679,7 +739,13 @@ test_socket_open (int sock)
 {
   fd_set check_set;
   struct timeval to;
+  int ret = 0;
 
+  if (sock >= FD_SETSIZE)
+    {
+      logprintf (LOG_NOTQUIET, _("Too many fds open.  Cannot use select on a fd >= %d\n"), FD_SETSIZE);
+      exit (WGET_EXIT_GENERIC_ERROR);
+    }
   /* Check if we still have a valid (non-EOF) connection.  From Andrew
    * Maholski's code in the Unix Socket FAQ.  */
 
@@ -690,7 +756,15 @@ test_socket_open (int sock)
   to.tv_sec = 0;
   to.tv_usec = 1;
 
-  if (select (sock + 1, &check_set, NULL, NULL, &to) == 0)
+  ret = select (sock + 1, &check_set, NULL, NULL, &to);
+#ifdef WINDOWS
+/* gnulib select() converts blocking sockets to nonblocking in windows.
+wget uses blocking sockets so we must convert them back to blocking
+*/
+  set_windows_fd_as_blocking_socket ( sock );
+#endif
+
+  if ( !ret )
     /* We got a timeout, it means we're still connected. */
     return true;
   else
@@ -698,19 +772,8 @@ test_socket_open (int sock)
        or EOF/error. */
     return false;
 }
-
+
 /* Basic socket operations, mostly EINTR wrappers.  */
-
-#if defined(WINDOWS) || defined(USE_WATT32)
-# define read(fd, buf, cnt) recv (fd, buf, cnt, 0)
-# define write(fd, buf, cnt) send (fd, buf, cnt, 0)
-# define close(fd) closesocket (fd)
-#endif
-
-#ifdef __BEOS__
-# define read(fd, buf, cnt) recv (fd, buf, cnt, 0)
-# define write(fd, buf, cnt) send (fd, buf, cnt, 0)
-#endif
 
 static int
 sock_read (int fd, char *buf, int bufsize)
@@ -757,7 +820,7 @@ sock_close (int fd)
 #undef read
 #undef write
 #undef close
-
+
 /* Reading and writing from the network.  We build around the socket
    (file descriptor) API, but support "extended" operations for things
    that are not mere file descriptors under the hood, such as SSL
@@ -808,7 +871,7 @@ void *
 fd_transport_context (int fd)
 {
   struct transport_info *info = hash_table_get (transport_map, (void *)(intptr_t) fd);
-  return info->ctx;
+  return info ? info->ctx : NULL;
 }
 
 /* When fd_read/fd_write are called multiple times in a loop, they should

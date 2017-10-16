@@ -1,369 +1,624 @@
-# Messages français pour GNU concernant wget.
-# Copyright © 2008 Free Software Foundation, Inc.
+# Messages franÃ§ais pour GNU concernant wget.
+# Copyright Â© 2010, 2012, 2013, 2015 Free Software Foundation, Inc.
 # This file is distributed under the same license as the wget package.
-# Michel Robitaille <robitail@IRO.UMontreal.CA>, traducteur depuis/since 1996.
-# Nicolas Provost <nprovost@quadriv.com>, 2009.
+#
+# Michel Robitaille <robitail@IRO.UMontreal.CA>, 1996-.
+# Nicolas Provost <nprovost@quadriv.com>, 2010.
+# David PrÃ©vot <david@tilapin.org>, 2012, 2013, 2015.
+# StÃ©phane Aulery <lkppo@free.fr>, 2016.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: GNU wget 1.12-pre5\n"
+"Project-Id-Version: GNU wget 1.18\n"
 "Report-Msgid-Bugs-To: bug-wget@gnu.org\n"
-"POT-Creation-Date: 2009-09-22 09:40-0700\n"
-"PO-Revision-Date: 2009-08-03 15:36+0100\n"
-"Last-Translator: Nicolas Provost <nprovost@quadriv.com>\n"
+"POT-Creation-Date: 2017-02-11 20:08+0100\n"
+"PO-Revision-Date: 2016-12-27 03:15+0100\n"
+"Last-Translator: StÃ©phane Aulery <lkppo@free.fr>\n"
 "Language-Team: French <traduc@traduc.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Lokalize 1.5\n"
 
-#: lib/error.c:127
+#: lib/error.c:191
 msgid "Unknown system error"
-msgstr "Erreur système inconnue"
+msgstr "Erreur systÃ¨me inconnue"
 
-#: lib/getopt.c:526 lib/getopt.c:542
-#, c-format
-msgid "%s: option `%s' is ambiguous\n"
-msgstr "%s: l'option « %s » est ambiguë.\n"
+#: lib/gai_strerror.c:57
+msgid "Address family for hostname not supported"
+msgstr "Famille dâ€™adresses non prise en charge pour le nom dâ€™hÃ´te"
 
-#: lib/getopt.c:575 lib/getopt.c:579
-#, c-format
-msgid "%s: option `--%s' doesn't allow an argument\n"
-msgstr "%s: l'option « --%s » ne prend pas d'argument.\n"
+#: lib/gai_strerror.c:58 src/host.c:377
+msgid "Temporary failure in name resolution"
+msgstr "Ã‰chec temporaire de rÃ©solution de noms"
 
-#: lib/getopt.c:588 lib/getopt.c:593
-#, c-format
-msgid "%s: option `%c%s' doesn't allow an argument\n"
-msgstr "%s: l'option « %c%s » ne prend pas d'argument.\n"
+#: lib/gai_strerror.c:59
+msgid "Bad value for ai_flags"
+msgstr "Mauvaise valeur pour ai_flags"
 
-#: lib/getopt.c:636 lib/getopt.c:655 lib/getopt.c:971 lib/getopt.c:990
-#, c-format
-msgid "%s: option `%s' requires an argument\n"
-msgstr "%s: l'option « %s » requiert un argument.\n"
+#: lib/gai_strerror.c:60
+msgid "Non-recoverable failure in name resolution"
+msgstr "Ã‰chec non rÃ©cupÃ©rable de rÃ©solution de noms"
 
-#: lib/getopt.c:693 lib/getopt.c:696
-#, c-format
-msgid "%s: unrecognized option `--%s'\n"
-msgstr "%s: l'option « --%s » n'est pas reconnue.\n"
+#: lib/gai_strerror.c:61
+msgid "ai_family not supported"
+msgstr "ai_family non prise en charge"
 
-#: lib/getopt.c:704 lib/getopt.c:707
-#, c-format
-msgid "%s: unrecognized option `%c%s'\n"
-msgstr "%s: l'option « %c%s » n'est pas reconnue.\n"
+#: lib/gai_strerror.c:62
+msgid "Memory allocation failure"
+msgstr "Ã‰chec d'allocation de mÃ©moire"
 
-#: lib/getopt.c:759 lib/getopt.c:762
-#, c-format
-msgid "%s: illegal option -- %c\n"
-msgstr "%s: option illégale -- %c\n"
+#: lib/gai_strerror.c:63
+msgid "No address associated with hostname"
+msgstr "Aucune adresse associÃ©e au nom dâ€™hÃ´te"
 
-#: lib/getopt.c:768 lib/getopt.c:771
-#, c-format
-msgid "%s: invalid option -- %c\n"
-msgstr "%s: option non valide -- %c\n"
+#: lib/gai_strerror.c:64
+msgid "Name or service not known"
+msgstr "Nom ou service inconnu"
 
-#: lib/getopt.c:823 lib/getopt.c:839 lib/getopt.c:1043 lib/getopt.c:1061
-#, c-format
-msgid "%s: option requires an argument -- %c\n"
-msgstr "%s: l'option requiert un argument -- %c\n"
+#: lib/gai_strerror.c:65
+msgid "Servname not supported for ai_socktype"
+msgstr "Servname non pris en charge pour ai_socktype"
 
-#: lib/getopt.c:892 lib/getopt.c:908
-#, c-format
-msgid "%s: option `-W %s' is ambiguous\n"
-msgstr "%s: l'option « -W %s » est ambiguë.\n"
+#: lib/gai_strerror.c:66
+msgid "ai_socktype not supported"
+msgstr "ai_socktype non pris en charge"
 
-#: lib/getopt.c:932 lib/getopt.c:950
+#: lib/gai_strerror.c:67
+msgid "System error"
+msgstr "Erreur systÃ¨me"
+
+#: lib/gai_strerror.c:68
+msgid "Argument buffer too small"
+msgstr "Tampon dâ€™arguments trop petit"
+
+#: lib/gai_strerror.c:70
+msgid "Processing request in progress"
+msgstr "Traitement de requÃªte en cours"
+
+#: lib/gai_strerror.c:71
+msgid "Request canceled"
+msgstr "RequÃªte annulÃ©e"
+
+#: lib/gai_strerror.c:72
+msgid "Request not canceled"
+msgstr "RequÃªte non annulÃ©e"
+
+#: lib/gai_strerror.c:73
+msgid "All requests done"
+msgstr "Toutes les requÃªtes sont terminÃ©es"
+
+#: lib/gai_strerror.c:74
+msgid "Interrupted by a signal"
+msgstr "Interrompu par un signal"
+
+#: lib/gai_strerror.c:75
+msgid "Parameter string not correctly encoded"
+msgstr "ChaÃ®ne de paramÃ¨tres non encodÃ©e correctement"
+
+#: lib/gai_strerror.c:87 src/host.c:379
+msgid "Unknown error"
+msgstr "Erreur inconnue"
+
+#: lib/getopt.c:575 lib/getopt.c:604
 #, c-format
-msgid "%s: option `-W %s' doesn't allow an argument\n"
-msgstr "%s: l'option « -W %s » ne prend pas d'argument.\n"
+msgid "%s: option '%s' is ambiguous; possibilities:"
+msgstr "%sÂ : l'option Â«Â %sÂ Â» est ambiguÃ«Â ; possibilitÃ©sÂ :"
+
+#: lib/getopt.c:619
+#, c-format
+msgid "%s: option '%s' is ambiguous\n"
+msgstr "%sÂ : l'option Â«Â %sÂ Â» est ambiguÃ«\n"
+
+#: lib/getopt.c:654 lib/getopt.c:658
+#, c-format
+msgid "%s: option '--%s' doesn't allow an argument\n"
+msgstr "%sÂ : l'option Â«Â --%sÂ Â» n'accepte pas d'argument\n"
+
+#: lib/getopt.c:667 lib/getopt.c:672
+#, c-format
+msgid "%s: option '%c%s' doesn't allow an argument\n"
+msgstr "%sÂ : l'option Â«Â %c%sÂ Â» n'accepte pas d'argument\n"
+
+#: lib/getopt.c:715 lib/getopt.c:734
+#, c-format
+msgid "%s: option '--%s' requires an argument\n"
+msgstr "%sÂ : l'option Â«Â --%sÂ Â» nÃ©cessite un argument\n"
+
+#: lib/getopt.c:772 lib/getopt.c:775
+#, c-format
+msgid "%s: unrecognized option '--%s'\n"
+msgstr "%sÂ : l'option Â«Â --%sÂ Â» n'est pas reconnue\n"
+
+#: lib/getopt.c:783 lib/getopt.c:786
+#, c-format
+msgid "%s: unrecognized option '%c%s'\n"
+msgstr "%sÂ : l'option Â«Â %c%sÂ Â» n'est pas reconnue\n"
+
+#: lib/getopt.c:835 lib/getopt.c:838
+#, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%sÂ : option incorrecte â€” Â«Â %cÂ Â»\n"
+
+#: lib/getopt.c:891 lib/getopt.c:908 lib/getopt.c:1118 lib/getopt.c:1136
+#, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%sÂ : l'option nÃ©cessite un argument â€” Â«Â %cÂ Â»\n"
+
+#: lib/getopt.c:964 lib/getopt.c:980
+#, c-format
+msgid "%s: option '-W %s' is ambiguous\n"
+msgstr "%sÂ : l'option Â«Â -W %sÂ Â» est ambiguÃ«\n"
+
+#: lib/getopt.c:1004 lib/getopt.c:1022
+#, c-format
+msgid "%s: option '-W %s' doesn't allow an argument\n"
+msgstr "%sÂ : l'option Â«Â -W %sÂ Â» n'accepte pas d'argument\n"
+
+#: lib/getopt.c:1043 lib/getopt.c:1061
+#, c-format
+msgid "%s: option '-W %s' requires an argument\n"
+msgstr "%sÂ : l'option Â«Â -W %sÂ Â» nÃ©cessite un argument\n"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
-#.
 #. The message catalog should translate "`" to a left
 #. quotation mark suitable for the locale, and similarly for
-#. "'".  If the catalog has no translation,
-#. locale_quoting_style quotes `like this', and
-#. clocale_quoting_style quotes "like this".
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
 #.
-#. For example, an American English Unicode locale should
-#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
-#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
-#. MARK).  A British English Unicode locale should instead
-#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK)
-#. and U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
 #.
 #. If you don't know what to put here, please see
-#. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
+#. <http://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: lib/quotearg.c:272
+#: lib/quotearg.c:354
 msgid "`"
-msgstr "«"
+msgstr "Â«Â "
 
-#: lib/quotearg.c:273
+#: lib/quotearg.c:355
 msgid "'"
-msgstr "»"
+msgstr "Â Â»"
+
+#: lib/regcomp.c:135
+msgid "Success"
+msgstr "RÃ©ussite"
+
+#: lib/regcomp.c:138
+msgid "No match"
+msgstr "Pas de correspondance"
+
+#: lib/regcomp.c:141
+msgid "Invalid regular expression"
+msgstr "Expression rationnelle incorrecte"
+
+#: lib/regcomp.c:144
+msgid "Invalid collation character"
+msgstr "CaractÃ¨re de collation incorrect"
+
+#: lib/regcomp.c:147
+msgid "Invalid character class name"
+msgstr "Nom de classe de caractÃ¨res incorrect"
+
+#: lib/regcomp.c:150
+msgid "Trailing backslash"
+msgstr "Barre oblique inverse finale"
+
+#: lib/regcomp.c:153
+msgid "Invalid back reference"
+msgstr "RÃ©fÃ©rence arriÃ¨re incorrecte"
+
+#: lib/regcomp.c:156
+#, fuzzy
+msgid "Unmatched [, [^, [:, [., or [="
+msgstr "[ ou [^ sans correspondance"
+
+#: lib/regcomp.c:159
+msgid "Unmatched ( or \\("
+msgstr "( ou \\( sans correspondance"
+
+#: lib/regcomp.c:162
+msgid "Unmatched \\{"
+msgstr "\\{ sans correspondance"
+
+#: lib/regcomp.c:165
+msgid "Invalid content of \\{\\}"
+msgstr "Contenu de \\{\\} incorrect"
+
+#: lib/regcomp.c:168
+msgid "Invalid range end"
+msgstr "Fin d'intervalle incorrecte"
+
+#: lib/regcomp.c:171
+msgid "Memory exhausted"
+msgstr "MÃ©moire Ã©puisÃ©e"
+
+#: lib/regcomp.c:174
+msgid "Invalid preceding regular expression"
+msgstr "Expression rationnelle prÃ©cÃ©dente incorrecte"
+
+#: lib/regcomp.c:177
+msgid "Premature end of regular expression"
+msgstr "Fin prÃ©maturÃ©e d'expression rationnelle"
+
+#: lib/regcomp.c:180
+msgid "Regular expression too big"
+msgstr "Expression rationnelle trop grande"
+
+#: lib/regcomp.c:183
+msgid "Unmatched ) or \\)"
+msgstr ") ou \\) sans correspondance"
+
+#: lib/regcomp.c:687
+msgid "No previous regular expression"
+msgstr "Pas d'expression rationnelle prÃ©cÃ©dente"
+
+#: lib/spawn-pipe.c:137 lib/spawn-pipe.c:140 lib/spawn-pipe.c:261
+#: lib/spawn-pipe.c:264
+#, c-format
+msgid "cannot create pipe"
+msgstr "impossible de crÃ©er le tube"
+
+#: lib/spawn-pipe.c:231 lib/spawn-pipe.c:345 lib/wait-process.c:282
+#: lib/wait-process.c:356
+#, c-format
+msgid "%s subprocess failed"
+msgstr "Ã©chec du sous-processus %s"
+
+#: lib/w32spawn.h:45
+#, c-format
+msgid "_open_osfhandle failed"
+msgstr "Ã©chec de _open_osfhandle"
+
+#: lib/w32spawn.h:86
+#, c-format
+msgid "cannot restore fd %d: dup2 failed"
+msgstr "impossible de restaurer le descripteur de fichierÂ %dÂ : Ã©chec de dup2"
+
+#: lib/wait-process.c:223 lib/wait-process.c:255 lib/wait-process.c:317
+#, c-format
+msgid "%s subprocess"
+msgstr "sous-processus %s"
+
+#: lib/wait-process.c:274 lib/wait-process.c:346
+#, c-format
+msgid "%s subprocess got fatal signal %d"
+msgstr "le sous-processus %s a reÃ§u le signalÂ %d fatal"
 
 #: lib/xalloc-die.c:34
 msgid "memory exhausted"
-msgstr "mémoire épuisée"
+msgstr "mÃ©moire Ã©puisÃ©e"
 
-#: src/connect.c:207
+#: src/connect.c:206
 #, c-format
 msgid "%s: unable to resolve bind address %s; disabling bind.\n"
 msgstr ""
-"%s : impossible de résoudre l'adresse \"bind\" %s; désactivation de \"bind"
-"\".\n"
+"%sÂ : impossible de rÃ©soudre l'adresse liÃ©e %sÂ ; dÃ©sactivation de liaison "
+"(Â«Â bindÂ Â»).\n"
 
-#: src/connect.c:291
+#: src/connect.c:290
 #, c-format
 msgid "Connecting to %s|%s|:%d... "
-msgstr "Connexion vers %s|%s|:%d..."
+msgstr "Connexion Ã  %s|%s|:%dâ€¦ "
 
 #: src/connect.c:298
 #, c-format
 msgid "Connecting to %s:%d... "
-msgstr "Connexion vers %s:%d..."
+msgstr "Connexion Ã  %s:%dâ€¦ "
 
-#: src/connect.c:358
+#: src/connect.c:301
+#, c-format
+msgid "Connecting to [%s]:%d... "
+msgstr "Connexion Ã  [%s]:%dâ€¦ "
+
+#: src/connect.c:337
+#, c-format
+msgid "setsockopt SO_RCVBUF failed: %s\n"
+msgstr ""
+
+#: src/connect.c:365
 msgid "connected.\n"
-msgstr "connecté.\n"
+msgstr "connectÃ©.\n"
 
-#: src/connect.c:370 src/host.c:780 src/host.c:809
+#: src/connect.c:384 src/host.c:921 src/host.c:959
 #, c-format
 msgid "failed: %s.\n"
-msgstr "échec: %s.\n"
+msgstr "Ã©checÂ : %s.\n"
 
-#: src/connect.c:394 src/http.c:1674
+#: src/connect.c:408 src/http.c:2071
 #, c-format
 msgid "%s: unable to resolve host address %s\n"
-msgstr "%s : impossible de résoudre l'adresse de l'hôte %s\n"
+msgstr "%sÂ : impossible de rÃ©soudre l'adresse de l'hÃ´te %s\n"
 
-#: src/convert.c:185
+#: src/connect.c:478
 #, c-format
-msgid "Converted %d files in %s seconds.\n"
-msgstr "%d fichiers convertis en %s secondes.\n"
+msgid "setsockopt SO_REUSEADDR failed: %s\n"
+msgstr ""
 
-#: src/convert.c:213
+#: src/connect.c:699 src/connect.c:746
 #, c-format
-msgid "Converting %s... "
-msgstr "Conversion de %s..."
+msgid "Too many fds open.  Cannot use select on a fd >= %d\n"
+msgstr ""
 
-#: src/convert.c:226
+#: src/convert.c:198
+#, fuzzy, c-format
+msgid "Converted links in %d files in %s seconds.\n"
+msgstr "%dÂ fichiers convertis en %sÂ secondes.\n"
+
+#: src/convert.c:227
+#, c-format
+msgid "Converting links in %s... "
+msgstr "Conversion des liens de %sâ€¦ "
+
+#: src/convert.c:240
 msgid "nothing to do.\n"
-msgstr "rien à faire.\n"
+msgstr "rien Ã  faire.\n"
 
-#: src/convert.c:234 src/convert.c:258
+#: src/convert.c:248 src/convert.c:272
 #, c-format
 msgid "Cannot convert links in %s: %s\n"
-msgstr "Ne peut convertir les liens dans %s: %s\n"
+msgstr "Impossible de convertir les liens dans %sÂ : %s\n"
 
-#: src/convert.c:249
+#: src/convert.c:263
 #, c-format
 msgid "Unable to delete %s: %s\n"
-msgstr "Impossible de supprimer %s : %s\n"
+msgstr "Impossible de supprimer %sÂ : %s\n"
 
-#: src/convert.c:464
+#: src/convert.c:578
 #, c-format
 msgid "Cannot back up %s as %s: %s\n"
-msgstr "Ne peut archiver %s comme %s: %s\n"
+msgstr "Impossible d'archiver %s en %sÂ : %s\n"
 
-#: src/cookies.c:443
+#: src/cookies.c:311
+#, c-format
+msgid "Unable to get cookie for %s\n"
+msgstr "Impossible dâ€™obtenir le cookie pour %s\n"
+
+#: src/cookies.c:458
 #, c-format
 msgid "Syntax error in Set-Cookie: %s at position %d.\n"
-msgstr "Erreur de syntaxe dans Set-Cookie: %s à la position %d\n"
+msgstr "Erreur de syntaxe dans Set-Cookie: %s Ã  la positionÂ %d.\n"
 
-#: src/cookies.c:686
+#: src/cookies.c:772
 #, c-format
-msgid "Cookie coming from %s attempted to set domain to %s\n"
-msgstr "Un cookie provenant de %s a tenté de changer le domaine en %s\n"
+msgid "Cookie coming from %s attempted to set domain to "
+msgstr "Un cookie provenant de %s a tentÃ© de changer le domaine en "
 
-#: src/cookies.c:1134 src/cookies.c:1252
+#: src/cookies.c:775 src/spider.c:92
+#, c-format
+msgid "%s\n"
+msgstr "%s\n"
+
+#: src/cookies.c:1226 src/cookies.c:1347
 #, c-format
 msgid "Cannot open cookies file %s: %s\n"
-msgstr "Impossible d'ouvrir le fichier des cookies %s : %s\n"
+msgstr "Impossible d'ouvrir le fichier des cookies %sÂ : %s\n"
 
-#: src/cookies.c:1289
+#: src/cookies.c:1384
 #, c-format
 msgid "Error writing to %s: %s\n"
-msgstr "Erreur d'écriture dans %s : %s\n"
+msgstr "Erreur d'Ã©criture dans %sÂ : %s\n"
 
-#: src/cookies.c:1292
+#: src/cookies.c:1387
 #, c-format
 msgid "Error closing %s: %s\n"
-msgstr "Erreur de fermeture pour %s : %s\n"
+msgstr "Erreur de fermeture pour %sÂ : %s\n"
 
-#: src/ftp-ls.c:1065
+#: src/ftp-ls.c:1051
 msgid "Unsupported listing type, trying Unix listing parser.\n"
 msgstr ""
-"Type d'affichage (listing) non-supporté, on essaye le parseur d'affichage à "
-"la Unix.\n"
+"Type d'affichage non pris en charge, essai avec l'analyseur d'affichage de "
+"type UNIX.\n"
 
-#: src/ftp-ls.c:1116 src/ftp-ls.c:1118
+#: src/ftp-ls.c:1102 src/ftp-ls.c:1104
 #, c-format
 msgid "Index of /%s on %s:%d"
 msgstr "Index de /%s sur %s:%d"
 
-#: src/ftp-ls.c:1143
+#: src/ftp-ls.c:1129
 #, c-format
 msgid "time unknown       "
 msgstr "heure inconnue     "
 
-#: src/ftp-ls.c:1147
+#: src/ftp-ls.c:1133
 #, c-format
 msgid "File        "
 msgstr "Fichier     "
 
-#: src/ftp-ls.c:1150
+#: src/ftp-ls.c:1136
 #, c-format
 msgid "Directory   "
-msgstr "Répertoire  "
+msgstr "RÃ©pertoire  "
 
-#: src/ftp-ls.c:1153
+#: src/ftp-ls.c:1139
 #, c-format
 msgid "Link        "
 msgstr "Lien        "
 
-#: src/ftp-ls.c:1156
+#: src/ftp-ls.c:1142
 #, c-format
 msgid "Not sure    "
 msgstr "Incertain   "
 
-#: src/ftp-ls.c:1179
+#: src/ftp-ls.c:1165
 #, c-format
 msgid " (%s bytes)"
-msgstr " (%s octets)"
+msgstr " (%sÂ octets)"
 
-#: src/ftp.c:221
+#: src/ftp.c:226
 #, c-format
 msgid "Length: %s"
-msgstr "Longueur: %s"
+msgstr "TailleÂ : %s"
 
-#: src/ftp.c:227 src/http.c:2253
+#: src/ftp.c:232 src/http.c:3871
 #, c-format
 msgid ", %s (%s) remaining"
 msgstr ", %s (%s) restant"
 
-#: src/ftp.c:231 src/http.c:2257
+#: src/ftp.c:236 src/http.c:3875
 #, c-format
 msgid ", %s remaining"
 msgstr ", %s restant"
 
-#: src/ftp.c:234
+#: src/ftp.c:239
 msgid " (unauthoritative)\n"
-msgstr " (non certifiée)\n"
+msgstr " (non certifiÃ©e)\n"
 
-#: src/ftp.c:315
+#: src/ftp.c:404
+msgid "Could not initialize SSL. It will be disabled."
+msgstr ""
+
+#: src/ftp.c:486
 #, c-format
 msgid "Logging in as %s ... "
-msgstr "Ouverture de session en %s..."
+msgstr "Ouverture de session en tant que %sâ€¦ "
 
-#: src/ftp.c:329 src/ftp.c:375 src/ftp.c:404 src/ftp.c:469 src/ftp.c:699
-#: src/ftp.c:752 src/ftp.c:781 src/ftp.c:838 src/ftp.c:899 src/ftp.c:991
-#: src/ftp.c:1038
+#: src/ftp.c:505 src/ftp.c:591 src/ftp.c:658 src/ftp.c:723 src/ftp.c:957
+#: src/ftp.c:1010 src/ftp.c:1057 src/ftp.c:1120 src/ftp.c:1181 src/ftp.c:1279
+#: src/ftp.c:1329
 msgid "Error in server response, closing control connection.\n"
-msgstr ""
-"ERREUR dans la réponse du serveur, fermeture de la connexion de contrôle.\n"
+msgstr "Erreur de rÃ©ponse du serveur, fermeture de la connexion de contrÃ´le.\n"
 
-#: src/ftp.c:336
+#: src/ftp.c:512
 msgid "Error in server greeting.\n"
-msgstr "ERREUR dans le message de salutation du serveur.\n"
+msgstr "Erreur de message de salutation du serveur.\n"
 
-#: src/ftp.c:343 src/ftp.c:477 src/ftp.c:707 src/ftp.c:789 src/ftp.c:848
-#: src/ftp.c:909 src/ftp.c:1001 src/ftp.c:1048
+#: src/ftp.c:519 src/ftp.c:731 src/ftp.c:965 src/ftp.c:1065 src/ftp.c:1130
+#: src/ftp.c:1191 src/ftp.c:1289 src/ftp.c:1339
 msgid "Write failed, closing control connection.\n"
-msgstr "ÉCHEC d'écriture, fermeture de la connexion de contrôle.\n"
+msgstr "Ã‰chec d'Ã©criture, fermeture de la connexion de contrÃ´le.\n"
 
-#: src/ftp.c:349
+#: src/ftp.c:525
 msgid "The server refuses login.\n"
-msgstr "Le serveur refuse l'établissement de session.\n"
+msgstr "Le serveur refuse l'Ã©tablissement de session.\n"
 
-#: src/ftp.c:355
+#: src/ftp.c:531
 msgid "Login incorrect.\n"
-msgstr "Établissement de session erroné.\n"
+msgstr "Erreur d'Ã©tablissement de session.\n"
 
-#: src/ftp.c:361
+#: src/ftp.c:537
 msgid "Logged in!\n"
-msgstr "Session établie!\n"
+msgstr "Session Ã©tablie.\n"
 
-#: src/ftp.c:383
+#: src/ftp.c:557
+msgid "Server did not accept the 'PBSZ 0' command.\n"
+msgstr ""
+
+#: src/ftp.c:567
+#, c-format
+msgid "Server did not accept the 'PROT %c' command.\n"
+msgstr ""
+
+#: src/ftp.c:599
 msgid "Server error, can't determine system type.\n"
-msgstr "Erreur du serveur, ne peut déterminer le type de système.\n"
+msgstr "Erreur du serveur, impossible de dÃ©terminer le type de systÃ¨me.\n"
 
-#: src/ftp.c:392 src/ftp.c:825 src/ftp.c:882 src/ftp.c:925
+#: src/ftp.c:608 src/ftp.c:1100 src/ftp.c:1164 src/ftp.c:1207
 msgid "done.    "
-msgstr "complété.    "
+msgstr "terminÃ©.    "
 
-#: src/ftp.c:457 src/ftp.c:724 src/ftp.c:764 src/ftp.c:1021 src/ftp.c:1067
+#: src/ftp.c:711 src/ftp.c:983 src/ftp.c:1027 src/ftp.c:1309 src/ftp.c:1358
 msgid "done.\n"
-msgstr "complété.\n"
+msgstr "terminÃ©.\n"
 
-#: src/ftp.c:484
+#: src/ftp.c:738
 #, c-format
 msgid "Unknown type `%c', closing control connection.\n"
-msgstr "Type %c inconnu, fermeture de la connexion de contrôle.\n"
+msgstr "Type Â«Â %cÂ Â» inconnu, fermeture de la connexion de contrÃ´le.\n"
 
-#: src/ftp.c:496
+#: src/ftp.c:750
 msgid "done.  "
-msgstr "complété.  "
+msgstr "terminÃ©.  "
 
-#: src/ftp.c:502
+#: src/ftp.c:756
 msgid "==> CWD not needed.\n"
-msgstr "==> CWD n'est pas nécessaire.\n"
+msgstr "==> CWD n'est pas nÃ©cessaire.\n"
 
-#: src/ftp.c:713
+#: src/ftp.c:940
+msgid "Logically impossible section reached in getftp()"
+msgstr "Section logiquement impossible atteinte par getftp()"
+
+#: src/ftp.c:941
+#, c-format
+msgid ""
+"cwd_count: %d\n"
+"cwd_start: %d\n"
+"cwd_end: %d\n"
+msgstr ""
+"dÃ©compte_cwdÂ : %d\n"
+"   dÃ©but_cwdÂ : %d\n"
+"     fin_cwdÂ : %d\n"
+
+#: src/ftp.c:971
 #, c-format
 msgid ""
 "No such directory %s.\n"
 "\n"
 msgstr ""
-"Répertoire %s inexistant.\n"
+"RÃ©pertoire %s inexistant.\n"
 "\n"
 
-#: src/ftp.c:734
+#: src/ftp.c:992
 msgid "==> CWD not required.\n"
-msgstr "==> CWD n'est pas requis.\n"
+msgstr "==> CWD n'est pas nÃ©cessaire.\n"
 
-#: src/ftp.c:795
+#: src/ftp.c:1035
+msgid "File has already been retrieved.\n"
+msgstr "Fichier dÃ©jÃ  rÃ©cupÃ©rÃ©.\n"
+
+#: src/ftp.c:1071
 msgid "Cannot initiate PASV transfer.\n"
-msgstr "Ne peut initier le transfert PASV.\n"
+msgstr "Impossible d'initier le transfert PASV.\n"
 
-#: src/ftp.c:799
+#: src/ftp.c:1075
 msgid "Cannot parse PASV response.\n"
-msgstr "Ne peut analyser la réponse PASV.\n"
+msgstr "Impossible d'analyser la rÃ©ponse PASV.\n"
 
-#: src/ftp.c:816
+#: src/ftp.c:1092
 #, c-format
 msgid "couldn't connect to %s port %d: %s\n"
-msgstr "ne peut établir la connexion vers %s sur le port %d: %s.\n"
+msgstr "impossible d'Ã©tablir la connexion Ã  %s sur le portÂ %dÂ : %s\n"
 
-#: src/ftp.c:864
+#: src/ftp.c:1146
 #, c-format
 msgid "Bind error (%s).\n"
-msgstr "ERREUR de la fonction « bind » (%s).\n"
+msgstr "Erreur de liaison (Â«Â bindÂ Â») (%s).\n"
 
-#: src/ftp.c:870
+#: src/ftp.c:1152
 msgid "Invalid PORT.\n"
-msgstr "Port non valable.\n"
+msgstr "Port incorrect.\n"
 
-#: src/ftp.c:916
+#: src/ftp.c:1198
 msgid ""
 "\n"
 "REST failed, starting from scratch.\n"
 msgstr ""
 "\n"
-"ÉCHEC de REST, reprise depuis le début.\n"
+"Ã‰CHEC de REST, reprise depuis le dÃ©but.\n"
 
-#: src/ftp.c:957
+#: src/ftp.c:1241
 #, c-format
 msgid "File %s exists.\n"
 msgstr "Le fichier %s existe.\n"
 
-#: src/ftp.c:963
+#: src/ftp.c:1247
 #, c-format
 msgid "No such file %s.\n"
 msgstr "Fichier %s inexistant.\n"
 
-#: src/ftp.c:1009
+#: src/ftp.c:1297
 #, c-format
 msgid ""
 "No such file %s.\n"
@@ -372,471 +627,642 @@ msgstr ""
 "Fichier %s inexistant.\n"
 "\n"
 
-#: src/ftp.c:1056
+#: src/ftp.c:1347
 #, c-format
 msgid ""
 "No such file or directory %s.\n"
 "\n"
 msgstr ""
-"Fichier ou répertoire %s inexistant.\n"
+"Fichier ou rÃ©pertoire %s inexistants.\n"
 "\n"
 
-#: src/ftp.c:1187 src/http.c:2344
+#: src/ftp.c:1506 src/http.c:2526
 #, c-format
 msgid "%s has sprung into existence.\n"
 msgstr "%s vient de s'annoncer comme existante.\n"
 
-#: src/ftp.c:1239
+#: src/ftp.c:1595
 #, c-format
 msgid "%s: %s, closing control connection.\n"
-msgstr "%s: %s, fermeture de la connexion de contrôle.\n"
+msgstr "%sÂ : %s, fermeture de la connexion de contrÃ´le.\n"
 
-#: src/ftp.c:1248
+#: src/ftp.c:1607
 #, c-format
 msgid "%s (%s) - Data connection: %s; "
-msgstr "%s (%s) - Connexion de transfert de données: %s; "
+msgstr "%s (%s) â€” Connexion de transfert de donnÃ©esÂ : %sÂ ; "
 
-#: src/ftp.c:1263
+#: src/ftp.c:1622
 msgid "Control connection closed.\n"
-msgstr "Connexion de contrôle fermée.\n"
+msgstr "Connexion de contrÃ´le fermÃ©e.\n"
 
-#: src/ftp.c:1281
+#: src/ftp.c:1640
 msgid "Data transfer aborted.\n"
-msgstr "Transfert des données abandonné.\n"
+msgstr "Abandon du transfert des donnÃ©es.\n"
 
-#: src/ftp.c:1381
+#: src/ftp.c:1864
 #, c-format
 msgid "File %s already there; not retrieving.\n"
-msgstr "Fichier %s déjà présent ; pas de récupération.\n"
+msgstr "Fichier %s dÃ©jÃ  prÃ©sentÂ ; pas de rÃ©cupÃ©ration.\n"
 
-#: src/ftp.c:1447 src/http.c:2529
+#: src/ftp.c:1949 src/http.c:4137
 #, c-format
 msgid "(try:%2d)"
-msgstr "(essai:%2d)"
+msgstr "(essaiÂ : %2d)"
 
-#: src/ftp.c:1522 src/http.c:2873
+#: src/ftp.c:2037 src/http.c:4551
 #, c-format
 msgid ""
 "%s (%s) - written to stdout %s[%s]\n"
 "\n"
 msgstr ""
-"%s (%s) - envoi sur stdout %s[%s]\n"
+"%s (%s) â€” envoi sur la sortie standard %s[%s]\n"
 "\n"
 
-#: src/ftp.c:1523 src/http.c:2874
+#: src/ftp.c:2038 src/http.c:4552
 #, c-format
 msgid ""
 "%s (%s) - %s saved [%s]\n"
 "\n"
 msgstr ""
-"%s (%s) - %s sauvegardé [%s]\n"
+"%s (%s) - %s sauvegardÃ© [%s]\n"
 "\n"
 
-#: src/ftp.c:1568 src/main.c:1301 src/recur.c:438 src/retr.c:990
+#: src/ftp.c:2098 src/main.c:2088 src/metalink.c:1135 src/recur.c:513
+#: src/recur.c:748 src/retr.c:1148
 #, c-format
 msgid "Removing %s.\n"
 msgstr "Destruction de %s.\n"
 
-#: src/ftp.c:1610
+#: src/ftp.c:2152
 #, c-format
 msgid "Using %s as listing tmp file.\n"
-msgstr "Utilisation de %s comme fichier temporaire de listage.\n"
+msgstr "Utilisation de %s comme fichier temporaire d'affichage.\n"
 
-#: src/ftp.c:1627
+#: src/ftp.c:2169
 #, c-format
 msgid "Removed %s.\n"
-msgstr "%s détruit.\n"
+msgstr "%s supprimÃ©.\n"
 
-#: src/ftp.c:1664
+#: src/ftp.c:2209
 #, c-format
 msgid "Recursion depth %d exceeded max. depth %d.\n"
-msgstr "Le niveau %d de récursivité dépasse le niveau maximum %d.\n"
+msgstr "Le niveauÂ %d de rÃ©cursivitÃ© dÃ©passe le niveau maximal %d.\n"
 
-#: src/ftp.c:1734
+#: src/ftp.c:2279
 #, c-format
 msgid "Remote file no newer than local file %s -- not retrieving.\n"
 msgstr ""
-"Fichier distant pas plus récent que le fichier local %s -- non récupéré.\n"
+"Le fichier distant n'est pas plus rÃ©cent que le fichier local %s â€” pas de "
+"rÃ©cupÃ©ration.\n"
 
-#: src/ftp.c:1741
+#: src/ftp.c:2287
 #, c-format
 msgid ""
 "Remote file is newer than local file %s -- retrieving.\n"
 "\n"
 msgstr ""
-"Fichier distant plus récent que le fichier local %s -- récupération.\n"
+"Le fichier distant est plus rÃ©cent que le fichier local %s â€” rÃ©cupÃ©ration.\n"
 "\n"
 
-#: src/ftp.c:1748
+#: src/ftp.c:2294
 #, c-format
 msgid ""
 "The sizes do not match (local %s) -- retrieving.\n"
 "\n"
 msgstr ""
-"Les tailles ne concordent pas (local %s) -- récupération.\n"
+"Les tailles ne concordent pas (%s localement) â€” rÃ©cupÃ©ration.\n"
 "\n"
 
-#: src/ftp.c:1766
+#: src/ftp.c:2312
 msgid "Invalid name of the symlink, skipping.\n"
-msgstr "Nom erroné d'un lien symbolique, escamoté.\n"
+msgstr "Nom de lien symbolique incorrect, ignorÃ©.\n"
 
-#: src/ftp.c:1783
+#: src/ftp.c:2329
 #, c-format
 msgid ""
 "Already have correct symlink %s -> %s\n"
 "\n"
 msgstr ""
-"Lien symbolique déjà correct %s -> %s\n"
+"Lien symbolique %s â†’ %s dÃ©jÃ  correct\n"
 "\n"
 
-#: src/ftp.c:1792
+#: src/ftp.c:2338
 #, c-format
 msgid "Creating symlink %s -> %s\n"
-msgstr "Création du lien symbolique %s -> %s\n"
+msgstr "CrÃ©ation du lien symbolique %s â†’ %s\n"
 
-#: src/ftp.c:1802
+#: src/ftp.c:2348
 #, c-format
 msgid "Symlinks not supported, skipping symlink %s.\n"
-msgstr "Liens symboliques non supportés, lien %s ignoré.\n"
+msgstr "Liens symboliques non pris en charge, lien %s ignorÃ©.\n"
 
-#: src/ftp.c:1814
+#: src/ftp.c:2363
 #, c-format
 msgid "Skipping directory %s.\n"
-msgstr "Répertoire %s ignoré.\n"
+msgstr "RÃ©pertoire %s ignorÃ©.\n"
 
-#: src/ftp.c:1823
+#: src/ftp.c:2376
 #, c-format
 msgid "%s: unknown/unsupported file type.\n"
-msgstr "%s: type de fichier inconnu ou non supporté.\n"
+msgstr "%sÂ : type de fichier inconnu ou non pris en charge.\n"
 
-#: src/ftp.c:1860
+#: src/ftp.c:2400
+#, fuzzy, c-format
+msgid "Failed to set permissions for %s.\n"
+msgstr "Impossible dâ€™obtenir le cookie pour %s\n"
+
+#: src/ftp.c:2421
 #, c-format
 msgid "%s: corrupt time-stamp.\n"
-msgstr "%s: horodatage corrompu.\n"
+msgstr "%sÂ : horodatage corrompu.\n"
 
-#: src/ftp.c:1882
+#: src/ftp.c:2445
 #, c-format
 msgid "Will not retrieve dirs since depth is %d (max %d).\n"
 msgstr ""
-"Les répertoires ne seront pas récupérés, la profondeur %d dépasse le maximum "
+"Les rÃ©pertoires ne seront pas rÃ©cupÃ©rÃ©s, le niveauÂ %d dÃ©passe le maximum "
 "%d.\n"
 
-#: src/ftp.c:1932
+#: src/ftp.c:2496
 #, c-format
 msgid "Not descending to %s as it is excluded/not-included.\n"
 msgstr "%s non parcouru puisqu'il est exclu ou non inclus.\n"
 
-#: src/ftp.c:1998 src/ftp.c:2012
+#: src/ftp.c:2586 src/ftp.c:2600
 #, c-format
 msgid "Rejecting %s.\n"
 msgstr "Rejet de %s.\n"
 
-#: src/ftp.c:2035
+#: src/ftp.c:2623
 #, c-format
 msgid "Error matching %s against %s: %s\n"
-msgstr "Erreur - %s ne correspond pas à %s : %s\n"
+msgstr "Erreur â€” %s ne correspond pas Ã  %sÂ : %s\n"
 
-#: src/ftp.c:2091
+#: src/ftp.c:2679
 #, c-format
 msgid "No matches on pattern %s.\n"
 msgstr "Pas de concordance pour le motif %s.\n"
 
-#: src/ftp.c:2162
+#: src/ftp.c:2751
 #, c-format
 msgid "Wrote HTML-ized index to %s [%s].\n"
-msgstr "Index écrit sous forme HTML dans %s [%s].\n"
+msgstr "Index Ã©crit sous forme HTML dans %s [%s].\n"
 
-#: src/ftp.c:2167
+#: src/ftp.c:2756
 #, c-format
 msgid "Wrote HTML-ized index to %s.\n"
-msgstr "Index écrit sous forme HTML dans %s.\n"
+msgstr "Index Ã©crit sous forme HTML dans %s.\n"
 
-#: src/gnutls.c:220 src/openssl.c:495
+#: src/gnutls.c:115
+#, c-format
+msgid "ERROR: Cannot open directory %s.\n"
+msgstr "ErreurÂ : impossible d'ouvrir le rÃ©pertoire %s.\n"
+
+#: src/gnutls.c:165
+#, c-format
+msgid "ERROR: Failed to open cert %s: (%d).\n"
+msgstr "ErreurÂ : Ã©chec d'ouverture du certificat %sÂ : (%d).\n"
+
+#: src/gnutls.c:170
+#, c-format
+msgid "Loaded CA certificate '%s'\n"
+msgstr "Certificat de l'autoritÃ© de certification Â«Â %sÂ Â» chargÃ©\n"
+
+#: src/gnutls.c:180
+#, c-format
+msgid "ERROR: Failed to load CRL file '%s': (%d)\n"
+msgstr ""
+"ErreurÂ : Ã©chec de chargement du fichier de liste de rÃ©vocations de "
+"certificat Â«Â %sÂ Â»Â : (%d)\n"
+
+#: src/gnutls.c:184
+#, c-format
+msgid "Loaded CRL file '%s'\n"
+msgstr "Fichier de liste de rÃ©vocations de certificat Â«Â %sÂ Â» chargÃ©\n"
+
+#: src/gnutls.c:208
+msgid "ERROR: GnuTLS requires the key and the cert to be of the same type.\n"
+msgstr ""
+"ErreurÂ : GnuTLS nÃ©cessite que la clef et le certificat soient de mÃªme type.\n"
+
+#: src/gnutls.c:602
+#, fuzzy, c-format
+msgid "GnuTLS: unimplemented 'secure-protocol' option value %u\n"
+msgstr ""
+"GnuTLSÂ : valeur %d pour lâ€™option Â«Â secure-protocolÂ Â» non prise en charge\n"
+
+#: src/gnutls.c:604 src/gnutls.c:641 src/host.c:163 src/openssl.c:255
+msgid "Please report this issue to bug-wget@gnu.org\n"
+msgstr "Veuillez signaler cette anomalie Ã  <bug-wget@gnu.org>\n"
+
+#: src/gnutls.c:640
+#, c-format
+msgid "GnuTLS: unimplemented 'secure-protocol' option value %d\n"
+msgstr ""
+"GnuTLSÂ : valeur %d pour lâ€™option Â«Â secure-protocolÂ Â» non prise en charge\n"
+
+#: src/gnutls.c:769 src/openssl.c:763
 msgid "ERROR"
-msgstr "ERREUR"
+msgstr "Erreur"
 
-#: src/gnutls.c:220 src/openssl.c:495
+#: src/gnutls.c:769 src/openssl.c:763
 msgid "WARNING"
-msgstr "AVERTISSEMENT"
+msgstr "Avertissement"
 
-#: src/gnutls.c:226 src/openssl.c:504
+#: src/gnutls.c:780 src/openssl.c:776
 #, c-format
 msgid "%s: No certificate presented by %s.\n"
-msgstr "%s: pas de certificat présenté par %s.\n"
+msgstr "%sÂ : pas de certificat prÃ©sentÃ© par %s.\n"
 
-#: src/gnutls.c:234
+#: src/gnutls.c:786
 #, c-format
 msgid "%s: The certificate of %s is not trusted.\n"
-msgstr "%s : le certificat de %s n'est pas digne de confiance.\n"
+msgstr "%sÂ : le certificat de %s n'est pas de confiance.\n"
 
-#: src/gnutls.c:240
+#: src/gnutls.c:787
 #, c-format
 msgid "%s: The certificate of %s hasn't got a known issuer.\n"
-msgstr "%s : le certificat %s n'est pas d'un émetteur connu.\n"
+msgstr "%sÂ : le certificat de %s n'est pas d'un Ã©metteur connu.\n"
 
-#: src/gnutls.c:246
+#: src/gnutls.c:788
 #, c-format
 msgid "%s: The certificate of %s has been revoked.\n"
-msgstr "%s : le certificat de %s a été révoqué.\n"
+msgstr "%sÂ : le certificat de %s a Ã©tÃ© rÃ©voquÃ©.\n"
 
-#: src/gnutls.c:260
+#: src/gnutls.c:789
+#, c-format
+msgid "%s: The certificate signer of %s was not a CA.\n"
+msgstr "%sÂ : le signataire de certificat de %s nâ€™Ã©tait pas une autoritÃ©.\n"
+
+#: src/gnutls.c:790
+#, c-format
+msgid "%s: The certificate of %s was signed using an insecure algorithm.\n"
+msgstr ""
+"%sÂ : le certificat de %s a Ã©tÃ© signÃ© avec un algorithme non sÃ©curisÃ©.\n"
+
+#: src/gnutls.c:791
+#, c-format
+msgid "%s: The certificate of %s is not yet activated.\n"
+msgstr "%sÂ : le certificat de %s n'est pas encore activÃ©.\n"
+
+#: src/gnutls.c:792
+#, c-format
+msgid "%s: The certificate of %s has expired.\n"
+msgstr "%sÂ : le certificat de %s a expirÃ©.\n"
+
+# FIXME: s/X509/X.509/
+#: src/gnutls.c:804
 #, c-format
 msgid "Error initializing X509 certificate: %s\n"
-msgstr "Erreur d'initialisation du certificat X509 : %s\n"
+msgstr "Erreur d'initialisation du certificat X.509Â : %s\n"
 
-#: src/gnutls.c:269
+#: src/gnutls.c:813
 msgid "No certificate found\n"
-msgstr "Aucun certificat trouvé\n"
+msgstr "Aucun certificat trouvÃ©\n"
 
-#: src/gnutls.c:276
+#: src/gnutls.c:820
 #, c-format
 msgid "Error parsing certificate: %s\n"
-msgstr "Erreur d'analyse du certificat : %s\n"
+msgstr "Erreur d'analyse du certificatÂ : %s\n"
 
-#: src/gnutls.c:283
+#: src/gnutls.c:827
 msgid "The certificate has not yet been activated\n"
-msgstr "Le certificat n'est pas encore actif\n"
+msgstr "Le certificat n'est pas encore activÃ©\n"
 
-#: src/gnutls.c:288
+#: src/gnutls.c:832
 msgid "The certificate has expired\n"
-msgstr "Le certificat a expiré\n"
+msgstr "Le certificat a expirÃ©\n"
 
-#: src/gnutls.c:294
+#: src/gnutls.c:839
 #, c-format
 msgid "The certificate's owner does not match hostname %s\n"
+msgstr "Le propriÃ©taire du certificat ne correspond pas au nom d'hÃ´te %s\n"
+
+#: src/gnutls.c:848 src/openssl.c:972
+msgid "The public key does not match pinned public key!\n"
 msgstr ""
-"Le propriétaire du certificat ne concorde pas avec le nom de l'hôte %s\n"
 
-#: src/host.c:358
+#: src/gnutls.c:857
+msgid "Certificate must be X.509\n"
+msgstr "Le certificat doit Ãªtre X.509\n"
+
+#: src/host.c:162
+msgid "Error in handling the address list.\n"
+msgstr "Erreur dans le traitement de la liste dâ€™adresses.\n"
+
+#: src/host.c:373
 msgid "Unknown host"
-msgstr "Hôte inconnu"
+msgstr "HÃ´te inconnu"
 
-#: src/host.c:362
-msgid "Temporary failure in name resolution"
-msgstr "Echec temporaire dans la résolution de nom"
-
-#: src/host.c:364
-msgid "Unknown error"
-msgstr "ERREUR inconnue"
-
-#: src/host.c:737
+#: src/host.c:856
 #, c-format
 msgid "Resolving %s... "
-msgstr "Résolution de %s... "
+msgstr "RÃ©solution de %sâ€¦ "
 
-#: src/host.c:789
+#: src/host.c:932
 msgid "failed: No IPv4/IPv6 addresses for host.\n"
-msgstr "échec: pas d'adresse IPv4/IPv6 pour l'hôte.\n"
+msgstr "Ã©checÂ : pas d'adresse IPv4 ou IPv6 pour l'hÃ´te.\n"
 
-#: src/host.c:812
+#: src/host.c:962
 msgid "failed: timed out.\n"
-msgstr "échec: délai d'attente expiré\n"
+msgstr "Ã©checÂ : dÃ©lai d'attente expirÃ©.\n"
 
-#: src/html-url.c:286
+#: src/html-url.c:307
 #, c-format
 msgid "%s: Cannot resolve incomplete link %s.\n"
-msgstr "%s: impossible de résoudre le lien incomplet %s.\n"
+msgstr "%sÂ : impossible de rÃ©soudre le lien incomplet %s.\n"
 
-#: src/html-url.c:772
+#: src/html-url.c:931
 #, c-format
 msgid "%s: Invalid URL %s: %s\n"
-msgstr "%s: URL non valide %s: %s\n"
+msgstr "%sÂ : URL %s incorrecteÂ : %s\n"
 
-#: src/http.c:377
+#: src/http.c:376
 #, c-format
 msgid "Failed writing HTTP request: %s.\n"
-msgstr "Echec d'écriture de la requête HTTP: %s.\n"
+msgstr "Ã‰chec d'Ã©criture de la requÃªte HTTPÂ : %s.\n"
 
-#: src/http.c:754
+#: src/http.c:781
 msgid "No headers, assuming HTTP/0.9"
-msgstr "Pas d'entête, HTTP/0.9 assumé"
+msgstr "Pas d'en-tÃªte, HTTP/0.9 supposÃ©"
 
-#: src/http.c:1456
-msgid "Disabling SSL due to encountered errors.\n"
-msgstr "Désactivation SSL en raison des erreurs rencontrés.\n"
-
-#: src/http.c:1576
-#, c-format
-msgid "POST data file %s missing: %s\n"
-msgstr "Fichier de données POST %s manquant : %s\n"
-
-#: src/http.c:1660
-#, c-format
-msgid "Reusing existing connection to %s:%d.\n"
-msgstr "Réutilisation de la connexion existante vers %s:%d.\n"
-
-#: src/http.c:1729
-#, c-format
-msgid "Failed reading proxy response: %s\n"
-msgstr "ÉCHEC de lecture de la réponse proxy: %s.\n"
-
-#: src/http.c:1750
-#, c-format
-msgid "Proxy tunneling failed: %s"
-msgstr "Échec de tunnel proxy: %s"
-
-#: src/http.c:1800
-#, c-format
-msgid "%s request sent, awaiting response... "
-msgstr "requête %s transmise, en attente de la réponse..."
-
-#: src/http.c:1811
-msgid "No data received.\n"
-msgstr "Aucune donnée reçue.\n"
-
-#: src/http.c:1818
-#, c-format
-msgid "Read error (%s) in headers.\n"
-msgstr "ERREUR de lecture (%s) de l'en-tête.\n"
-
-#: src/http.c:1932
-msgid "Unknown authentication scheme.\n"
-msgstr "Schéma d'authentification inconnu.\n"
-
-#: src/http.c:1966
-msgid "Authorization failed.\n"
-msgstr "ÉCHEC d'autorisation.\n"
-
-#: src/http.c:2004 src/http.c:2471
+#: src/http.c:1594
 #, c-format
 msgid ""
 "File %s already there; not retrieving.\n"
 "\n"
 msgstr ""
-"Fichier %s déjà présent; pas de récupération.\n"
+"Fichier %s dÃ©jÃ  prÃ©sentÂ ; pas de rÃ©cupÃ©ration.\n"
 "\n"
 
-#: src/http.c:2093
-msgid "Malformed status line"
-msgstr "Ligne d'état mal formée"
+#: src/http.c:1801
+msgid "gmtime failed. This is probably a bug.\n"
+msgstr ""
 
-#: src/http.c:2095
+#: src/http.c:1862
+msgid ""
+"Cannot convert timestamp to http format. Falling back to time 0 as last "
+"modification time.\n"
+msgstr ""
+
+#: src/http.c:1961
+#, c-format
+msgid "BODY data file %s missing: %s\n"
+msgstr "Fichier de donnÃ©es BODY %s manquantÂ : %s\n"
+
+#: src/http.c:2053
+#, c-format
+msgid "Reusing existing connection to [%s]:%d.\n"
+msgstr "RÃ©utilisation de la connexion existante Ã  [%s]:%d.\n"
+
+#: src/http.c:2058
+#, c-format
+msgid "Reusing existing connection to %s:%d.\n"
+msgstr "RÃ©utilisation de la connexion existante Ã  %s:%d.\n"
+
+#: src/http.c:2124
+#, c-format
+msgid "Failed reading proxy response: %s\n"
+msgstr ""
+"Ã‰chec de lecture de la rÃ©ponse du serveur mandataire (Â«Â proxyÂ Â»)Â : %s\n"
+
+#: src/http.c:2143 src/http.c:3380 src/http.c:4345
+#, c-format
+msgid "%s ERROR %d: %s.\n"
+msgstr "%s erreurÂ %dÂ : %s.\n"
+
+#: src/http.c:2145 src/http.c:3382 src/http.c:3584
+msgid "Malformed status line"
+msgstr "Ligne d'Ã©tat mal formÃ©e"
+
+#: src/http.c:2156
+#, c-format
+msgid "Proxy tunneling failed: %s"
+msgstr "Ã‰chec de tunnel du serveur mandataire (Â«Â proxyÂ Â»)Â : %s"
+
+#: src/http.c:2392
+msgid "Unknown authentication scheme.\n"
+msgstr "SchÃ©ma d'authentification inconnu.\n"
+
+#: src/http.c:2410
+#, c-format
+msgid "Authentication selected: %s\n"
+msgstr "Authentification sÃ©lectionnÃ©eÂ : %s\n"
+
+#: src/http.c:2541
+#, c-format
+msgid "Saving to: %s\n"
+msgstr "Sauvegarde enÂ : %s\n"
+
+#: src/http.c:2760
+#, c-format
+msgid ""
+"When downloading signature:\n"
+"%s: %s.\n"
+msgstr ""
+
+#: src/http.c:2796
+msgid "Unable to read signature content from temporary file. Skipping.\n"
+msgstr ""
+
+#: src/http.c:2819
+msgid "Could not create temporary file. Skipping signature download.\n"
+msgstr ""
+
+#: src/http.c:2853 src/http.c:2935
+#, c-format
+msgid "Invalid pri value. Assuming %d.\n"
+msgstr ""
+
+#: src/http.c:3039
+msgid ""
+"Could not find acceptable digest for Metalink resources.\n"
+"Ignoring them.\n"
+msgstr ""
+
+#: src/http.c:3176
+msgid "Disabling SSL due to encountered errors.\n"
+msgstr "DÃ©sactivation SSL Ã  cause des erreurs rencontrÃ©es.\n"
+
+#: src/http.c:3316
+#, c-format
+msgid "%s request sent, awaiting response... "
+msgstr "requÃªte %s transmise, en attente de la rÃ©ponseâ€¦ "
+
+#: src/http.c:3356
+msgid "No data received.\n"
+msgstr "Aucune donnÃ©e reÃ§ue.\n"
+
+#: src/http.c:3362
+#, c-format
+msgid "Read error (%s) in headers.\n"
+msgstr "Erreur de lecture (%s) dans les en-tÃªtes.\n"
+
+#: src/http.c:3586
 msgid "(no description)"
 msgstr "(pas de description)"
 
-#: src/http.c:2154
+#: src/http.c:3686
 #, c-format
 msgid "Location: %s%s\n"
-msgstr "Emplacement: %s%s\n"
+msgstr "EmplacementÂ : %s%s\n"
 
-#: src/http.c:2155 src/http.c:2263
+#: src/http.c:3687 src/http.c:3881
 msgid "unspecified"
-msgstr "non spécifié"
+msgstr "non indiquÃ©"
 
-#: src/http.c:2156
+#: src/http.c:3688
 msgid " [following]"
 msgstr " [suivant]"
 
-#: src/http.c:2208
+#: src/http.c:3787
+#, c-format
+msgid ""
+"File %s not modified on server. Omitting download.\n"
+"\n"
+msgstr ""
+
+#: src/http.c:3805
+#, c-format
+msgid ""
+"Server ignored If-Modified-Since header for file %s.\n"
+"You might want to add --no-if-modified-since option.\n"
+"\n"
+msgstr ""
+
+#: src/http.c:3825
 msgid ""
 "\n"
 "    The file is already fully retrieved; nothing to do.\n"
 "\n"
 msgstr ""
 "\n"
-"    Le fichier a déjà été complètement récupéré; rien à faire.\n"
+"    Le fichier a dÃ©jÃ  Ã©tÃ© complÃ¨tement rÃ©cupÃ©rÃ©Â ; rien Ã  faire.\n"
 "\n"
 
-#: src/http.c:2243
+#: src/http.c:3861
 msgid "Length: "
-msgstr "Longueur: "
+msgstr "TailleÂ : "
 
-#: src/http.c:2263
+#: src/http.c:3881
 msgid "ignored"
-msgstr "ignoré"
+msgstr "ignorÃ©"
 
-#: src/http.c:2365
-#, c-format
-msgid "Saving to: %s\n"
-msgstr "Sauvegarde en : %s\n"
-
-#: src/http.c:2447
+#: src/http.c:4045
 msgid "Warning: wildcards not supported in HTTP.\n"
-msgstr "AVERTISSEMENT: les métacaractères ne sont pas supportés en HTTP.\n"
+msgstr "AvertissementÂ : les jokers ne sont pas permis en HTTP.\n"
 
-#: src/http.c:2518
+#: src/http.c:4127
 msgid "Spider mode enabled. Check if remote file exists.\n"
-msgstr "Mode \"spider\" activé. Test de l'existence d'un fichier distant.\n"
+msgstr ""
+"Mode Â«Â spiderÂ Â» activÃ©. VÃ©rification de l'existence d'un fichier distant.\n"
 
-#: src/http.c:2603
+#: src/http.c:4215
 #, c-format
 msgid "Cannot write to %s (%s).\n"
-msgstr "Impossible d'écrire dans %s (%s).\n"
+msgstr "Impossible d'Ã©crire dans %s (%s).\n"
 
-#: src/http.c:2612
+#: src/http.c:4226
+msgid "Required attribute missing from Header received.\n"
+msgstr "Attribut nÃ©cessaire manquant dans lâ€™en-tÃªte reÃ§u.\n"
+
+#: src/http.c:4231
+msgid "Username/Password Authentication Failed.\n"
+msgstr "Ã‰chec dâ€™authentification par identifiant et mot de passe.\n"
+
+#: src/http.c:4237
+msgid "Cannot write to WARC file.\n"
+msgstr "Impossible d'Ã©crire dans le fichier WARC.\n"
+
+#: src/http.c:4243
+msgid "Cannot write to temporary WARC file.\n"
+msgstr "Impossible d'Ã©crire dans le fichier WARC temporaire.\n"
+
+#: src/http.c:4248
 msgid "Unable to establish SSL connection.\n"
-msgstr "Incapable d'établir une connexion SSL.\n"
+msgstr "Incapable d'Ã©tablir une connexion SSL.\n"
 
-#: src/http.c:2620
+#: src/http.c:4254
+#, c-format
+msgid "Cannot unlink %s (%s).\n"
+msgstr "Impossible de supprimer le lien %s (%s).\n"
+
+#: src/http.c:4264
 #, c-format
 msgid "ERROR: Redirection (%d) without location.\n"
-msgstr "ERREUR: redirection (%d) sans destination.\n"
+msgstr "ErreurÂ : redirection (%d) sans destination.\n"
 
-#: src/http.c:2668
+#: src/http.c:4286
+msgid ""
+"Could not find Metalink data in HTTP response. Downloading file using HTTP "
+"GET.\n"
+msgstr ""
+
+#: src/http.c:4295
+msgid "Metalink headers found. Switching to Metalink mode.\n"
+msgstr ""
+
+#: src/http.c:4335
 msgid "Remote file does not exist -- broken link!!!\n"
-msgstr "Le fichier distant n'existe pas -- lien mort!!!\n"
+msgstr "Le fichier distant n'existe pas â€” lien mort.\n"
 
-#: src/http.c:2673
-#, c-format
-msgid "%s ERROR %d: %s.\n"
-msgstr "%s ERREUR %d: %s.\n"
-
-#: src/http.c:2690
+#: src/http.c:4362
 msgid "Last-modified header missing -- time-stamps turned off.\n"
-msgstr "En-tête de dernière modification manquant -- horodatage ignoré.\n"
+msgstr "En-tÃªte de derniÃ¨re modification manquant â€” horodatage arrÃªtÃ©.\n"
 
-#: src/http.c:2698
+#: src/http.c:4370
 msgid "Last-modified header invalid -- time-stamp ignored.\n"
-msgstr "En-tête de dernière modification erroné -- horodatage ignoré.\n"
+msgstr "En-tÃªte de derniÃ¨re modification incorrect â€” horodatage ignorÃ©.\n"
 
-#: src/http.c:2728
+#: src/http.c:4400
 #, c-format
 msgid ""
 "Server file no newer than local file %s -- not retrieving.\n"
 "\n"
 msgstr ""
-"Fichier du serveur pas plus récent que le fichier local %s -- non récupéré.\n"
+"Le fichier du serveur n'est pas plus rÃ©cent que le fichier local %s â€” pas de "
+"rÃ©cupÃ©ration.\n"
 "\n"
 
-#: src/http.c:2736
+#: src/http.c:4408
 #, c-format
 msgid "The sizes do not match (local %s) -- retrieving.\n"
-msgstr "Les tailles ne concordent pas (local %s) -- récupération.\n"
+msgstr "Les tailles ne correspondent pas (%s localement) â€” rÃ©cupÃ©ration.\n"
 
-#: src/http.c:2743
+#: src/http.c:4417
 msgid "Remote file is newer, retrieving.\n"
-msgstr "Le fichier distant est plus récent, récupération.\n"
+msgstr "Le fichier distant est plus rÃ©cent, rÃ©cupÃ©ration.\n"
 
-#: src/http.c:2760
+#: src/http.c:4435
 msgid ""
 "Remote file exists and could contain links to other resources -- "
 "retrieving.\n"
 "\n"
 msgstr ""
-"Le fichier distant existe et doit contenir des liens vers d'autres "
-"ressources - récupération en cours.\n"
+"Le fichier distant existe et pourrait contenir des liens vers d'autres "
+"ressources â€” rÃ©cupÃ©ration en cours.\n"
 "\n"
 
-#: src/http.c:2766
+#: src/http.c:4441
 msgid ""
 "Remote file exists but does not contain any link -- not retrieving.\n"
 "\n"
 msgstr ""
-"Le fichier distant existe mais ne contient aucun lien - récupération "
-"abandonnée.\n"
+"Le fichier distant existe mais ne contient aucun lien â€” pas de "
+"rÃ©cupÃ©ration.\n"
 "\n"
 
-#: src/http.c:2775
+#: src/http.c:4450
 msgid ""
 "Remote file exists and could contain further links,\n"
 "but recursion is disabled -- not retrieving.\n"
 "\n"
 msgstr ""
 "Le fichier distant existe et pourrait contenir plusieurs liens,\n"
-"mais l'analyse récursive est désactivée -- abandon de la récupération.\n"
+"mais le mode rÃ©cursif est dÃ©sactivÃ©e â€” pas de rÃ©cupÃ©ration.\n"
 "\n"
 
-#: src/http.c:2781
+#: src/http.c:4456
 msgid ""
 "Remote file exists.\n"
 "\n"
@@ -844,1298 +1270,2125 @@ msgstr ""
 "Le fichier distant existe.\n"
 "\n"
 
-#: src/http.c:2790
+#: src/http.c:4465
 #, c-format
 msgid "%s URL: %s %2d %s\n"
-msgstr "%s URL: %s %2d %s\n"
+msgstr "URL %sÂ : %s %2d %s\n"
 
-#: src/http.c:2837
+#: src/http.c:4515
 #, c-format
 msgid ""
 "%s (%s) - written to stdout %s[%s/%s]\n"
 "\n"
 msgstr ""
-"%s (%s) - envoi vers sortie standard %s[%s/%s]\n"
+"%s (%s) â€” envoi vers sortie standard %s[%s/%s]\n"
 "\n"
 
-#: src/http.c:2838
+#: src/http.c:4516
 #, c-format
 msgid ""
 "%s (%s) - %s saved [%s/%s]\n"
 "\n"
 msgstr ""
-"%s (%s) - %s sauvegardé [%s/%s]\n"
+"%s (%s) â€” %s sauvegardÃ© [%s/%s]\n"
 "\n"
 
-#: src/http.c:2899
+#: src/http.c:4577
 #, c-format
 msgid "%s (%s) - Connection closed at byte %s. "
-msgstr "%s (%s) - Fermeture de la connexion à l'octet %s. "
+msgstr "%s (%s) â€” Fermeture de la connexion Ã  l'octet %s. "
 
-#: src/http.c:2922
+#: src/http.c:4600
 #, c-format
 msgid "%s (%s) - Read error at byte %s (%s)."
-msgstr "%s (%s) - ERREUR de lecture à l'octet %s (%s)."
+msgstr "%s (%s) â€” Erreur de lecture Ã  l'octet %s (%s)."
 
-#: src/http.c:2931
+#: src/http.c:4609
 #, c-format
 msgid "%s (%s) - Read error at byte %s/%s (%s). "
-msgstr "%s (%s) - ERREUR de lecture à l'octet %s/%s (%s)."
+msgstr "%s (%s) â€” Erreur de lecture Ã  l'octet %s/%s (%s)."
 
-#: src/init.c:406
+#: src/http.c:4847
+#, c-format
+msgid "Unsupported quality of protection '%s'.\n"
+msgstr "QualitÃ© de protection Â«Â %sÂ Â» non prise en charge.\n"
+
+#: src/http.c:4852
+#, c-format
+msgid "Unsupported algorithm '%s'.\n"
+msgstr "Algorithme Â«Â %sÂ Â» non pris en charge.\n"
+
+#: src/init.c:571
 #, c-format
 msgid "%s: WGETRC points to %s, which doesn't exist.\n"
-msgstr "%s: WGETRC pointe vers %s lequel n'existe pas.\n"
+msgstr "%sÂ : WGETRC pointe vers %s qui n'existe pas.\n"
 
-#: src/init.c:510 src/netrc.c:282
+#: src/init.c:672 src/netrc.c:246
 #, c-format
 msgid "%s: Cannot read %s (%s).\n"
-msgstr "%s: ne peut lire %s (%s).\n"
+msgstr "%sÂ : impossible de lire %s (%s).\n"
 
-#: src/init.c:527
+#: src/init.c:689
 #, c-format
 msgid "%s: Error in %s at line %d.\n"
-msgstr "%s: ERREUR dans %s à la ligne %d.\n"
+msgstr "%sÂ : erreur dans %s Ã  la ligneÂ %d.\n"
 
-#: src/init.c:533
+#: src/init.c:695
 #, c-format
 msgid "%s: Syntax error in %s at line %d.\n"
-msgstr "%s: ERREUR de syntaxe dans %s à la ligne %d.\n"
+msgstr "%sÂ : erreur de syntaxe dans %s Ã  la ligneÂ %d.\n"
 
-#: src/init.c:538
+#: src/init.c:700
 #, c-format
 msgid "%s: Unknown command %s in %s at line %d.\n"
-msgstr "%s : commande inconnue %s  dans %s à la ligne %d.\n"
+msgstr "%sÂ : commande inconnue %s dans %s Ã  la ligneÂ %d.\n"
 
-#: src/init.c:587
+#: src/init.c:737
+#, c-format
+msgid ""
+"Parsing system wgetrc file (env SYSTEM_WGETRC) failed.  Please check\n"
+"'%s',\n"
+"or specify a different file using --config.\n"
+msgstr ""
+"Ã‰chec d'analyse du fichier systÃ¨me wgetrc (variable d'environnement "
+"SYSTEM_WGETRC). Veuillez vÃ©rifier\n"
+"Â«Â %sÂ Â»,\n"
+"ou indiquer un autre fichier avec --config.\n"
+
+#: src/init.c:752
+#, c-format
+msgid ""
+"Parsing system wgetrc file failed.  Please check\n"
+"'%s',\n"
+"or specify a different file using --config.\n"
+msgstr ""
+"Ã‰chec d'analyse du fichier systÃ¨me wgetrc. Veuillez vÃ©rifier\n"
+"Â«Â %sÂ Â»,\n"
+"ou indiquer un autre fichier avec --config.\n"
+
+#: src/init.c:768
 #, c-format
 msgid "%s: Warning: Both system and user wgetrc point to %s.\n"
 msgstr ""
-"%s : ATTENTION, \"wgetrc\" du système ET de l'usager pointent vers %s.\n"
+"%sÂ : avertissementÂ : le wgetrc du systÃ¨me et celui de l'utilisateur pointent "
+"vers %s.\n"
 
-#: src/init.c:777
+#: src/init.c:962
 #, c-format
 msgid "%s: Invalid --execute command %s\n"
-msgstr "%s : commande --execute non valide %s\n"
+msgstr "%sÂ : commande --execute %s incorrecte\n"
 
-#: src/init.c:822
+#: src/init.c:1023
 #, c-format
 msgid "%s: %s: Invalid boolean %s; use `on' or `off'.\n"
-msgstr "%s : %s : booléen non valide %s ; utiliser « on » ou « off ».\n"
+msgstr "%sÂ : %sÂ : valeur logique %s incorrecteÂ ; utilisez Â«Â onÂ Â» ou Â«Â offÂ Â».\n"
 
-#: src/init.c:839
+#: src/init.c:1056
+#, c-format
+msgid "%s: %s: Invalid %s; use `on', `off' or `quiet'.\n"
+msgstr "%sÂ : %sÂ : %s incorrecteÂ ; utilisez Â«Â onÂ Â» ou Â«Â offÂ Â».\n"
+
+#: src/init.c:1074
 #, c-format
 msgid "%s: %s: Invalid number %s.\n"
-msgstr "%s : %s : nombre %s non valide.\n"
+msgstr "%sÂ : %sÂ : nombre %s incorrect.\n"
 
-#: src/init.c:1044 src/init.c:1063
+#: src/init.c:1155
+#, c-format
+msgid "%s: %s must only be used once\n"
+msgstr "%sÂ : %s ne peut Ãªtre utilisÃ©e quâ€™une fois\n"
+
+#: src/init.c:1310 src/init.c:1329
 #, c-format
 msgid "%s: %s: Invalid byte value %s\n"
-msgstr "%s : %s : valeur d'octet non valide %s.\n"
+msgstr "%sÂ : %sÂ : valeur d'octet %s incorrecte\n"
 
-#: src/init.c:1088
+#: src/init.c:1354
 #, c-format
 msgid "%s: %s: Invalid time period %s\n"
-msgstr "%s : %s : période de temps non valide %s.\n"
+msgstr "%sÂ : %sÂ : pÃ©riode de temps %s incorrecte\n"
 
-#: src/init.c:1142 src/init.c:1232 src/init.c:1340 src/init.c:1365
+#: src/init.c:1416 src/main.c:1830
+#, c-format
+msgid ""
+"use-askpass requires a string or either environment variable WGET_ASKPASS or "
+"SSH_ASKPASS to be set.\n"
+msgstr ""
+
+#: src/init.c:1434 src/init.c:1545 src/init.c:1601 src/init.c:1667
+#: src/init.c:1686 src/init.c:1711
 #, c-format
 msgid "%s: %s: Invalid value %s.\n"
-msgstr "%s : %s : valeur non valide %s.\n"
+msgstr "%sÂ : %sÂ : valeur %s incorrecte.\n"
 
-#: src/init.c:1179
+#: src/init.c:1471
 #, c-format
 msgid "%s: %s: Invalid header %s.\n"
-msgstr "%s : %s : en-tête non valide %s.\n"
+msgstr "%sÂ : %sÂ : en-tÃªte %s incorrect.\n"
 
-#: src/init.c:1245
+#: src/init.c:1492
+#, c-format
+msgid "%s: %s: Invalid WARC header %s.\n"
+msgstr "%sÂ : %sÂ : en-tÃªte WARC %s incorrect.\n"
+
+#: src/init.c:1558
 #, c-format
 msgid "%s: %s: Invalid progress type %s.\n"
-msgstr "%s : %s : type de progression non valide %s.\n"
+msgstr "%sÂ : %sÂ : type de progression %s incorrect.\n"
 
-#: src/init.c:1306
+#: src/init.c:1640
 #, c-format
 msgid ""
 "%s: %s: Invalid restriction %s,\n"
-"    use [unix|windows],[lowercase|uppercase],[nocontrol],[ascii].\n"
+"    use [unix|vms|windows],[lowercase|uppercase],[nocontrol],[ascii].\n"
 msgstr ""
-"%s : %s : restriction non valide %s,\n"
-"    utiliser [unix|windows],[lowercase|uppercase],[nocontrol],[ascii].\n"
+"%sÂ : %sÂ : restriction %s incorrecte,\n"
+"     utilisez [unix|vms|windows],[lowercase|uppercase],[nocontrol],[ascii].\n"
 
-#: src/iri.c:103
+#: src/iri.c:112
 #, c-format
 msgid "Encoding %s isn't valid\n"
-msgstr "L'encodage %s n'est pas valide\n"
+msgstr "L'encodage %s est incorrect\n"
 
-#: src/iri.c:131
-msgid "locale_to_utf8: locale is unset\n"
-msgstr "locale_to_utf8 : la varaiable \"locale\" n'est pas positionnée\n"
-
-#: src/iri.c:141
+#: src/iri.c:137 src/url.c:1566
 #, c-format
 msgid "Conversion from %s to %s isn't supported\n"
-msgstr "La conversion de %s à %s n'est pas supportée\n"
+msgstr "La conversion de %s vers %s n'est pas prise en charge\n"
 
-#: src/iri.c:182
+#: src/iri.c:177 src/url.c:1592
 msgid "Incomplete or invalid multibyte sequence encountered\n"
-msgstr "Séquence multi-octets incomplète ou non valide rencontrée\n"
+msgstr "SÃ©quence multioctet incomplÃ¨te ou incorrecte rencontrÃ©e\n"
 
-#: src/iri.c:207
+#: src/iri.c:196 src/url.c:1606
 #, c-format
 msgid "Unhandled errno %d\n"
-msgstr "Erreur num. %d (errno) non gérée\n"
+msgstr "ErreurÂ %d (errno) non gÃ©rÃ©e\n"
 
-#: src/iri.c:236
+#: src/iri.c:224
+msgid "locale_to_utf8: locale is unset\n"
+msgstr "locale_to_utf8Â : les paramÃ¨tres rÃ©gionaux ne sont pas dÃ©finis\n"
+
+#: src/iri.c:266 src/iri.c:282
 #, c-format
 msgid "idn_encode failed (%d): %s\n"
-msgstr "échec de \"idn_encode\" (%d) : %s\n"
+msgstr "Ã‰chec d'idn_encode (%d)Â : %s\n"
 
-#: src/iri.c:255
-#, c-format
-msgid "idn_decode failed (%d): %s\n"
-msgstr "échec de \"idn_decode\" (%d) : %s\n"
+#: src/iri.c:274
+#, fuzzy, c-format
+msgid "Failed to convert to lower: %d: %s\n"
+msgstr "impossible d'Ã©tablir la connexion Ã  %s sur le portÂ %dÂ : %s\n"
 
-#: src/log.c:809
-#, c-format
+#: src/log.c:921 src/log.c:940
+#, fuzzy, c-format
 msgid ""
 "\n"
-"%s received, redirecting output to %s.\n"
+"Redirecting output to %s.\n"
 msgstr ""
 "\n"
-"reçu %s, redirection de la sortie vers %s.\n"
+"%s reÃ§u, redirection de la sortie vers %s.\n"
 
-#: src/log.c:819
-#, c-format
-msgid ""
-"\n"
-"%s received.\n"
-msgstr ""
-"\n"
-"%s reçu.\n"
-
-#: src/log.c:820
+#: src/log.c:933
 #, c-format
 msgid "%s: %s; disabling logging.\n"
-msgstr "%s: %s; désactivation de la journalisation.\n"
+msgstr "%sÂ : %sÂ ; dÃ©sactivation de la journalisation.\n"
 
-#: src/main.c:386
+#: src/main.c:554
 #, c-format
 msgid "Usage: %s [OPTION]... [URL]...\n"
-msgstr "Usage: %s [OPTION]... [URL]...\n"
+msgstr "UtilisationÂ : %s [OPTION]... [URL]...\n"
 
-#: src/main.c:398
+#: src/main.c:566
 msgid ""
 "Mandatory arguments to long options are mandatory for short options too.\n"
 "\n"
 msgstr ""
-"Les arguments obligatoires pour les options de format long le sont\n"
-"aussi pour les options de format court.\n"
+"Les arguments obligatoires pour les options au format long le sont\n"
+"aussi pour les options au format court.\n"
 "\n"
 
-#: src/main.c:400
+#: src/main.c:568
 msgid "Startup:\n"
-msgstr "Démarrage:\n"
+msgstr "DÃ©marrageÂ :\n"
 
-#: src/main.c:402
-msgid "  -V,  --version           display the version of Wget and exit.\n"
-msgstr "  -V,  --version           afficher la version de Wget et quitter.\n"
-
-#: src/main.c:404
-msgid "  -h,  --help              print this help.\n"
-msgstr "  -h,  --help              afficher l'aide-mémoire.\n"
-
-#: src/main.c:406
-msgid "  -b,  --background        go to background after startup.\n"
-msgstr ""
-"  -b,  --background        passer à l'arrière plan après le démarrage.\n"
-
-#: src/main.c:408
-msgid "  -e,  --execute=COMMAND   execute a `.wgetrc'-style command.\n"
-msgstr "  -e,  --execute=COMMANDE  exécuter une commande `.wgetrc'-style\n"
-
-#: src/main.c:412
-msgid "Logging and input file:\n"
-msgstr "Journalisation et fichier d'entrée:\n"
-
-#: src/main.c:414
-msgid "  -o,  --output-file=FILE    log messages to FILE.\n"
-msgstr ""
-"  -o,  --output-file=FICHIER journaliser les messages dans le FICHIER.\n"
-
-#: src/main.c:416
-msgid "  -a,  --append-output=FILE  append messages to FILE.\n"
-msgstr "  -a,  --append-output=FICHIER accoler les messages au FICHIER.\n"
-
-#: src/main.c:419
-msgid "  -d,  --debug               print lots of debugging information.\n"
-msgstr ""
-"  -d,  --debug               afficher beaucoup d'informations de débogage.\n"
-
-#: src/main.c:423
-msgid "       --wdebug              print Watt-32 debug output.\n"
-msgstr "       --wdebug              affiche la sortie de débogage Watt-32.\n"
-
-#: src/main.c:426
-msgid "  -q,  --quiet               quiet (no output).\n"
-msgstr ""
-"  -q,  --quiet               exécuter en mode silencieux (sans sortie "
-"d'affichage).\n"
-
-#: src/main.c:428
-msgid "  -v,  --verbose             be verbose (this is the default).\n"
-msgstr ""
-"  -v,  --verbose             exécuter en mode bavard (mode par défaut).\n"
-
-#: src/main.c:430
+#: src/main.c:570
 msgid ""
-"  -nv, --no-verbose          turn off verboseness, without being quiet.\n"
+"  -V,  --version                   display the version of Wget and exit\n"
 msgstr ""
-"  -nv, --no-verbose          éteindre le mode bavard, sans être silencieux.\n"
+"  -V,  --version                   afficher la version de Wget et quitter\n"
 
-#: src/main.c:432
-msgid ""
-"  -i,  --input-file=FILE     download URLs found in local or external FILE.\n"
+#: src/main.c:572
+msgid "  -h,  --help                      print this help\n"
+msgstr "  -h,  --help                      afficher l'aide-mÃ©moire\n"
+
+#: src/main.c:574
+msgid "  -b,  --background                go to background after startup\n"
 msgstr ""
-"  -i,  --input-file=FIC       télécharge les URLs trouvées dans FIChier "
-"local ou externe.\n"
-
-#: src/main.c:434
-msgid "  -F,  --force-html          treat input file as HTML.\n"
-msgstr ""
-"  -F,  --force-html          traiter le fichier d'entrée comme du HTML.\n"
-
-#: src/main.c:436
-msgid ""
-"  -B,  --base=URL            resolves HTML input-file links (-i -F)\n"
-"                             relative to URL.\n"
-msgstr ""
-"  -B,  --base=URL            résout les liens HTML du fichier en\n"
-"                             entrée (-i -F) relativement à URL,\n"
-
-#: src/main.c:441
-msgid "Download:\n"
-msgstr "Téléchargement :\n"
-
-#: src/main.c:443
-msgid ""
-"  -t,  --tries=NUMBER            set number of retries to NUMBER (0 "
-"unlimits).\n"
-msgstr ""
-"  -t,  --tries=NOMBRE            fixer le NOMBRE de tentatives de reprises "
-"(0 : sans limite).\n"
-
-#: src/main.c:445
-msgid "       --retry-connrefused       retry even if connection is refused.\n"
-msgstr ""
-"       --retry-connrefused       ré-essayer même si la connexion est "
-"refusée.\n"
-
-#: src/main.c:447
-msgid "  -O,  --output-document=FILE    write documents to FILE.\n"
-msgstr ""
-"  -O,  --output-document=FICHIER écrire les documents dans le FICHIER.\n"
-
-#: src/main.c:449
-msgid ""
-"  -nc, --no-clobber              skip downloads that would download to\n"
-"                                 existing files.\n"
-msgstr ""
-"  -nc, --no-clobber              escamoter les téléchargements de fichiers\n"
-"                                             déjà existants.\n"
-
-#: src/main.c:452
-msgid ""
-"  -c,  --continue                resume getting a partially-downloaded "
-"file.\n"
-msgstr ""
-"  -c,  --continue                poursuivre le téléchargement d'un fichier "
-"partiellement téléchargé.\n"
-
-#: src/main.c:454
-msgid "       --progress=TYPE           select progress gauge type.\n"
-msgstr ""
-"       --progress=TYPE           sélectionner le type de jauge de "
-"progression de téléchargement.\n"
-
-#: src/main.c:456
-msgid ""
-"  -N,  --timestamping            don't re-retrieve files unless newer than\n"
-"                                 local.\n"
-msgstr ""
-"  -N,  --timestamping            ne pas re-télécharger les fichiers à moins "
-"que\n"
-"                                 qu'il y en ait de plus récents que les "
-"locaux.\n"
-
-#: src/main.c:459
-msgid "  -S,  --server-response         print server response.\n"
-msgstr "  -S,  --server-response         afficher la réponse du serveur.\n"
-
-#: src/main.c:461
-msgid "       --spider                  don't download anything.\n"
-msgstr "       --spider                  ne rien télécharger.\n"
-
-#: src/main.c:463
-msgid "  -T,  --timeout=SECONDS         set all timeout values to SECONDS.\n"
-msgstr ""
-"  -T,  --timeout=SECONDES        fixer toutes les valeurs de délai maximal "
-"d'attente à SECONDES.\n"
-
-#: src/main.c:465
-msgid "       --dns-timeout=SECS        set the DNS lookup timeout to SECS.\n"
-msgstr ""
-"       --dns-timeout=SECS        fixer le délai maximal d'attente de "
-"recherche DNS à SECS.\n"
-
-#: src/main.c:467
-msgid "       --connect-timeout=SECS    set the connect timeout to SECS.\n"
-msgstr ""
-"       --connect-timeout=SECS    fixer le délai maximal d'attente de "
-"connexion à SECS.\n"
-
-#: src/main.c:469
-msgid "       --read-timeout=SECS       set the read timeout to SECS.\n"
-msgstr ""
-"       --read-timeout=SECS       fixer le délai maximal d'attente de lecture "
-"à SECS.\n"
-
-#: src/main.c:471
-msgid "  -w,  --wait=SECONDS            wait SECONDS between retrievals.\n"
-msgstr "  -w,  --wait=SECONDES           attendre SECONDES entre les essais.\n"
-
-#: src/main.c:473
-msgid ""
-"       --waitretry=SECONDS       wait 1..SECONDS between retries of a "
-"retrieval.\n"
-msgstr ""
-"       --waitretry=SECONDES      attendre 1..SECONDES entre les essais d'une "
-"récupération.\n"
-
-#: src/main.c:475
-msgid ""
-"       --random-wait             wait from 0...2*WAIT secs between "
-"retrievals.\n"
-msgstr ""
-"       --random-wait             attendre 0...2*ATTENTE secondes entre les "
-"récupérations.\n"
-
-#: src/main.c:477
-msgid "       --no-proxy                explicitly turn off proxy.\n"
-msgstr "       --no-proxy                désactivier explicitement le proxy.\n"
-
-#: src/main.c:479
-msgid "  -Q,  --quota=NUMBER            set retrieval quota to NUMBER.\n"
-msgstr ""
-"  -Q,  --quota=NOMBRE            fixer le quota de récupération à NOMBRE.\n"
-
-#: src/main.c:481
-msgid ""
-"       --bind-address=ADDRESS    bind to ADDRESS (hostname or IP) on local "
-"host.\n"
-msgstr ""
-"       --bind-address=ADRESSE    lier à l'ADRESSE (nom d'hôte ou adresse IP) "
-"sur l'hôte local.\n"
-
-#: src/main.c:483
-msgid "       --limit-rate=RATE         limit download rate to RATE.\n"
-msgstr "       --limit-rate=TAUX         limiter le TAUX de téléchargement.\n"
-
-#: src/main.c:485
-msgid "       --no-dns-cache            disable caching DNS lookups.\n"
-msgstr ""
-"       --no-dns-cache            désactiver la mise en cache des résultats "
-"de recherche DNS.\n"
-
-#: src/main.c:487
-msgid ""
-"       --restrict-file-names=OS  restrict chars in file names to ones OS "
-"allows.\n"
-msgstr ""
-"       --restrict-file-names=OS  restreindre les caractères dans les noms de "
-"fichier à ceux permis par l'OS.\n"
-
-#: src/main.c:489
-msgid ""
-"       --ignore-case             ignore case when matching files/"
-"directories.\n"
-msgstr ""
-"       --ignore-case             ignore la casse des caractères lors de "
-"l'examen des fichiers/répertoires.\n"
-
-#: src/main.c:492
-msgid "  -4,  --inet4-only              connect only to IPv4 addresses.\n"
-msgstr ""
-"  -4,  --inet4-only              connecter seulement sur des adresses IPv4.\n"
-
-#: src/main.c:494
-msgid "  -6,  --inet6-only              connect only to IPv6 addresses.\n"
-msgstr ""
-"  -6,  --inet6-only              connnecter seulement sur des adresses "
-"IPv6.\n"
-
-#: src/main.c:496
-msgid ""
-"       --prefer-family=FAMILY    connect first to addresses of specified "
-"family,\n"
-"                                 one of IPv6, IPv4, or none.\n"
-msgstr ""
-"       --prefer-family=FAMILLE   connecter d'abord sur des adresses de la "
-"FAMILLE,\n"
-"                                 soit IPv6, IPv4 ou none (pour aucun).\n"
-
-#: src/main.c:500
-msgid "       --user=USER               set both ftp and http user to USER.\n"
-msgstr ""
-"       --user=USAGER             fixer l'utilisateur à USAGER pour ftp et "
-"http.\n"
-
-#: src/main.c:502
-msgid ""
-"       --password=PASS           set both ftp and http password to PASS.\n"
-msgstr ""
-"       --password=MOT_DE_PASSE   fixer le MOT_DE_PASSE pour ftp et http.\n"
-
-#: src/main.c:504
-msgid "       --ask-password            prompt for passwords.\n"
-msgstr "       --ask-password            demander les mots de passe.\n"
-
-#: src/main.c:506
-msgid "       --no-iri                  turn off IRI support.\n"
-msgstr "       --no-iri                  désactive le support des IRIs.\n"
-
-#: src/main.c:508
-msgid ""
-"       --local-encoding=ENC      use ENC as the local encoding for IRIs.\n"
-msgstr ""
-"       --local-encoding=ENC      utiliser l'encodage local ENC pour les "
-"IRIs.\n"
-
-#: src/main.c:510
-msgid ""
-"       --remote-encoding=ENC     use ENC as the default remote encoding.\n"
-msgstr ""
-"       --remote-encoding=ENC     utiliser l'encodage distant ENC par "
-"défaut.\n"
-
-#: src/main.c:514
-msgid "Directories:\n"
-msgstr "Répertoires :\n"
-
-#: src/main.c:516
-msgid "  -nd, --no-directories           don't create directories.\n"
-msgstr "  -nd, --no-directories           ne pas créer de répertoires.\n"
-
-#: src/main.c:518
-msgid "  -x,  --force-directories        force creation of directories.\n"
-msgstr "  -x,  --force-directories        forcer la création de répertoires.\n"
-
-#: src/main.c:520
-msgid "  -nH, --no-host-directories      don't create host directories.\n"
-msgstr ""
-"  -nH, --no-host-directories      ne pas créer de répertoires sur l'hôte.\n"
-
-#: src/main.c:522
-msgid "       --protocol-directories     use protocol name in directories.\n"
-msgstr ""
-"       --protocol-directories     utiliser le nom du protocole dans les "
-"répertoires.\n"
-
-#: src/main.c:524
-msgid "  -P,  --directory-prefix=PREFIX  save files to PREFIX/...\n"
-msgstr ""
-"  -P,  --directory-prefix=PRÉFIXE sauvegarder les fichiers avec PRÉFIXE/...\n"
-
-#: src/main.c:526
-msgid ""
-"       --cut-dirs=NUMBER          ignore NUMBER remote directory "
-"components.\n"
-msgstr ""
-"       --cut-dirs=NOMBRE          ignorer le NOMBRE de composants des "
-"répertoires distants.\n"
-
-#: src/main.c:530
-msgid "HTTP options:\n"
-msgstr "options HTTP :\n"
-
-#: src/main.c:532
-msgid "       --http-user=USER        set http user to USER.\n"
-msgstr "       --http-user=USAGER      fixer l'USAGER http.\n"
-
-#: src/main.c:534
-msgid "       --http-password=PASS    set http password to PASS.\n"
-msgstr "       --http-password=MDP    fixer le MDP (mot de passe) http.\n"
-
-#: src/main.c:536
-msgid "       --no-cache              disallow server-cached data.\n"
-msgstr ""
-"       --no-cache              interdire les données mise en cache sur le "
-"serveur.\n"
-
-#: src/main.c:538
-msgid ""
-"       --default-page=NAME     Change the default page name (normally\n"
-"                               this is `index.html'.).\n"
-msgstr ""
-"       --default-page=NOM      Change le nom de la page par défaut\n"
-"                               (normalement \"index.html\").\n"
-
-#: src/main.c:541
-msgid ""
-"  -E,  --adjust-extension      save HTML/CSS documents with proper "
-"extensions.\n"
-msgstr ""
-"  -E,  --adjust-extension      sauver les documents HTML avec l'extension "
-"adaptée.\n"
-
-#: src/main.c:543
-msgid "       --ignore-length         ignore `Content-Length' header field.\n"
-msgstr ""
-"       --ignore-length         ignorer le champ de l'en-tête `Content-"
-"Length'.\n"
-
-#: src/main.c:545
-msgid "       --header=STRING         insert STRING among the headers.\n"
-msgstr "       --header=CHAÎNE         insérer la CHAÎNE parmi les en-têtes.\n"
-
-#: src/main.c:547
-msgid "       --max-redirect          maximum redirections allowed per page.\n"
-msgstr ""
-"       --max-redirect          nbr maximum de redirections autorisées par "
-"page.\n"
-
-#: src/main.c:549
-msgid "       --proxy-user=USER       set USER as proxy username.\n"
-msgstr "       --proxy-user=USAGER     fixer le nom d'USAGER proxy.\n"
-
-#: src/main.c:551
-msgid "       --proxy-password=PASS   set PASS as proxy password.\n"
-msgstr "       --proxy-password=MDP    fixer le MDP (mot de passe) du proxy.\n"
-
-#: src/main.c:553
-msgid ""
-"       --referer=URL           include `Referer: URL' header in HTTP "
-"request.\n"
-msgstr ""
-"       --referer=URL           inclure l'en-tête `Referer: URL' dans la "
-"requête HTTP.\n"
-
-#: src/main.c:555
-msgid "       --save-headers          save the HTTP headers to file.\n"
-msgstr ""
-"       --save-headers          sauvegarder les en-têtes HTTP dans le "
-"fichier.\n"
-
-#: src/main.c:557
-msgid ""
-"  -U,  --user-agent=AGENT      identify as AGENT instead of Wget/VERSION.\n"
-msgstr ""
-"  -U,  --user-agent=AGENT      s'identifier comme AGENT au lieu de Wget/"
-"VERSION.\n"
-
-#: src/main.c:559
-msgid ""
-"       --no-http-keep-alive    disable HTTP keep-alive (persistent "
-"connections).\n"
-msgstr ""
-"       --no-http-keep-alive    désactiver l'option HTTP keep-alive "
-"(connexions persistentes).\n"
-
-#: src/main.c:561
-msgid "       --no-cookies            don't use cookies.\n"
-msgstr "       --no-cookies            ne pas utiliser les cookies.\n"
-
-#: src/main.c:563
-msgid "       --load-cookies=FILE     load cookies from FILE before session.\n"
-msgstr ""
-"       --load-cookies=FICHIER  charger les cookies à partir du FICHIER avant "
-"la session.\n"
-
-#: src/main.c:565
-msgid "       --save-cookies=FILE     save cookies to FILE after session.\n"
-msgstr ""
-"       --save-cookies=FICHIER  sauvegarder les cookies dans le FICHIER après "
-"la session.\n"
-
-#: src/main.c:567
-msgid ""
-"       --keep-session-cookies  load and save session (non-permanent) "
-"cookies.\n"
-msgstr ""
-"       --keep-session-cookies  charger et sauvegarder les cookies de session "
-"non permanents.\n"
-
-#: src/main.c:569
-msgid ""
-"       --post-data=STRING      use the POST method; send STRING as the "
-"data.\n"
-msgstr ""
-"       --post-data=CHAÎNE      utiliser une méthode POST; transmettre la "
-"CHAÎNE\n"
-"                                                 comme des données.\n"
-
-#: src/main.c:571
-msgid ""
-"       --post-file=FILE        use the POST method; send contents of FILE.\n"
-msgstr ""
-"       --post-file=FICHIER     utiliser une méthode POST; transmettre le "
-"contenu du FICHIER.\n"
-
-#: src/main.c:573
-msgid ""
-"       --content-disposition   honor the Content-Disposition header when\n"
-"                               choosing local file names (EXPERIMENTAL).\n"
-msgstr ""
-"       --content-disposition   tient compte de l'entête \"Content-Disposition"
-"\" pour\n"
-"                               le choix des noms de fichiers locaux "
-"(EXPERIMENTAL).\n"
+"  -b,  --background                passer en arriÃ¨re plan aprÃ¨s le "
+"dÃ©marrage\n"
 
 #: src/main.c:576
+msgid "  -e,  --execute=COMMAND           execute a `.wgetrc'-style command\n"
+msgstr ""
+"  -e,  --execute=COMMANDE          exÃ©cuter une commande de type Â«Â ."
+"wgetrcÂ Â»\n"
+
+#: src/main.c:580
+msgid "Logging and input file:\n"
+msgstr "Journalisation et fichier d'entrÃ©eÂ :\n"
+
+#: src/main.c:582
+msgid "  -o,  --output-file=FILE          log messages to FILE\n"
+msgstr ""
+"  -o,  --output-file=FICHIER       journaliser les messages dans le FICHIER\n"
+
+#: src/main.c:584
+msgid "  -a,  --append-output=FILE        append messages to FILE\n"
+msgstr "  -a,  --append-output=FICHIER     accoler les messages au FICHIER\n"
+
+#: src/main.c:587
 msgid ""
-"       --auth-no-challenge     send Basic HTTP authentication information\n"
-"                               without first waiting for the server's\n"
-"                               challenge.\n"
+"  -d,  --debug                     print lots of debugging information\n"
 msgstr ""
-"       --auth-no-challenge     envoie l'information d'authentification "
-"basique HTTP\n"
-"                               sans attendre d'abord le certificat du "
-"serveur.\n"
-"                               \n"
+"  -d,  --debug                     afficher beaucoup d'informations de "
+"dÃ©bogage\n"
 
-#: src/main.c:583
-msgid "HTTPS (SSL/TLS) options:\n"
-msgstr "options HTTPS (SSL/TLS):\n"
-
-#: src/main.c:585
-msgid ""
-"       --secure-protocol=PR     choose secure protocol, one of auto, SSLv2,\n"
-"                                SSLv3, and TLSv1.\n"
+#: src/main.c:591
+msgid "       --wdebug                    print Watt-32 debug output\n"
 msgstr ""
-"       --secure-protocol=PR     choisir un protocole sécurisé PR parmi : "
-"auto, SSLv2,\n"
-"                                SSLv3 et TLSv1.\n"
-
-#: src/main.c:588
-msgid ""
-"       --no-check-certificate   don't validate the server's certificate.\n"
-msgstr ""
-"       --no-check-certificate   ne pas valider le certificat du serveur.\n"
-
-#: src/main.c:590
-msgid "       --certificate=FILE       client certificate file.\n"
-msgstr "       --certificate=FICHIER    fichier du certificat client.\n"
-
-#: src/main.c:592
-msgid "       --certificate-type=TYPE  client certificate type, PEM or DER.\n"
-msgstr ""
-"       --certificate-type=TYPE  type du certificat client, PEM ou DER.\n"
+"       --wdebug                    afficher la sortie de dÃ©bogage Watt-32\n"
 
 #: src/main.c:594
-msgid "       --private-key=FILE       private key file.\n"
-msgstr "       --private-key=FICHIER    fichier de la clé privée.\n"
+msgid "  -q,  --quiet                     quiet (no output)\n"
+msgstr ""
+"  -q,  --quiet                     exÃ©cuter en mode silencieux (sans "
+"sortie)\n"
 
 #: src/main.c:596
-msgid "       --private-key-type=TYPE  private key type, PEM or DER.\n"
-msgstr "       --private-key-type=TYPE  type de clé privée, PEM ou DER.\n"
+msgid "  -v,  --verbose                   be verbose (this is the default)\n"
+msgstr ""
+"  -v,  --verbose                   exÃ©cuter en mode bavard (mode par "
+"dÃ©faut)\n"
 
 #: src/main.c:598
-msgid "       --ca-certificate=FILE    file with the bundle of CA's.\n"
+msgid ""
+"  -nv, --no-verbose                turn off verboseness, without being "
+"quiet\n"
 msgstr ""
-"       --ca-certificate=FICHIER fichier avec un lot de certificats "
-"autorités.\n"
+"  -nv, --no-verbose                arrÃªter le mode bavard, sans Ãªtre "
+"silencieux\n"
 
 #: src/main.c:600
 msgid ""
-"       --ca-directory=DIR       directory where hash list of CA's is "
-"stored.\n"
+"       --report-speed=TYPE         output bandwidth as TYPE.  TYPE can be "
+"bits\n"
 msgstr ""
-"       --ca-directory=RÉP       répertoire où la liste de hash des "
-"certificats autorités est stockée.\n"
+"       --report-speed=TYPE         afficher la bande passante en TYPE.\n"
+"                                     TYPE peut Ãªtre Â«Â bitsÂ Â» par exemple\n"
 
 #: src/main.c:602
 msgid ""
-"       --random-file=FILE       file with random data for seeding the SSL "
-"PRNG.\n"
+"  -i,  --input-file=FILE           download URLs found in local or external "
+"FILE\n"
 msgstr ""
-"       --random-file=FICHIER    fichier avec des données aléatoires pour le "
-"germe de SSL PRNG.\n"
+"  -i,  --input-file=FICHIER        tÃ©lÃ©charger les URL du FICHIER local ou "
+"dist\n"
 
-#: src/main.c:604
+#: src/main.c:605
+#, fuzzy
 msgid ""
-"       --egd-file=FILE          file naming the EGD socket with random "
-"data.\n"
+"       --input-metalink=FILE       download files covered in local Metalink "
+"FILE\n"
 msgstr ""
-"       --egd-file=FICHIER       dénomination de fichier du socket EGD avec "
-"données aléatoires.\n"
+"       --metalink-file         tÃ©lÃ©charger les URL trouvÃ©es dans le FICHIER\n"
+"                               local ou externe de mÃ©taliens.\n"
 
-#: src/main.c:609
-msgid "FTP options:\n"
-msgstr "options FTP:\n"
+#: src/main.c:608
+msgid "  -F,  --force-html                treat input file as HTML\n"
+msgstr ""
+"  -F,  --force-html                traiter le fichier d'entrÃ©e comme du "
+"HTML\n"
 
-#: src/main.c:612
+# s/resolves/resolve/
+#: src/main.c:610
 msgid ""
-"       --ftp-stmlf             Use Stream_LF format for all binary FTP "
-"files.\n"
+"  -B,  --base=URL                  resolves HTML input-file links (-i -F)\n"
+"                                     relative to URL\n"
 msgstr ""
-"       --ftp-stmlf             Utilise le format Stream_LF pour tous les\n"
-"                                    fichier binaires FTP.\n"
+"  -B,  --base=URL                  rÃ©soudre les liens HTML du fichier "
+"d'entrÃ©e\n"
+"                                     (-i -F) en relatif par rapport Ã  URL\n"
+
+#: src/main.c:613
+msgid "       --config=FILE               specify config file to use\n"
+msgstr ""
+"       --config=FICHIER            FICHIER de configuration Ã  utiliser\n"
 
 #: src/main.c:615
-msgid "       --ftp-user=USER         set ftp user to USER.\n"
+msgid "       --no-config                 do not read any config file\n"
 msgstr ""
-"       --ftp-user=USAGER       utiliser USAGER comme utilisateur pour le "
-"transfert ftp.\n"
+"       --no-config                 ne lire aucun fichier de configuration\n"
 
 #: src/main.c:617
-msgid "       --ftp-password=PASS     set ftp password to PASS.\n"
+#, fuzzy
+msgid ""
+"       --rejected-log=FILE         log reasons for URL rejection to FILE\n"
 msgstr ""
-"       --ftp-password=MDP      utiliser le MDP (mot de passe) pour les "
-"transfert ftp.\n"
-
-#: src/main.c:619
-msgid "       --no-remove-listing     don't remove `.listing' files.\n"
-msgstr ""
-"       --no-remove-listing     ne pas enlever les fichiers `.listing'.\n"
+"  -o,  --output-file=FICHIER       journaliser les messages dans le FICHIER\n"
 
 #: src/main.c:621
-msgid "       --no-glob               turn off FTP file name globbing.\n"
-msgstr ""
-"       --no-glob               désactiver la mutilation des noms de fichiers "
-"par FTP.\n"
+msgid "Download:\n"
+msgstr "TÃ©lÃ©chargementÂ :\n"
 
 #: src/main.c:623
-msgid "       --no-passive-ftp        disable the \"passive\" transfer mode.\n"
+msgid ""
+"  -t,  --tries=NUMBER              set number of retries to NUMBER (0 "
+"unlimits)\n"
 msgstr ""
-"       --no-passive-ftp        désactiver le mode de transfert passif.\n"
+"  -t,  --tries=NOMBRE              dÃ©finir le NOMBRE de tentatives\n"
+"                                     (0 indique lâ€™absence de limite)\n"
 
 #: src/main.c:625
 msgid ""
-"       --retr-symlinks         when recursing, get linked-to files (not "
-"dir).\n"
+"       --retry-connrefused         retry even if connection is refused\n"
 msgstr ""
-"       --retr-symlinks         lors de la récursion, prendre les fichiers "
-"attachés à des liens (pas les répertoires).\n"
+"       --retry-connrefused         rÃ©essayer mÃªme si la connexion est "
+"refusÃ©e\n"
+
+#: src/main.c:627
+msgid "  -O,  --output-document=FILE      write documents to FILE\n"
+msgstr ""
+"  -O,  --output-document=FICHIER   Ã©crire les documents dans le FICHIER\n"
 
 #: src/main.c:629
-msgid "Recursive download:\n"
-msgstr "Téléchargement récursif:\n"
-
-#: src/main.c:631
-msgid "  -r,  --recursive          specify recursive download.\n"
-msgstr "  -r,  --recursive          activer les téléchargements récursifs.\n"
-
-#: src/main.c:633
 msgid ""
-"  -l,  --level=NUMBER       maximum recursion depth (inf or 0 for "
-"infinite).\n"
+"  -nc, --no-clobber                skip downloads that would download to\n"
+"                                     existing files (overwriting them)\n"
 msgstr ""
-"  -l,  --level=NOMBRE       profondeur maximale de récursion (inf ou 0 pour "
-"infini).\n"
+"  -nc, --no-clobber                sauter les tÃ©lÃ©chargements de fichiers\n"
+"                                     dÃ©jÃ  existants (qui auraient Ã©tÃ© "
+"Ã©crasÃ©s)\n"
 
-#: src/main.c:635
+#: src/main.c:632
 msgid ""
-"       --delete-after       delete files locally after downloading them.\n"
+"  -c,  --continue                  resume getting a partially-downloaded "
+"file\n"
 msgstr ""
-"       --delete-after       détruire les fichiers localement après les avoir "
-"téléchargés.\n"
+"  -c,  --continue                  poursuivre le tÃ©lÃ©chargement dâ€™un\n"
+"                                     fichier incomplet\n"
 
-#: src/main.c:637
+#: src/main.c:634
 msgid ""
-"  -k,  --convert-links      make links in downloaded HTML or CSS point to\n"
-"                            local files.\n"
+"       --start-pos=OFFSET          start downloading from zero-based "
+"position OFFSET\n"
 msgstr ""
-"  -k,  --convert-links      fait pointer les liens dans le HTML/CSS "
-"téléchargé vers des fichiers locaux.\n"
+"       --start-pos=POSITION        commencer le tÃ©lÃ©chargement Ã  partir de "
+"la\n"
+"                                     POSITION commenÃ§ant Ã  zÃ©ro\n"
 
-#: src/main.c:641
-msgid ""
-"  -K,  --backup-converted   before converting file X, back up as X_orig.\n"
+#: src/main.c:636
+msgid "       --progress=TYPE             select progress gauge type\n"
 msgstr ""
-"  -K,  --backup-converted   avant de convertir le fichier X, le sauver en "
-"X_orig.\n"
+"       --progress=TYPE             sÃ©lectionner le TYPE de jauge de "
+"progression\n"
 
-#: src/main.c:644
+#: src/main.c:638
 msgid ""
-"  -K,  --backup-converted   before converting file X, back up as X.orig.\n"
+"       --show-progress             display the progress bar in any verbosity "
+"mode\n"
 msgstr ""
-"  -K,  --backup-converted   avant de convertir le fichier X en faire "
-"l'archive sous X.orig.\n"
+"       --show-progress             montrer la barre de progression quelque "
+"soit\n"
+"                                     le mode\n"
 
-#: src/main.c:647
+#: src/main.c:640
 msgid ""
-"  -m,  --mirror             shortcut for -N -r -l inf --no-remove-listing.\n"
+"  -N,  --timestamping              don't re-retrieve files unless newer "
+"than\n"
+"                                     local\n"
 msgstr ""
-"  -m,  --mirror             option courte équivalente à -N -r -l inf --no-"
-"remove-listing.\n"
+"  -N,  --timestamping              ne pas retÃ©lÃ©charger les fichiers sauf "
+"sâ€™ils\n"
+"                                     sont plus rÃ©cents que localement\n"
+
+#: src/main.c:643
+#, fuzzy
+msgid ""
+"       --no-if-modified-since      don't use conditional if-modified-since "
+"get\n"
+"                                     requests in timestamping mode\n"
+msgstr ""
+"  --no-use-server-timestamps       ne pas dÃ©finir la date du fichier local "
+"Ã \n"
+"                                     celle du serveur\n"
+
+#: src/main.c:646
+#, fuzzy
+msgid ""
+"       --no-use-server-timestamps  don't set the local file's timestamp by\n"
+"                                     the one on the server\n"
+msgstr ""
+"  --no-use-server-timestamps       ne pas dÃ©finir la date du fichier local "
+"Ã \n"
+"                                     celle du serveur\n"
 
 #: src/main.c:649
-msgid ""
-"  -p,  --page-requisites    get all images, etc. needed to display HTML "
-"page.\n"
-msgstr ""
-"  -p,  --page-requisites    obtenir toutes les images, etc. nécessaires à "
-"l'affichage de la page HTML.\n"
+msgid "  -S,  --server-response           print server response\n"
+msgstr "  -S,  --server-response           afficher la rÃ©ponse du serveur\n"
 
 #: src/main.c:651
-msgid ""
-"       --strict-comments    turn on strict (SGML) handling of HTML "
-"comments.\n"
-msgstr ""
-"       --strict-comments    activer le traitement strict (SGML) des "
-"commentaires HTML.\n"
+msgid "       --spider                    don't download anything\n"
+msgstr "       --spider                    ne rien tÃ©lÃ©charger\n"
 
-#: src/main.c:655
-msgid "Recursive accept/reject:\n"
-msgstr "Acceptation/rejet récursif:\n"
-
-#: src/main.c:657
-msgid ""
-"  -A,  --accept=LIST               comma-separated list of accepted "
-"extensions.\n"
+#: src/main.c:653
+msgid "  -T,  --timeout=SECONDS           set all timeout values to SECONDS\n"
 msgstr ""
-"  -A,  --accept=LISTE              liste des extensions acceptées, séparées "
-"par des virgules.\n"
+"  -T,  --timeout=SECONDE           dÃ©finir toutes les valeurs de dÃ©lai "
+"d'attente\n"
 
-#: src/main.c:659
+#: src/main.c:656
 msgid ""
-"  -R,  --reject=LIST               comma-separated list of rejected "
-"extensions.\n"
+"       --dns-servers=ADDRESSES     list of DNS servers to query (comma "
+"separated)\n"
 msgstr ""
-"  -R,  --reject=LISTE              liste des extensions rejetées, séparées "
-"par des virgules.\n"
+
+#: src/main.c:658
+#, fuzzy
+msgid ""
+"       --bind-dns-address=ADDRESS  bind DNS resolver to ADDRESS (hostname or "
+"IP) on local host\n"
+msgstr ""
+"       --bind-address=ADRESSE      lier localement (nom dâ€™hÃ´te ou adresse "
+"IP)\n"
 
 #: src/main.c:661
-msgid ""
-"  -D,  --domains=LIST              comma-separated list of accepted "
-"domains.\n"
+msgid "       --dns-timeout=SECS          set the DNS lookup timeout to SECS\n"
 msgstr ""
-"  -D,  --domains=LISTE             liste des domaines acceptés, séparés par "
-"des virgules.\n"
+"       --dns-timeout=SECONDE       dÃ©finir le dÃ©lai d'attente de rÃ©solution "
+"DNS\n"
 
 #: src/main.c:663
-msgid ""
-"       --exclude-domains=LIST      comma-separated list of rejected "
-"domains.\n"
+msgid "       --connect-timeout=SECS      set the connect timeout to SECS\n"
 msgstr ""
-"       --exclude-domains=LISTE     liste des domaines rejetés, séparés par "
-"des virgules.\n"
+"       --connect-timeout=SECONDE   dÃ©finir le dÃ©lai d'attente de connexion\n"
 
 #: src/main.c:665
-msgid ""
-"       --follow-ftp                follow FTP links from HTML documents.\n"
+msgid "       --read-timeout=SECS         set the read timeout to SECS\n"
 msgstr ""
-"       --follow-ftp                suivre les liens FTP à partir des "
-"documents HTML.\n"
+"       --read-timeout=SECONDE      dÃ©finir le dÃ©lai d'attente de lecture\n"
 
 #: src/main.c:667
-msgid ""
-"       --follow-tags=LIST          comma-separated list of followed HTML "
-"tags.\n"
-msgstr ""
-"       --follow-tags=LISTE         liste des balises HTML à suivre,  "
-"séparées par des virgules.\n"
+msgid "  -w,  --wait=SECONDS              wait SECONDS between retrievals\n"
+msgstr "  -w,  --wait=SECONDE              temps d'attente entre les essais\n"
 
 #: src/main.c:669
 msgid ""
-"       --ignore-tags=LIST          comma-separated list of ignored HTML "
-"tags.\n"
+"       --waitretry=SECONDS         wait 1..SECONDS between retries of a "
+"retrieval\n"
 msgstr ""
-"       --ignore-tags=LISTE         liste des balises HTML ignorées, séparées "
-"par des virgules.\n"
+"       --waitretry=SECONDE         temps d'attente maximal entre les essais\n"
 
+# NOTE: Long line
 #: src/main.c:671
 msgid ""
-"  -H,  --span-hosts                go to foreign hosts when recursive.\n"
+"       --random-wait               wait from 0.5*WAIT...1.5*WAIT secs "
+"between retrievals\n"
 msgstr ""
-"  -H,  --span-hosts                aller sur les hôtes externes en mode "
-"récursif.\n"
+"       --random-wait               temps d'attente alÃ©atoireÂ : avec un "
+"coefficient\n"
+"                                     compris entre 0,5 et 1,5 du temps "
+"d'attente\n"
 
 #: src/main.c:673
-msgid "  -L,  --relative                  follow relative links only.\n"
+msgid "       --no-proxy                  explicitly turn off proxy\n"
 msgstr ""
-"  -L,  --relative                  suivre les liens relatifs seulement.\n"
+"       --no-proxy                  dÃ©sactiver le serveur mandataire "
+"(Â«Â proxyÂ Â»)\n"
 
 #: src/main.c:675
-msgid "  -I,  --include-directories=LIST  list of allowed directories.\n"
-msgstr "  -I,  --include-directories=LISTE liste des répertoires permis.\n"
+msgid "  -Q,  --quota=NUMBER              set retrieval quota to NUMBER\n"
+msgstr ""
+"  -Q,  --quota=NOMBRE              dÃ©finir le quota de rÃ©cupÃ©ration Ã  "
+"NOMBRE\n"
 
 #: src/main.c:677
-msgid "  -X,  --exclude-directories=LIST  list of excluded directories.\n"
-msgstr "  -X,  --exclude-directories=LISTE liste des répertoires exclus.\n"
+msgid ""
+"       --bind-address=ADDRESS      bind to ADDRESS (hostname or IP) on local "
+"host\n"
+msgstr ""
+"       --bind-address=ADRESSE      lier localement (nom dâ€™hÃ´te ou adresse "
+"IP)\n"
 
 #: src/main.c:679
-msgid ""
-"  -np, --no-parent                 don't ascend to the parent directory.\n"
+msgid "       --limit-rate=RATE           limit download rate to RATE\n"
+msgstr "       --limit-rate=TAUX           limiter le TAUX de tÃ©lÃ©chargement\n"
+
+#: src/main.c:681
+msgid "       --no-dns-cache              disable caching DNS lookups\n"
 msgstr ""
-"  -np, --no-parent                 ne pas remonter dans le répertoire "
-"parent.\n"
+"       --no-dns-cache              dÃ©sactiver la mise en cache de recherches "
+"DNS\n"
 
 #: src/main.c:683
-msgid "Mail bug reports and suggestions to <bug-wget@gnu.org>.\n"
-msgstr "Transmettre toutes anomalies ou suggestions à <bug-wget@gnu.org>.\n"
+msgid ""
+"       --restrict-file-names=OS    restrict chars in file names to ones OS "
+"allows\n"
+msgstr ""
+"       --restrict-file-names=SE    limiter caractÃ¨res du systÃ¨me "
+"d'exploitation\n"
+
+#: src/main.c:685
+msgid ""
+"       --ignore-case               ignore case when matching files/"
+"directories\n"
+msgstr ""
+"       --ignore-case               ignorer la casse pour la correspondance "
+"des\n"
+"                                     fichiers ou rÃ©pertoires\n"
 
 #: src/main.c:688
-#, c-format
-msgid "GNU Wget %s, a non-interactive network retriever.\n"
-msgstr "GNU Wget %s, un récupérateur réseau non interactif.\n"
+msgid "  -4,  --inet4-only                connect only to IPv4 addresses\n"
+msgstr ""
+"  -4,  --inet4-only                ne se connecter qu'aux adresses IPv4\n"
 
-#: src/main.c:728
-#, c-format
-msgid "Password for user %s: "
-msgstr "Mot de passe pour l'utilisateur %s : "
+#: src/main.c:690
+msgid "  -6,  --inet6-only                connect only to IPv6 addresses\n"
+msgstr ""
+"  -6,  --inet6-only                ne se connecter qu'aux adresses IPv6\n"
 
-#: src/main.c:730
-#, c-format
-msgid "Password: "
-msgstr "Mot de passe : "
+#: src/main.c:692
+msgid ""
+"       --prefer-family=FAMILY      connect first to addresses of specified "
+"family,\n"
+"                                     one of IPv6, IPv4, or none\n"
+msgstr ""
+"       --prefer-family=FAMILLE     se connecter de prÃ©fÃ©rence aux adresses "
+"de la\n"
+"                                     FAMILLEÂ : IPv6, IPv4 ou "
+"Â«Â noneÂ Â» (aucune)\n"
+
+#: src/main.c:696
+msgid "       --user=USER                 set both ftp and http user to USER\n"
+msgstr ""
+"       --user=IDENTIFIANT          dÃ©finir l'IDENTIFIANT pour FTP et HTTP\n"
+
+#: src/main.c:698
+msgid ""
+"       --password=PASS             set both ftp and http password to PASS\n"
+msgstr ""
+"       --password=MOT_DE_PASSE     dÃ©finir le MOT_DE_PASSE pour FTP et HTTP\n"
+
+#: src/main.c:700
+msgid "       --ask-password              prompt for passwords\n"
+msgstr "       --ask-password              demander les mots de passe\n"
+
+#: src/main.c:702
+msgid ""
+"       --use-askpass=COMMAND       specify credential handler for "
+"requesting \n"
+"                                     username and password.  If no COMMAND "
+"is \n"
+"                                     specified the WGET_ASKPASS or the "
+"SSH_ASKPASS \n"
+"                                     environment variable is used.\n"
+msgstr ""
+
+#: src/main.c:707
+msgid "       --no-iri                    turn off IRI support\n"
+msgstr ""
+"       --no-iri                    dÃ©sactiver la prise en charge des IRI\n"
+
+#: src/main.c:709
+msgid ""
+"       --local-encoding=ENC        use ENC as the local encoding for IRIs\n"
+msgstr ""
+"       --local-encoding=ENC        utiliser l'encodage local ENC pour les "
+"IRI\n"
+
+#: src/main.c:711
+msgid ""
+"       --remote-encoding=ENC       use ENC as the default remote encoding\n"
+msgstr ""
+"       --remote-encoding=ENC       utiliser l'encodage distant ENC par "
+"dÃ©faut\n"
+
+#: src/main.c:713
+msgid "       --unlink                    remove file before clobber\n"
+msgstr ""
+"       --unlink                    supprimer le fichier avant de l'Ã©craser\n"
+
+#: src/main.c:716
+msgid ""
+"       --keep-badhash              keep files with checksum mismatch "
+"(append .badhash)\n"
+msgstr ""
+
+#: src/main.c:718
+msgid ""
+"       --metalink-index=NUMBER     Metalink application/metalink4+xml "
+"metaurl ordinal NUMBER\n"
+msgstr ""
+
+#: src/main.c:720
+msgid ""
+"       --metalink-over-http        use Metalink metadata from HTTP response "
+"headers\n"
+msgstr ""
+
+#: src/main.c:722
+msgid ""
+"       --preferred-location        preferred location for Metalink "
+"resources\n"
+msgstr ""
+
+#: src/main.c:726
+#, fuzzy
+msgid ""
+"       --no-xattr                  turn off storage of metadata in extended "
+"file attributes\n"
+msgstr ""
+"       --no-glob                   dÃ©sactiver dÃ©veloppement de noms de "
+"fichiers\n"
+
+#: src/main.c:731
+msgid "Directories:\n"
+msgstr "RÃ©pertoiresÂ :\n"
+
+#: src/main.c:733
+msgid "  -nd, --no-directories            don't create directories\n"
+msgstr "  -nd, --no-directories            ne pas crÃ©er de rÃ©pertoires\n"
+
+#: src/main.c:735
+msgid "  -x,  --force-directories         force creation of directories\n"
+msgstr "  -x,  --force-directories         forcer la crÃ©ation de rÃ©pertoires\n"
+
+#: src/main.c:737
+msgid "  -nH, --no-host-directories       don't create host directories\n"
+msgstr ""
+"  -nH, --no-host-directories       ne pas crÃ©er de rÃ©pertoires sur l'hÃ´te\n"
+
+#: src/main.c:739
+msgid "       --protocol-directories      use protocol name in directories\n"
+msgstr ""
+"       --protocol-directories      utiliser des rÃ©pertoires au nom du "
+"protocole\n"
+
+#: src/main.c:741
+msgid "  -P,  --directory-prefix=PREFIX   save files to PREFIX/..\n"
+msgstr ""
+"  -P,  --directory-prefix=PRÃ‰FIXE  sauvegarder les fichiers dans PRÃ‰FIXE/..\n"
+
+#: src/main.c:743
+msgid ""
+"       --cut-dirs=NUMBER           ignore NUMBER remote directory "
+"components\n"
+msgstr ""
+"       --cut-dirs=NOMBRE           ignorer NOMBRE composants de rÃ©pertoire\n"
+
+#: src/main.c:747
+msgid "HTTP options:\n"
+msgstr "Options HTTPÂ :\n"
+
+#: src/main.c:749
+msgid "       --http-user=USER            set http user to USER\n"
+msgstr "       --http-user=IDENTIFIANT     dÃ©finir l'IDENTIFIANT HTTP\n"
+
+#: src/main.c:751
+msgid "       --http-password=PASS        set http password to PASS\n"
+msgstr "       --http-password=MDP         dÃ©finir le mot de passe HTTP\n"
+
+#: src/main.c:753
+msgid "       --no-cache                  disallow server-cached data\n"
+msgstr ""
+"       --no-cache                  interdire donnÃ©es mises en cache du "
+"serveur\n"
+
+#: src/main.c:755
+msgid ""
+"       --default-page=NAME         change the default page name (normally\n"
+"                                     this is 'index.html'.)\n"
+msgstr ""
+"       --default-page=NOM          modifier le nom de la page par dÃ©faut\n"
+"                                     (normalement Â«Â index.htmlÂ Â»)\n"
+
+#: src/main.c:758
+msgid ""
+"  -E,  --adjust-extension          save HTML/CSS documents with proper "
+"extensions\n"
+msgstr ""
+"  -E,  --adjust-extension          sauvegarder les documents HTML et CSS "
+"avec\n"
+"                                     leur extension\n"
+
+#: src/main.c:760
+msgid ""
+"       --ignore-length             ignore 'Content-Length' header field\n"
+msgstr ""
+"       --ignore-length             ignorer le champ d'en-tÃªte Â«Â Content-"
+"LengthÂ Â»\n"
+
+#: src/main.c:762
+msgid "       --header=STRING             insert STRING among the headers\n"
+msgstr ""
+"       --header=CHAÃŽNE             insÃ©rer la CHAÃŽNE dans les en-tÃªtes\n"
+
+#: src/main.c:764
+msgid ""
+"       --max-redirect              maximum redirections allowed per page\n"
+msgstr ""
+"       --max-redirect              nbre maxi de redirections autorisÃ©es par "
+"page\n"
+
+#: src/main.c:766
+msgid "       --proxy-user=USER           set USER as proxy username\n"
+msgstr ""
+"       --proxy-user=IDENTIFIANT    dÃ©finir l'IDENTIFIANT du serveur "
+"mandataire\n"
+
+#: src/main.c:768
+msgid "       --proxy-password=PASS       set PASS as proxy password\n"
+msgstr ""
+"       --proxy-password=MDP        dÃ©finir le mot de passe du serveur "
+"mandataire\n"
+
+#: src/main.c:770
+msgid ""
+"       --referer=URL               include 'Referer: URL' header in HTTP "
+"request\n"
+msgstr ""
+"       --referer=URL               inclure lâ€™en-tÃªte Â«Â Referer: URLÂ Â» en "
+"requÃªte\n"
+
+#: src/main.c:772
+msgid "       --save-headers              save the HTTP headers to file\n"
+msgstr ""
+"       --save-headers              sauvegarder les en-tÃªtes HTTP dans le "
+"fichier\n"
+
+#: src/main.c:774
+msgid ""
+"  -U,  --user-agent=AGENT          identify as AGENT instead of Wget/"
+"VERSION\n"
+msgstr ""
+"  -U,  --user-agent=AGENT          s'identifier comme AGENT et non Wget/"
+"VERSION\n"
+
+#: src/main.c:776
+msgid ""
+"       --no-http-keep-alive        disable HTTP keep-alive (persistent "
+"connections)\n"
+msgstr ""
+"       --no-http-keep-alive        dÃ©sactiver les connexions persistantes\n"
+
+#: src/main.c:778
+msgid "       --no-cookies                don't use cookies\n"
+msgstr "       --no-cookies                ne pas utiliser les cookies\n"
 
 #: src/main.c:780
-msgid "Wgetrc: "
-msgstr "Wgetrc : "
-
-#: src/main.c:781
-msgid "Locale: "
-msgstr "Locale : "
+msgid ""
+"       --load-cookies=FILE         load cookies from FILE before session\n"
+msgstr ""
+"       --load-cookies=FICHIER      charger les cookies du FICHIER avant "
+"session\n"
 
 #: src/main.c:782
-msgid "Compile: "
-msgstr "Compilation : "
-
-#: src/main.c:783
-msgid "Link: "
-msgstr "Lien : "
-
-#: src/main.c:789
-#, c-format
-msgid ""
-"GNU Wget %s built on VMS %s %s.\n"
-"\n"
+msgid "       --save-cookies=FILE         save cookies to FILE after session\n"
 msgstr ""
-"GNU Wget %s compilé sur VMS %s %s.\n"
-"\n"
+"       --save-cookies=FICHIER      sauvegarder cookies en FICHIER aprÃ¨s "
+"session\n"
+
+#: src/main.c:784
+msgid ""
+"       --keep-session-cookies      load and save session (non-permanent) "
+"cookies\n"
+msgstr ""
+"       --keep-session-cookies      charger et sauvegarder les cookies de "
+"session\n"
+"                                     (non permanents)\n"
+
+#: src/main.c:786
+msgid ""
+"       --post-data=STRING          use the POST method; send STRING as the "
+"data\n"
+msgstr ""
+"       --post-data=CHAÃŽNE          utiliser la mÃ©thode POST pour envoyer "
+"CHAÃŽNE\n"
+
+#: src/main.c:788
+msgid ""
+"       --post-file=FILE            use the POST method; send contents of "
+"FILE\n"
+msgstr ""
+"       --post-file=FICHIER         utiliser POSTÂ ; envoyer le contenu du "
+"FICHIER\n"
+
+#: src/main.c:790
+msgid ""
+"       --method=HTTPMethod         use method \"HTTPMethod\" in the request\n"
+msgstr ""
+"       --method=MÃ©thodeHTTP        utiliser la Â«Â MÃ©thodeHTTPÂ Â» dans lâ€™en-"
+"tÃªte\n"
 
 #: src/main.c:792
+msgid ""
+"       --body-data=STRING          send STRING as data. --method MUST be "
+"set\n"
+msgstr ""
+"       --body-data=CHAÃŽNE          envoyer la CHAÃŽNE comme donnÃ©es.\n"
+"                                     --method doit Ãªtre dÃ©finie\n"
+
+#: src/main.c:794
+msgid ""
+"       --body-file=FILE            send contents of FILE. --method MUST be "
+"set\n"
+msgstr ""
+"       --body-file=FICHIER         envoyer le contenu du FICHIER.\n"
+"                                     --method doit Ãªtre dÃ©finie\n"
+
+#: src/main.c:796
+msgid ""
+"       --content-disposition       honor the Content-Disposition header "
+"when\n"
+"                                     choosing local file names "
+"(EXPERIMENTAL)\n"
+msgstr ""
+"       --content-disposition       respecter lâ€™en-tÃªte Â«Â Content-"
+"DispositionÂ Â»\n"
+"                                     pour les noms de fichiers locaux "
+"(expÃ©rim.)\n"
+
+#: src/main.c:799
+msgid ""
+"       --content-on-error          output the received content on server "
+"errors\n"
+msgstr ""
+"       --content-on-error          afficher le contenu reÃ§u aprÃ¨s erreurs "
+"serveur\n"
+
+#: src/main.c:801
+msgid ""
+"       --auth-no-challenge         send Basic HTTP authentication "
+"information\n"
+"                                     without first waiting for the server's\n"
+"                                     challenge\n"
+msgstr ""
+"       --auth-no-challenge         envoyer les informations "
+"d'authentification\n"
+"                                     HTTP de base sans attendre d'abord la\n"
+"                                     question du serveur\n"
+
+#: src/main.c:808
+msgid "HTTPS (SSL/TLS) options:\n"
+msgstr "Options HTTPS (SSL/TLS)Â :\n"
+
+#: src/main.c:810
+msgid ""
+"       --secure-protocol=PR        choose secure protocol, one of auto, "
+"SSLv2,\n"
+"                                     SSLv3, TLSv1 and PFS\n"
+msgstr ""
+"       --secure-protocol=PR        choisir un protocole sÃ©curisÃ© PR parmi "
+"auto,\n"
+"                                     SSLv2, SSLv3, TLSv1 et PFS\n"
+
+#: src/main.c:813
+msgid "       --https-only                only follow secure HTTPS links\n"
+msgstr ""
+"       --https-only                ne suivre que les liens HTTPS sÃ©curisÃ©\n"
+
+#: src/main.c:815
+msgid ""
+"       --no-check-certificate      don't validate the server's certificate\n"
+msgstr ""
+"       --no-check-certificate      ne pas valider le certificat du serveur\n"
+
+#: src/main.c:817
+msgid "       --certificate=FILE          client certificate file\n"
+msgstr "       --certificate=FICHIER       fichier de certificat client\n"
+
+#: src/main.c:819
+msgid ""
+"       --certificate-type=TYPE     client certificate type, PEM or DER\n"
+msgstr ""
+"       --certificate-type=TYPE     type du certificat client, PEM ou DER\n"
+
+#: src/main.c:821
+msgid "       --private-key=FILE          private key file\n"
+msgstr "       --private-key=FICHIER       fichier de clef privÃ©e\n"
+
+#: src/main.c:823
+msgid "       --private-key-type=TYPE     private key type, PEM or DER\n"
+msgstr "       --private-key-type=TYPE     type de clef privÃ©e, PEM ou DER\n"
+
+#: src/main.c:825
+msgid "       --ca-certificate=FILE       file with the bundle of CAs\n"
+msgstr ""
+"       --ca-certificate=FICHIER    fichier des certificats d'autoritÃ©s\n"
+
+#: src/main.c:827
+msgid ""
+"       --ca-directory=DIR          directory where hash list of CAs is "
+"stored\n"
+msgstr ""
+"       --ca-directory=RÃ‰P          rÃ©pertoire contenant liste de hachages "
+"des\n"
+"                                     certificats d'autoritÃ©s de "
+"certification\n"
+
+#: src/main.c:829
+msgid "       --crl-file=FILE             file with bundle of CRLs\n"
+msgstr ""
+"       --crl-file=FICHIER          fichier de liste de rÃ©vocations de "
+"certificat\n"
+
+#: src/main.c:831
+msgid ""
+"       --pinnedpubkey=FILE/HASHES  Public key (PEM/DER) file, or any number\n"
+"                                   of base64 encoded sha256 hashes preceded "
+"by\n"
+"                                   'sha256//' and separated by ';', to "
+"verify\n"
+"                                   peer against\n"
+msgstr ""
+
+#: src/main.c:837
+msgid ""
+"       --random-file=FILE          file with random data for seeding the SSL "
+"PRNG\n"
+msgstr ""
+"       --random-file=FICHIER       fichier de donnÃ©es alÃ©atoires pour "
+"initier la\n"
+"                                     gÃ©nÃ©ration de nombres pseudoalÃ©atoires "
+"SSL\n"
+
+#: src/main.c:841
+msgid ""
+"       --egd-file=FILE             file naming the EGD socket with random "
+"data\n"
+msgstr ""
+"       --egd-file=FICHIER          fichier de socket EGD avec donnÃ©es "
+"alÃ©atoires\n"
+
+#: src/main.c:848
+msgid "HSTS options:\n"
+msgstr "Options HSTSÂ :\n"
+
+#: src/main.c:850
+msgid "       --no-hsts                   disable HSTS\n"
+msgstr "       --no-hsts                  dÃ©sactiver HSTS\n"
+
+#: src/main.c:852
+#, fuzzy
+msgid ""
+"       --hsts-file                 path of HSTS database (will override "
+"default)\n"
+msgstr ""
+"  -v,  --verbose                   exÃ©cuter en mode bavard (mode par "
+"dÃ©faut)\n"
+
+#: src/main.c:857
+msgid "FTP options:\n"
+msgstr "Options FTPÂ :\n"
+
+#: src/main.c:860
+msgid ""
+"       --ftp-stmlf                 use Stream_LF format for all binary FTP "
+"files\n"
+msgstr ""
+"       --ftp-stmlf                 utiliser le format Stream_LF pour tous "
+"les\n"
+"                                     fichiers binaires FTP\n"
+
+#: src/main.c:863
+msgid "       --ftp-user=USER             set ftp user to USER\n"
+msgstr "       --ftp-user=IDENTIFIANT      dÃ©finir l'IDENTIFIANT FTP\n"
+
+#: src/main.c:865
+msgid "       --ftp-password=PASS         set ftp password to PASS\n"
+msgstr "       --ftp-password=MDP          dÃ©finir le mot de passe FTP\n"
+
+#: src/main.c:867
+msgid "       --no-remove-listing         don't remove '.listing' files\n"
+msgstr ""
+"       --no-remove-listing         ne pas enlever les fichiers Â«Â .listingÂ Â»\n"
+
+#: src/main.c:869
+msgid "       --no-glob                   turn off FTP file name globbing\n"
+msgstr ""
+"       --no-glob                   dÃ©sactiver dÃ©veloppement de noms de "
+"fichiers\n"
+
+#: src/main.c:871
+msgid ""
+"       --no-passive-ftp            disable the \"passive\" transfer mode\n"
+msgstr ""
+"       --no-passive-ftp            dÃ©sactiver le mode de transfert passif\n"
+
+#: src/main.c:873
+msgid "       --preserve-permissions      preserve remote file permissions\n"
+msgstr ""
+"       --preserve-permissions      prÃ©server les droits des fichiers "
+"distants\n"
+
+#: src/main.c:875
+msgid ""
+"       --retr-symlinks             when recursing, get linked-to files (not "
+"dir)\n"
+msgstr ""
+"       --retr-symlinks             en mode rÃ©cursif, prendre les fichiers\n"
+"                                     attachÃ©s aux liens (pas les "
+"rÃ©pertoires)\n"
+
+#: src/main.c:880
+msgid "FTPS options:\n"
+msgstr "Options FTPSÂ :\n"
+
+#: src/main.c:882
+#, fuzzy
+msgid ""
+"       --ftps-implicit                 use implicit FTPS (default port is "
+"990)\n"
+msgstr ""
+"       --ftp-implicit                 utiliser le format Stream_LF pour tous "
+"les\n"
+"                                     fichiers binaires FTP\n"
+
+#: src/main.c:884
+#, fuzzy
+msgid ""
+"       --ftps-resume-ssl               resume the SSL/TLS session started in "
+"the control connection when\n"
+"                                         opening a data connection\n"
+msgstr ""
+"  --trust-server-names             utiliser le nom indiquÃ© par le suffixe "
+"de\n"
+"                                     lâ€™URL de redirection\n"
+
+#: src/main.c:887
+msgid ""
+"       --ftps-clear-data-connection    cipher the control channel only; all "
+"the data will be in plaintext\n"
+msgstr ""
+
+#: src/main.c:889
+msgid ""
+"       --ftps-fallback-to-ftp          fall back to FTP if FTPS is not "
+"supported in the target server\n"
+msgstr ""
+
+#: src/main.c:893
+msgid "WARC options:\n"
+msgstr "options WARCÂ :\n"
+
+#: src/main.c:895
+msgid ""
+"       --warc-file=FILENAME        save request/response data to a .warc.gz "
+"file\n"
+msgstr ""
+"       --warc-file=FICHER          sauver les donnÃ©es de requÃªte et de "
+"rÃ©ponse\n"
+"                                     dans un fichier .warc.gz\n"
+
+#: src/main.c:897
+msgid ""
+"       --warc-header=STRING        insert STRING into the warcinfo record\n"
+msgstr ""
+"       --warc-header=CHAÃŽNE        insÃ©rer CHAÃŽNE dans l'enregistrement "
+"warcinfo\n"
+
+#: src/main.c:899
+msgid ""
+"       --warc-max-size=NUMBER      set maximum size of WARC files to NUMBER\n"
+msgstr ""
+"       --warc-max-size=NOMBRE      dÃ©finir la taille maximal de fichiers "
+"WARC\n"
+
+#: src/main.c:901
+msgid "       --warc-cdx                  write CDX index files\n"
+msgstr "       --warc-cdx                  Ã©crire les fichiers d'index CDX\n"
+
+#: src/main.c:903
+msgid ""
+"       --warc-dedup=FILENAME       do not store records listed in this CDX "
+"file\n"
+msgstr ""
+"       --warc-dedup=FICHIER        ne pas garder enregistrements du fichier "
+"CDX\n"
+
+#: src/main.c:906
+msgid ""
+"       --no-warc-compression       do not compress WARC files with GZIP\n"
+msgstr ""
+"       --no-warc-compression       ne pas compresser les fichiers WARC avec "
+"gzip\n"
+
+#: src/main.c:909
+msgid "       --no-warc-digests           do not calculate SHA1 digests\n"
+msgstr "       --no-warc-digests           ne pas calculer les hachages SHA1\n"
+
+#: src/main.c:911
+msgid ""
+"       --no-warc-keep-log          do not store the log file in a WARC "
+"record\n"
+msgstr ""
+"       --no-warc-keep-log          ne pas garder journal en enregistrement "
+"WARC\n"
+
+#: src/main.c:913
+msgid ""
+"       --warc-tempdir=DIRECTORY    location for temporary files created by "
+"the\n"
+"                                     WARC writer\n"
+msgstr ""
+"       --warc-tempdir=RÃ‰PERTOIRE   emplacement pour fichiers temporaires "
+"crÃ©Ã©s\n"
+"                                     par l'Ã©criture WARC\n"
+
+#: src/main.c:918
+msgid "Recursive download:\n"
+msgstr "TÃ©lÃ©chargement rÃ©cursifÂ :\n"
+
+#: src/main.c:920
+msgid "  -r,  --recursive                 specify recursive download\n"
+msgstr ""
+"  -r,  --recursive                 activer les tÃ©lÃ©chargements rÃ©cursifs\n"
+
+#: src/main.c:922
+msgid ""
+"  -l,  --level=NUMBER              maximum recursion depth (inf or 0 for "
+"infinite)\n"
+msgstr ""
+"  -l,  --level=NOMBRE              niveau de rÃ©cursion maximal\n"
+"                                     (inf ou 0 pour infini)\n"
+
+#: src/main.c:924
+msgid ""
+"       --delete-after              delete files locally after downloading "
+"them\n"
+msgstr ""
+"       --delete-after              dÃ©truire fichiers locaux aprÃ¨s "
+"tÃ©lÃ©chargement\n"
+
+#: src/main.c:926
+msgid ""
+"  -k,  --convert-links             make links in downloaded HTML or CSS "
+"point to\n"
+"                                     local files\n"
+msgstr ""
+"  -k,  --convert-links             transformer les liens en local dans les\n"
+"                                     fichiers HTML et CSS tÃ©lÃ©chargÃ©s\n"
+
+#: src/main.c:929
+msgid ""
+"       --convert-file-only         convert the file part of the URLs only "
+"(usually known as the basename)\n"
+msgstr ""
+
+#: src/main.c:931
+msgid ""
+"       --backups=N                 before writing file X, rotate up to N "
+"backup files\n"
+msgstr ""
+"       --backups=N                 avant dâ€™Ã©crire le fichier X, en sauver "
+"un\n"
+"                                     exemplaire, et en garder au plus N\n"
+
+#: src/main.c:935
+msgid ""
+"  -K,  --backup-converted          before converting file X, back up as "
+"X_orig\n"
+msgstr ""
+"  -K,  --backup-converted          sauver fichier X en X_orig avant "
+"conversion\n"
+
+#: src/main.c:938
+msgid ""
+"  -K,  --backup-converted          before converting file X, back up as X."
+"orig\n"
+msgstr ""
+"  -K,  --backup-converted          sauver fichier X en X.orig avant "
+"conversion\n"
+
+#: src/main.c:941
+msgid ""
+"  -m,  --mirror                    shortcut for -N -r -l inf --no-remove-"
+"listing\n"
+msgstr ""
+"  -m,  --mirror                    raccourci de -N -r -l inf --no-remove-"
+"listing\n"
+
+#: src/main.c:943
+msgid ""
+"  -p,  --page-requisites           get all images, etc. needed to display "
+"HTML page\n"
+msgstr ""
+"  -p,  --page-requisites           obtenir toutes les images,Â etc. "
+"nÃ©cessaires\n"
+"                                     pour afficher la page HTML\n"
+
+#: src/main.c:945
+msgid ""
+"       --strict-comments           turn on strict (SGML) handling of HTML "
+"comments\n"
+msgstr ""
+"       --strict-comments           activer le traitement strict (SGML) des\n"
+"                                     commentaires HTML\n"
+
+#: src/main.c:949
+msgid "Recursive accept/reject:\n"
+msgstr "Acceptation ou rejet rÃ©cursifÂ :\n"
+
+#: src/main.c:951
+msgid ""
+"  -A,  --accept=LIST               comma-separated list of accepted "
+"extensions\n"
+msgstr ""
+"  -A,  --accept=LISTE              liste d'extensions acceptÃ©es, sÃ©parÃ©es "
+"par\n"
+"                                     des virgules\n"
+
+#: src/main.c:953
+msgid ""
+"  -R,  --reject=LIST               comma-separated list of rejected "
+"extensions\n"
+msgstr ""
+"  -R,  --reject=LISTE              liste d'extensions rejetÃ©es, sÃ©parÃ©es "
+"par\n"
+"                                     des virgules\n"
+
+#: src/main.c:955
+msgid "       --accept-regex=REGEX        regex matching accepted URLs\n"
+msgstr ""
+"       --accept-regex=EXPR_R       expression rationnelle correspondant aux\n"
+"                                     URL acceptÃ©es\n"
+
+#: src/main.c:957
+msgid "       --reject-regex=REGEX        regex matching rejected URLs\n"
+msgstr ""
+"       --reject-regex=EXPR_R       expression rationnelle correspondant aux\n"
+"                                     URL rejetÃ©es\n"
+
+#: src/main.c:960
+msgid "       --regex-type=TYPE           regex type (posix|pcre)\n"
+msgstr ""
+"       --regex-type=TYPE           type d'expression rationnelle (posix|"
+"pcre)\n"
+
+#: src/main.c:963
+msgid "       --regex-type=TYPE           regex type (posix)\n"
+msgstr ""
+"       --regex-type=TYPE           type d'expression rationnelle (posix)\n"
+
+#: src/main.c:966
+msgid ""
+"  -D,  --domains=LIST              comma-separated list of accepted domains\n"
+msgstr ""
+"  -D,  --domains=LISTE             domaines acceptÃ©s, sÃ©parÃ©s par des "
+"virgules\n"
+
+#: src/main.c:968
+msgid ""
+"       --exclude-domains=LIST      comma-separated list of rejected domains\n"
+msgstr ""
+"       --exclude-domains=LISTE     domaines rejetÃ©s, sÃ©parÃ©s par des "
+"virgules\n"
+
+#: src/main.c:970
+msgid ""
+"       --follow-ftp                follow FTP links from HTML documents\n"
+msgstr ""
+"       --follow-ftp                suivre les liens FTP des documents HTML\n"
+
+#: src/main.c:972
+msgid ""
+"       --follow-tags=LIST          comma-separated list of followed HTML "
+"tags\n"
+msgstr ""
+"       --follow-tags=LISTE         liste des balises HTML Ã  suivre, sÃ©parÃ©es "
+"par\n"
+"                                     des virgules\n"
+
+#: src/main.c:974
+msgid ""
+"       --ignore-tags=LIST          comma-separated list of ignored HTML "
+"tags\n"
+msgstr ""
+"       --ignore-tags=LISTE         liste des balises HTML ignorÃ©es, sÃ©parÃ©es "
+"par\n"
+"                                     des virgules\n"
+
+#: src/main.c:976
+msgid "  -H,  --span-hosts                go to foreign hosts when recursive\n"
+msgstr ""
+"  -H,  --span-hosts                suivre les liens externes en mode "
+"rÃ©cursif\n"
+
+#: src/main.c:978
+msgid "  -L,  --relative                  follow relative links only\n"
+msgstr "  -L,  --relative                  ne suivre que les liens relatifs\n"
+
+#: src/main.c:980
+msgid "  -I,  --include-directories=LIST  list of allowed directories\n"
+msgstr "  -I,  --include-directories=LISTE  liste des rÃ©pertoires permis\n"
+
+#: src/main.c:982
+msgid ""
+"       --trust-server-names        use the name specified by the "
+"redirection\n"
+"                                     URL's last component\n"
+msgstr ""
+"  --trust-server-names             utiliser le nom indiquÃ© par le suffixe "
+"de\n"
+"                                     lâ€™URL de redirection\n"
+
+#: src/main.c:985
+msgid "  -X,  --exclude-directories=LIST  list of excluded directories\n"
+msgstr "  -X,  --exclude-directories=LISTE  liste des rÃ©pertoires exclus\n"
+
+#: src/main.c:987
+msgid ""
+"  -np, --no-parent                 don't ascend to the parent directory\n"
+msgstr ""
+"  -np, --no-parent                 ne pas remonter dans le rÃ©pertoire "
+"parent\n"
+
+#: src/main.c:990
+msgid "Mail bug reports and suggestions to <bug-wget@gnu.org>\n"
+msgstr ""
+"Veuillez signaler toutes anomalies ou suggestions Ã  <bug-wget@gnu.org>\n"
+
+#: src/main.c:995
+#, c-format
+msgid "GNU Wget %s, a non-interactive network retriever.\n"
+msgstr "GNU Wget %s, un rÃ©cupÃ©rateur rÃ©seau non interactif.\n"
+
+#: src/main.c:1038
+#, c-format
+msgid "Password for user %s: "
+msgstr "Mot de passe pour l'utilisateur %sÂ : "
+
+#: src/main.c:1040
+#, c-format
+msgid "Password: "
+msgstr "Mot de passeÂ : "
+
+#: src/main.c:1059
+#, fuzzy, c-format
+msgid "Cannot create pipe\n"
+msgstr "impossible de crÃ©er le tube"
+
+#: src/main.c:1067
+#, c-format
+msgid "Error initializing spawn file actions for use-askpass: %d\n"
+msgstr ""
+
+#: src/main.c:1076
+#, c-format
+msgid "Error setting spawn file actions for use-askpass: %d\n"
+msgstr ""
+
+#: src/main.c:1100
+#, c-format
+msgid "Error reading response from command \"%s %s\": %s\n"
+msgstr ""
+
+#: src/main.c:1123
+#, c-format
+msgid "Username for '%s%s': "
+msgstr ""
+
+#: src/main.c:1133
+#, fuzzy, c-format
+msgid "Password for '%s%s@%s': "
+msgstr "Mot de passe pour l'utilisateur %sÂ : "
+
+#: src/main.c:1205
+msgid "Wgetrc: "
+msgstr "WgetrcÂ : "
+
+#: src/main.c:1206
+msgid "Locale: "
+msgstr "ParamÃ¨tres rÃ©gionauxÂ : "
+
+#: src/main.c:1207
+msgid "Compile: "
+msgstr "CompilationÂ : "
+
+#: src/main.c:1208
+msgid "Link: "
+msgstr "LienÂ : "
+
+#: src/main.c:1212
 #, c-format
 msgid ""
 "GNU Wget %s built on %s.\n"
 "\n"
 msgstr ""
-"GNU Wget %s compilé sur %s.\n"
+"GNU WgetÂ %s compilÃ© sur %s.\n"
 "\n"
 
-#: src/main.c:815
+#: src/main.c:1239
 #, c-format
 msgid "    %s (env)\n"
-msgstr "    %s (env)\n"
+msgstr "    %s (environnement)\n"
 
-#: src/main.c:821
+#: src/main.c:1246
 #, c-format
 msgid "    %s (user)\n"
 msgstr "    %s (utilisateur)\n"
 
-#: src/main.c:825
+#: src/main.c:1251
 #, c-format
 msgid "    %s (system)\n"
-msgstr "    %s (système)\n"
+msgstr "    %s (systÃ¨me)\n"
 
 #. TRANSLATORS: When available, an actual copyright character
-#. (cirle-c) should be used in preference to "(C)".
-#: src/main.c:845
-msgid "Copyright (C) 2009 Free Software Foundation, Inc.\n"
-msgstr "Copyright © 2009 Free Software Foundation, Inc.\n"
+#. (circle-c) should be used in preference to "(C)".
+#: src/main.c:1279
+#, c-format
+msgid "Copyright (C) %s Free Software Foundation, Inc.\n"
+msgstr "Copyright Â© %s Free Software Foundation, Inc.\n"
 
-#: src/main.c:847
+#: src/main.c:1282
 msgid ""
 "License GPLv3+: GNU GPL version 3 or later\n"
 "<http://www.gnu.org/licenses/gpl.html>.\n"
 "This is free software: you are free to change and redistribute it.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 msgstr ""
-"Licence GPLv3+: GNU GPL version 3 ou ultérieure\n"
+"Licence GPLv3+Â : GNU GPL version 3 ou ultÃ©rieure\n"
 "<http://www.gnu.org/licenses/gpl.html>.\n"
-"Logiciel libre : vous êtes libre de le modifier ou de le redistribuer.\n"
+"Logiciel libreÂ : vous Ãªtes libre de le modifier ou de le redistribuer.\n"
 "Il n'y a AUCUNE GARANTIE, dans les limites permises par la loi.\n"
 
 #. TRANSLATORS: When available, please use the proper diacritics for
 #. names such as this one. See en_US.po for reference.
-#: src/main.c:854
+#: src/main.c:1290
 msgid ""
 "\n"
 "Originally written by Hrvoje Niksic <hniksic@xemacs.org>.\n"
 msgstr ""
 "\n"
-"Écrit à l'origine par Hrvoje Niksic <hniksic@xemacs.org>.\n"
+"Ã‰crit initialement par Hrvoje NikÅ¡iÄ‡ <hniksic@xemacs.org>.\n"
 
-#: src/main.c:856
-msgid "Currently maintained by Micah Cowan <micah@cowan.name>.\n"
-msgstr "Actuellement maintenu par Micah Cowan <micah@cowan.name>.\n"
-
-#: src/main.c:858
+#: src/main.c:1293
 msgid "Please send bug reports and questions to <bug-wget@gnu.org>.\n"
-msgstr "Transmettre les anomalies ou demandes à <bug-wget@gnu.org>.\n"
+msgstr "Veuillez signaler toutes anomalies ou demandes Ã  <bug-wget@gnu.org>.\n"
 
-#: src/main.c:908 src/main.c:977 src/main.c:1099
+#: src/main.c:1342 src/main.c:1853
+#, c-format
+msgid "Memory allocation problem\n"
+msgstr "ProblÃ¨me d'allocation de mÃ©moire\n"
+
+#: src/main.c:1392
+#, c-format
+msgid "Exiting due to error in %s\n"
+msgstr "Une erreur dans %s force Ã  quitter\n"
+
+#: src/main.c:1421 src/main.c:1492 src/main.c:1704
 #, c-format
 msgid "Try `%s --help' for more options.\n"
-msgstr "Essayez « %s --help » pour plus d'informations.\n"
+msgstr "Utilisez Â«Â %s --helpÂ Â» pour obtenir plus de renseignements.\n"
 
-#: src/main.c:974
+#: src/main.c:1488
 #, c-format
 msgid "%s: illegal option -- `-n%c'\n"
-msgstr "%s: option non reconnue -- « -n%c »\n"
+msgstr "%sÂ : option incorrecte â€” Â«Â -n%cÂ Â»\n"
 
-#: src/main.c:1032
+#: src/main.c:1531
+#, c-format
+msgid "Debugging support not compiled in. Ignoring --debug flag.\n"
+msgstr "DÃ©bogage non activÃ© lors de la compilation. Attribut --debug ignorÃ©.\n"
+
+#: src/main.c:1544
+#, c-format
+msgid ""
+"Both --no-clobber and --convert-links were specified, only --convert-links "
+"will be used.\n"
+msgstr ""
+"--no-clobber et --convert-links ont toutes deux Ã©tÃ© indiquÃ©es, seule --"
+"convert-links sera utilisÃ©e.\n"
+
+#: src/main.c:1546
+#, c-format
+msgid ""
+"Both --no-clobber and --convert-file-only were specified, only --convert-"
+"file-only will be used.\n"
+msgstr ""
+"--no-clobber et --convert-file-only ont toutes deux Ã©tÃ© indiquÃ©es, seule --"
+"convert-links-only sera utilisÃ©e.\n"
+
+#: src/main.c:1579
 #, c-format
 msgid "Can't be verbose and quiet at the same time.\n"
-msgstr "Ne peut être en mode bavard et silencieux en même temps.\n"
+msgstr "Impossible d'Ãªtre en mode bavard et silencieux en mÃªme temps.\n"
 
-#: src/main.c:1038
+#: src/main.c:1585
 #, c-format
 msgid "Can't timestamp and not clobber old files at the same time.\n"
 msgstr ""
-"Ne peut se servir des dates et ne pas écraser les vieux fichiers en même "
+"Impossible d'utiliser les dates sans Ã©craser les vieux fichiers en mÃªme "
 "temps.\n"
 
-#: src/main.c:1046
+#: src/main.c:1594
 #, c-format
 msgid "Cannot specify both --inet4-only and --inet6-only.\n"
-msgstr "Ne peut utiliser ensemble --inet4-only et --inet6-only.\n"
+msgstr "Impossible d'indiquer --inet4-only et --inet6-only ensemble.\n"
 
-#: src/main.c:1056
+#: src/main.c:1604
 msgid ""
-"Cannot specify both -k and -O if multiple URLs are given, or in combination\n"
+"Cannot specify both -k or --convert-file-only and -O if multiple URLs are "
+"given, or in combination\n"
 "with -p or -r. See the manual for details.\n"
 "\n"
 msgstr ""
-"Impossible de spécifier à la fois -k et -O si plusieurs URLs sont données, "
-"ou en combinaison\n"
-"avec -p ou -r. Voyez le manuel pour des détails.\n"
+"Impossible d'indiquer -k ou --convert-file-only et -O ensemble si plusieurs "
+"URL sont donnÃ©es, ou en\n"
+"combinaison avec -p ou -r. Consultez le manuel pour plus de prÃ©cisions.\n"
 "\n"
 
-#: src/main.c:1065
+#: src/main.c:1613
 msgid ""
 "WARNING: combining -O with -r or -p will mean that all downloaded content\n"
 "will be placed in the single file you specified.\n"
 "\n"
 msgstr ""
-"ATTENTION: combiner -O avec -r ou -p signifie que tout le contenu "
-"téléchargé\n"
-"va être placé dans le fichier unique précisé.\n"
+"AttentionÂ : combiner -O avec -r ou -p signifie que tout le contenu "
+"tÃ©lÃ©chargÃ©\n"
+"sera placÃ© dans le fichier unique indiquÃ©.\n"
 "\n"
 
-#: src/main.c:1071
+#: src/main.c:1619
 msgid ""
 "WARNING: timestamping does nothing in combination with -O. See the manual\n"
 "for details.\n"
 "\n"
 msgstr ""
-"ATTENTION: l'horodatage est inactif si combiné avec -O. Voir le manuel\n"
-"pour les détails.\n"
+"AttentionÂ : l'horodatage est inactif si combinÃ© avec -O. Consultez le "
+"manuel\n"
+"pour plus de prÃ©cisions.\n"
 "\n"
 
-#: src/main.c:1079
+#: src/main.c:1628
 #, c-format
 msgid "File `%s' already there; not retrieving.\n"
-msgstr "Fichier « %s » est déjà là; pas de récupération.\n"
+msgstr "Fichier Â«Â %sÂ Â» dÃ©jÃ  prÃ©sentÂ ; pas de rÃ©cupÃ©ration.\n"
 
-#: src/main.c:1086
+#: src/main.c:1639
+#, c-format
+msgid ""
+"WARC output does not work with --no-clobber, --no-clobber will be disabled.\n"
+msgstr ""
+"La sortie WARC ne fonctionne pas avec --no-clobber, qui sera donc "
+"dÃ©sactivÃ©e.\n"
+
+#: src/main.c:1646
+#, c-format
+msgid ""
+"WARC output does not work with timestamping, timestamping will be disabled.\n"
+msgstr ""
+"La sortie WARC ne fonctionne pas avec l'horodatage, qui sera donc "
+"dÃ©sactivÃ©.\n"
+
+#: src/main.c:1653
+#, c-format
+msgid "WARC output does not work with --spider.\n"
+msgstr "La sortie WARC ne fonctionne pas avec --spider.\n"
+
+#: src/main.c:1659
+#, c-format
+msgid ""
+"WARC output does not work with --continue or --start-pos, they will be "
+"disabled.\n"
+msgstr ""
+"La sortie WARC ne fonctionne pas avec --continue ou --start-pos, qui seront "
+"donc dÃ©sactivÃ©es.\n"
+
+#: src/main.c:1667
+#, c-format
+msgid ""
+"Digests are disabled; WARC deduplication will not find duplicate records.\n"
+msgstr ""
+"Les hachages sont dÃ©sactivÃ©sÂ ; la dÃ©duplication WARC ne trouvera pas les "
+"enregistrements en double.\n"
+
+#: src/main.c:1679
 #, c-format
 msgid "Cannot specify both --ask-password and --password.\n"
-msgstr "Impossible de spécifier à la fois --ask-password et --password.\n"
+msgstr "Impossible d'indiquer --ask-password et --password ensemble.\n"
 
-#: src/main.c:1094
+#: src/main.c:1687
+#, c-format
+msgid ""
+"Specifying both --start-pos and --continue is not recommended; --continue "
+"will be disabled.\n"
+msgstr ""
+"Indiquer Ã  la fois --start-pos et --continue est dÃ©conseillÃ©Â ; --continue "
+"sera dÃ©sactivÃ©e.\n"
+
+#: src/main.c:1699
 #, c-format
 msgid "%s: missing URL\n"
-msgstr "%s: URL manquante\n"
+msgstr "%sÂ : URL manquante\n"
 
-#: src/main.c:1119
+#: src/main.c:1740
+#, c-format
+msgid "You cannot specify both --post-data and --post-file.\n"
+msgstr "Vous ne pouvez pas indiquer --post-data et --post-file ensemble.\n"
+
+#: src/main.c:1745
+#, fuzzy, c-format
+msgid ""
+"You cannot use --post-data or --post-file along with --method. --method "
+"expects data through --body-data and --body-file options\n"
+msgstr ""
+"Vous ne pouvez pas utiliser --post-data ou --post-file avec --method. --"
+"method attend des donnÃ©es avec les options --body-data et --body-file"
+
+#: src/main.c:1754
+#, c-format
+msgid ""
+"You must specify a method through --method=HTTPMethod to use with --body-"
+"data or --body-file.\n"
+msgstr ""
+"Une mÃ©thode doit Ãªtre indiquÃ©e Ã  lâ€™aide de --method=MÃ©thodeHTTP pour "
+"utiliser avec --body-data ou --body-file.\n"
+
+#: src/main.c:1760
+#, c-format
+msgid "You cannot specify both --body-data and --body-file.\n"
+msgstr "Vous ne pouvez pas indiquer --body-data et --body-file ensemble.\n"
+
+#: src/main.c:1812
 #, c-format
 msgid "This version does not have support for IRIs\n"
-msgstr "Cette version ne supporte pas les IRIs\n"
+msgstr "Cette version ne prend pas en charge les IRI\n"
 
-#: src/main.c:1183
+#: src/main.c:1922
+#, c-format
 msgid ""
-"WARNING: Can't reopen standard output in binary mode;\n"
-"         downloaded file may contain inappropriate line endings.\n"
+"-k or -r can be used together with -O only if outputting to a regular file.\n"
 msgstr ""
-"AVERT. : impossible de réouvrir la sortie standard en mode\n"
-"binaire; fin de lignes des fichiers téléchargés problématiques.\n"
+"-k ou -r ne peuvent Ãªtre utilisÃ©es avec -O qu'en cas de sortie dans un "
+"fichier ordinaire.\n"
 
-#: src/main.c:1318
+#: src/main.c:1928
+#, c-format
+msgid ""
+"--convert-links or --convert-file-only can be used together only if "
+"outputting to a regular file.\n"
+msgstr ""
+"--convert-links ou --convert-file-only ne peuvent Ãªtre utilisÃ©es ensemble "
+"qu'en cas de sortie dans un fichier ordinaire.\n"
+
+#: src/main.c:1939
+#, fuzzy, c-format
+msgid "Failed to init libcares\n"
+msgstr "Impossible de supprimer le lien symbolique %sÂ : %s\n"
+
+#: src/main.c:1945
+#, c-format
+msgid "Failed to init c-ares channel\n"
+msgstr ""
+
+#: src/main.c:1968
+#, fuzzy, c-format
+msgid "Failed to parse IP address '%s'\n"
+msgstr "%sÂ : impossible de rÃ©soudre l'adresse de l'hÃ´te %s\n"
+
+#: src/main.c:1979
+#, fuzzy, c-format
+msgid "Failed to set DNS server(s) '%s' (%d)\n"
+msgstr "ErreurÂ : Ã©chec d'ouverture du certificat %sÂ : (%d).\n"
+
+#: src/main.c:2107
 #, c-format
 msgid "No URLs found in %s.\n"
-msgstr "Aucune URL repérée dans %s.\n"
+msgstr "Aucune URL repÃ©rÃ©e dans %s.\n"
 
-#: src/main.c:1336
+#: src/main.c:2123
+#, fuzzy, c-format
+msgid "Unable to parse metalink file %s.\n"
+msgstr "Impossible de supprimer %sÂ : %s\n"
+
+#: src/main.c:2153 src/metalink.c:337
+#, c-format
+msgid "Could not download all resources from %s.\n"
+msgstr ""
+
+#: src/main.c:2180
 #, c-format
 msgid ""
 "FINISHED --%s--\n"
+"Total wall clock time: %s\n"
 "Downloaded: %d files, %s in %s (%s)\n"
 msgstr ""
-"Terminé --%s--\n"
-"Téléchargé(s): %d fichiers, %s en %s (%s)\n"
+"TerminÃ© â€”Â %sÂ â€”\n"
+"Temps total effectifÂ : %s\n"
+"TÃ©lÃ©chargÃ©sÂ : %dÂ fichiers, %s en %s (%s)\n"
 
-#: src/main.c:1345
+#: src/main.c:2194
 #, c-format
 msgid "Download quota of %s EXCEEDED!\n"
-msgstr "Quota de téléchargement (%s octets) DÉPASSÉ!\n"
+msgstr "Quota de tÃ©lÃ©chargement %s dÃ©passÃ©.\n"
 
-#: src/mswindows.c:98
+#: src/metalink.c:93
+msgid "-O not supported for metalink download. Ignoring.\n"
+msgstr ""
+
+#: src/metalink.c:172
+#, c-format
+msgid "[--trust-server-names %s, --directory-prefix=%s]\n"
+msgstr ""
+
+#: src/metalink.c:176
+#, fuzzy, c-format
+msgid "Planned metalink file: %s\n"
+msgstr "Impossible de supprimer %sÂ : %s\n"
+
+#: src/metalink.c:179
+#, fuzzy, c-format
+msgid "Secured metalink file: %s\n"
+msgstr "Impossible de supprimer %sÂ : %s\n"
+
+#: src/metalink.c:184
+msgid "Rejecting metalink file. Unsafe name.\n"
+msgstr ""
+
+#: src/metalink.c:238
+#, c-format
+msgid "Processing metaurl %s...\n"
+msgstr ""
+
+#: src/metalink.c:251
+#, c-format
+msgid "Rejecting metaurl file %s. Unsafe name.\n"
+msgstr ""
+
+#: src/metalink.c:268
+#, c-format
+msgid "Failed to download %s. Skipping metaurl.\n"
+msgstr ""
+
+#: src/metalink.c:285
+#, fuzzy, c-format
+msgid "Unable to parse metaurl file %s.\n"
+msgstr "Impossible de supprimer %sÂ : %s\n"
+
+#: src/metalink.c:354
+msgid "Metaurls processing returned with error.\n"
+msgstr ""
+
+#: src/metalink.c:385
+#, fuzzy, c-format
+msgid "Resource type %s not supported, ignoring...\n"
+msgstr "ai_socktype non pris en charge"
+
+#: src/metalink.c:507
+#, fuzzy
+msgid "Could not open downloaded file.\n"
+msgstr "Impossible dâ€™ouvrir le fichier WARC.\n"
+
+#: src/metalink.c:512
+#, c-format
+msgid "Computing size for %s\n"
+msgstr ""
+
+#: src/metalink.c:517
+msgid "File size not declared. Skipping check.\n"
+msgstr ""
+
+#: src/metalink.c:525
+#, fuzzy
+msgid "Could not get downloaded file's size.\n"
+msgstr "Impossible dâ€™ouvrir le fichier WARC.\n"
+
+#: src/metalink.c:537
+#, fuzzy, c-format
+msgid "Size mismatch for file %s.\n"
+msgstr "Fichier %s inexistant.\n"
+
+#: src/metalink.c:545
+msgid "Size matches.\n"
+msgstr ""
+
+#: src/metalink.c:598
+#, c-format
+msgid "Computing checksum for %s\n"
+msgstr ""
+
+#: src/metalink.c:676
+msgid "Checksum matches.\n"
+msgstr ""
+
+#: src/metalink.c:681
+#, c-format
+msgid "Checksum mismatch for file %s.\n"
+msgstr ""
+
+#: src/metalink.c:721
+#, fuzzy
+msgid "Could not open downloaded file for signature verification.\n"
+msgstr "Impossible dâ€™ouvrir le fichier CDX pour la sortie.\n"
+
+#: src/metalink.c:780
+#, c-format
+msgid "GPGME data_new_from_mem: %s\n"
+msgstr ""
+
+#: src/metalink.c:792
+#, c-format
+msgid "GPGME op_verify: %s\n"
+msgstr ""
+
+#: src/metalink.c:805
+msgid "GPGME op_verify_result: NULL\n"
+msgstr ""
+
+#: src/metalink.c:821
+msgid "Signature validation succeeded.\n"
+msgstr ""
+
+#: src/metalink.c:829
+msgid "Invalid signature. Rejecting resource.\n"
+msgstr ""
+
+#: src/metalink.c:838
+msgid "Data matches signature, but signature is not trusted.\n"
+msgstr ""
+
+#: src/metalink.c:865
+#, fuzzy
+msgid "No checksums found.\n"
+msgstr "Aucun certificat trouvÃ©\n"
+
+#: src/metalink.c:871
+#, c-format
+msgid "Failed to download %s. Skipping resource.\n"
+msgstr ""
+
+#: src/metalink.c:878
+#, c-format
+msgid "File %s retrieved but size does not match. \n"
+msgstr ""
+
+#: src/metalink.c:885
+#, c-format
+msgid "File %s retrieved but checksum does not match. \n"
+msgstr ""
+
+#: src/metalink.c:894
+#, c-format
+msgid "File %s retrieved but signature does not match. \n"
+msgstr ""
+
+#: src/metalink.c:1113
+#, fuzzy, c-format
+msgid "Renaming %s to %s.\n"
+msgstr "Destruction de %s.\n"
+
+#: src/mswindows.c:97
 #, c-format
 msgid "Continuing in background.\n"
-msgstr "Poursuite en arrière plan.\n"
+msgstr "Poursuite en arriÃ¨re plan.\n"
 
-#: src/mswindows.c:291
+#: src/mswindows.c:290
 #, c-format
 msgid "Continuing in background, pid %lu.\n"
-msgstr "Poursuite à l'arrière plan, pid %lu.\n"
+msgstr "Poursuite en arriÃ¨re plan, PIDÂ %lu.\n"
 
-#: src/mswindows.c:293 src/utils.c:472
+#: src/mswindows.c:292 src/utils.c:509
 #, c-format
 msgid "Output will be written to %s.\n"
-msgstr "La sortie sera écrite vers %s.\n"
+msgstr "La sortie sera Ã©crite vers %s.\n"
 
-#: src/mswindows.c:461 src/mswindows.c:468
+#: src/mswindows.c:324
+#, c-format
+msgid "fake_fork_child() failed\n"
+msgstr "Ã‰chec de fake_fork_child()\n"
+
+#: src/mswindows.c:332
+#, c-format
+msgid "fake_fork() failed\n"
+msgstr "Ã‰chec de fake_fork()\n"
+
+#: src/mswindows.c:460 src/mswindows.c:467
 #, c-format
 msgid "%s: Couldn't find usable socket driver.\n"
-msgstr "%s: aucun slot de pilote (socket) utilisable.\n"
+msgstr "%sÂ : aucune socket de pilote utilisable.\n"
 
-#: src/netrc.c:390
+#: src/mswindows.c:647
+#, c-format
+msgid "ioctl() failed.  The socket could not be set as blocking.\n"
+msgstr "Ã‰chec de ioctl(). La socket nâ€™a pas pu Ãªtre dÃ©finie comme bloquante.\n"
+
+#: src/netrc.c:354
 #, c-format
 msgid "%s: %s:%d: warning: %s token appears before any machine name\n"
 msgstr ""
-"%s : %s:%d : ATTENTION : le jeton %s apparaît devant le nom des machines\n"
+"%sÂ : %s:%dÂ : avertissementÂ : le jeton %s apparaÃ®t devant le nom de machine\n"
 
-#: src/netrc.c:421
+#: src/netrc.c:385
 #, c-format
 msgid "%s: %s:%d: unknown token \"%s\"\n"
-msgstr "%s: %s:%d: jeton inconnu « %s »\n"
+msgstr "%sÂ : %s:%dÂ : jeton Â«Â %sÂ Â» inconnu\n"
 
-#: src/netrc.c:485
+#: src/netrc.c:448
 #, c-format
 msgid "Usage: %s NETRC [HOSTNAME]\n"
-msgstr "Usage: %s NETRC [HÔTE]\n"
+msgstr "UtilisationÂ : %s NETRC [HÃ”TE]\n"
 
-#: src/netrc.c:495
+#: src/netrc.c:466
 #, c-format
 msgid "%s: cannot stat %s: %s\n"
-msgstr "%s: ne peut évaluer par stat() le fichier %s: %s\n"
+msgstr "%sÂ : impossible d'obtenir l'Ã©tat de %sÂ : %s\n"
 
-#: src/openssl.c:113
+#: src/openssl.c:123
 msgid "WARNING: using a weak random seed.\n"
-msgstr "AVERTISSEMENT: utilisation d'un germe aléatoire faible.\n"
+msgstr "AttentionÂ : utilisation d'une initialisation alÃ©atoire faible.\n"
 
-#: src/openssl.c:173
+#: src/openssl.c:195
 msgid "Could not seed PRNG; consider using --random-file.\n"
 msgstr ""
-"Impossible de générer un germe PRNG (seed); considérer l'utilisation de --"
-"random-file.\n"
+"Impossible d'initialiser la gÃ©nÃ©ration de nombres pseudoalÃ©atoiresÂ ; "
+"considÃ©rer l'utilisation de --random-file.\n"
 
-#: src/openssl.c:526
+#: src/openssl.c:245
+msgid "Your OpenSSL version is too old to support TLSv1.1\n"
+msgstr ""
+"La version dâ€™OpenSSL est trop ancienne pour prendre en charge TLSv1.1\n"
+
+#: src/openssl.c:249
+msgid "Your OpenSSL version is too old to support TLSv1.2\n"
+msgstr ""
+"La version dâ€™OpenSSL est trop ancienne pour prendre en charge TLSv1.2\n"
+
+#: src/openssl.c:254
+#, c-format
+msgid "OpenSSL: unimplemented 'secure-protocol' option value %d\n"
+msgstr ""
+"OpenSSLÂ : valeur %d pour lâ€™option Â«Â secure-protocolÂ Â» non prise en charge\n"
+
+#: src/openssl.c:798
 #, c-format
 msgid "%s: cannot verify %s's certificate, issued by %s:\n"
 msgstr ""
-"%s : impossible de vérifier l'attribut %s du certificat, émis par %s :\n"
+"%sÂ : impossible de vÃ©rifier l'attribut %s du certificat, Ã©mis par %sÂ :\n"
 
-#: src/openssl.c:535
+#: src/openssl.c:809
 msgid "  Unable to locally verify the issuer's authority.\n"
-msgstr ""
-"  Impossible de vérifier localement le certificat autorité de l'émetteur.\n"
+msgstr "  Impossible de vÃ©rifier localement l'autoritÃ© de l'Ã©metteur.\n"
 
-#: src/openssl.c:539
+#: src/openssl.c:814
 msgid "  Self-signed certificate encountered.\n"
-msgstr "  Récupération d'un certificat auto-signé.\n"
+msgstr "  RÃ©cupÃ©ration d'un certificat autosignÃ©.\n"
 
-#: src/openssl.c:542
+#: src/openssl.c:817
 msgid "  Issued certificate not yet valid.\n"
-msgstr "  Certificat émis non encore valide.\n"
+msgstr "  Le certificat Ã©mis n'est pas encore valable.\n"
 
-#: src/openssl.c:545
+#: src/openssl.c:820
 msgid "  Issued certificate has expired.\n"
-msgstr "  Le certificat émis a expiré.\n"
+msgstr "  Le certificat Ã©mis a expirÃ©.\n"
 
-#: src/openssl.c:579
-#, c-format
-msgid "%s: certificate common name %s doesn't match requested host name %s.\n"
-msgstr ""
-"%s : le nom commun du certificat %s ne concorde pas avec le nom de l'hôte "
-"demandé %s.\n"
-
-#: src/openssl.c:610
+#: src/openssl.c:908
 #, c-format
 msgid ""
-"%s: certificate common name is invalid (contains a NUL character).\n"
-"This may be an indication that the host is not who it claims to be\n"
-"(that is, it is not the real %s).\n"
+"%s: no certificate subject alternative name matches\n"
+"\trequested host name %s.\n"
 msgstr ""
+"%sÂ : le nom de sujet alternatif du certificat ne correspond pas au\n"
+"\tnom d'hÃ´te %s demandÃ©.\n"
 
-#: src/openssl.c:627
+#: src/openssl.c:927
+#, c-format
+msgid ""
+"    %s: certificate common name %s doesn't match requested host name %s.\n"
+msgstr ""
+"    %sÂ : le nom commun du certificat %s ne correspond pas au nom d'hÃ´te %s "
+"demandÃ©.\n"
+
+#: src/openssl.c:959
+#, c-format
+msgid ""
+"    %s: certificate common name is invalid (contains a NUL character).\n"
+"    This may be an indication that the host is not who it claims to be\n"
+"    (that is, it is not the real %s).\n"
+msgstr ""
+"    %sÂ : le nom commun du certificat est incorrect (contient un caractÃ¨re\n"
+"    NULL). Cela peut indiquer une usurpation d'hÃ´te (c'est-Ã -dire qu'il ne\n"
+"    s'agit pas du vÃ©ritable %s).\n"
+
+#: src/openssl.c:984
 #, c-format
 msgid "To connect to %s insecurely, use `--no-check-certificate'.\n"
 msgstr ""
-"Pour établir une connexion à %s non sécurisée, utiliser `--no-check-"
-"certificate'.\n"
+"Pour Ã©tablir une connexion non sÃ©curisÃ©e Ã  %s, utilisez Â«Â --no-check-"
+"certificateÂ Â».\n"
 
-#: src/progress.c:242
+#: src/progress.c:245
 #, c-format
 msgid ""
 "\n"
 "%*s[ skipping %sK ]"
 msgstr ""
 "\n"
-"%*s[ ignorés %sK ]"
+"%*s[ %sK ignorÃ© ]"
 
-#: src/progress.c:456
+#: src/progress.c:466
 #, c-format
 msgid "Invalid dot style specification %s; leaving unchanged.\n"
-msgstr "Spécification du style \"point\" %s non valide; reste inchangée.\n"
+msgstr ""
+"Indication de style Â«Â pointÂ Â» %s incorrectÂ ; laissÃ© sans modification.\n"
 
 #. TRANSLATORS: "ETA" is English-centric, but this must
 #. be short, ideally 3 chars.  Abbreviate if necessary.
-#: src/progress.c:805
+#: src/progress.c:858
 #, c-format
-msgid "  eta %s"
-msgstr "  eta %s"
+msgid "    eta %s"
+msgstr "    tps %s"
 
-#: src/progress.c:1050
-msgid "   in "
-msgstr "   ds "
+#: src/progress.c:1148
+msgid "    in "
+msgstr "    ds "
 
-#: src/ptimer.c:162
+#: src/ptimer.c:158
 #, c-format
 msgid "Cannot get REALTIME clock frequency: %s\n"
-msgstr "Ne peut obtenir la fréquence de l'horloge en TEMPS RÉEL: %s\n"
+msgstr ""
+"Impossible d'obtenir la frÃ©quence de l'horloge en temps rÃ©el (REALTIME)Â : "
+"%s\n"
 
-#: src/recur.c:439
+#: src/recur.c:514
 #, c-format
 msgid "Removing %s since it should be rejected.\n"
-msgstr "Destruction de %s puisqu'il doit être rejeté.\n"
+msgstr "Suppression de %s puisqu'il devrait Ãªtre rejetÃ©.\n"
 
-#: src/res.c:391
+#: src/res.c:392
 #, c-format
 msgid "Cannot open %s: %s"
-msgstr "Ne peut ouvrir %s: %s"
+msgstr "Impossible d'ouvrir %sÂ : %s"
 
-#: src/res.c:550
+#: src/res.c:551
 msgid "Loading robots.txt; please ignore errors.\n"
-msgstr "Chargement de robots.txt; svp ignorer les erreurs.\n"
+msgstr "Chargement de robots.txtÂ ; veuillez ignorer les erreurs.\n"
 
-#: src/retr.c:667
+#: src/retr.c:772
 #, c-format
 msgid "Error parsing proxy URL %s: %s.\n"
-msgstr "Erreur d'analyse syntaxique du proxy URL %s: %s\n"
+msgstr "Erreur d'analyse de l'URL du serveur mandataire (Â«Â proxyÂ Â») %sÂ : %s.\n"
 
-#: src/retr.c:677
+#: src/retr.c:784
 #, c-format
 msgid "Error in proxy URL %s: Must be HTTP.\n"
-msgstr "Erreur dans le proxy URL %s: doit être de type HTTP.\n"
+msgstr ""
+"Erreur d'URL de serveur mandataire (Â«Â proxyÂ Â») %sÂ : doit Ãªtre de type HTTP.\n"
 
-#: src/retr.c:775
+#: src/retr.c:913
 #, c-format
 msgid "%d redirections exceeded.\n"
-msgstr "%d redirections dépassant la limite permise.\n"
+msgstr "%dÂ redirections dÃ©passant la limite permise.\n"
 
-#: src/retr.c:1014
+#: src/retr.c:1172
 msgid ""
 "Giving up.\n"
 "\n"
@@ -2143,7 +3396,7 @@ msgstr ""
 "Abandon.\n"
 "\n"
 
-#: src/retr.c:1014
+#: src/retr.c:1172
 msgid ""
 "Retrying.\n"
 "\n"
@@ -2151,15 +3404,15 @@ msgstr ""
 "Nouvel essai.\n"
 "\n"
 
-#: src/spider.c:74
+#: src/spider.c:75
 msgid ""
 "Found no broken links.\n"
 "\n"
 msgstr ""
-"Pas trouvé de lien mort.\n"
+"Aucun lien mort trouvÃ©.\n"
 "\n"
 
-#: src/spider.c:81
+#: src/spider.c:82
 #, c-format
 msgid ""
 "Found %d broken link.\n"
@@ -2168,599 +3421,182 @@ msgid_plural ""
 "Found %d broken links.\n"
 "\n"
 msgstr[0] ""
-"Found %d broken link.\n"
+"%dÂ lien mort trouvÃ©.\n"
 "\n"
 msgstr[1] ""
-"Trouvé %d liens morts.\n"
+"%dÂ liens morts trouvÃ©s.\n"
 "\n"
 
-#: src/spider.c:91
-#, c-format
-msgid "%s\n"
-msgstr "%s\n"
-
-#: src/url.c:633
+#: src/url.c:676
 msgid "No error"
 msgstr "Aucune erreur"
 
-#: src/url.c:635
+#: src/url.c:678
 #, c-format
 msgid "Unsupported scheme %s"
-msgstr "Schéma non supporté %s"
+msgstr "SchÃ©ma %s non pris en charge"
 
-#: src/url.c:637
+#: src/url.c:680
 msgid "Scheme missing"
-msgstr "Schéma manquant"
+msgstr "SchÃ©ma manquant"
 
-#: src/url.c:639
+#: src/url.c:682
 msgid "Invalid host name"
-msgstr "Nom de l'hôte non valide"
+msgstr "Nom d'hÃ´te incorrect"
 
-#: src/url.c:641
+#: src/url.c:684
 msgid "Bad port number"
-msgstr "Mauvais numéro de port"
+msgstr "Mauvais numÃ©ro de port"
 
-#: src/url.c:643
+#: src/url.c:686
 msgid "Invalid user name"
-msgstr "Nom de l'usager non valide"
+msgstr "Identifiant incorrect"
 
-#: src/url.c:645
+#: src/url.c:688
 msgid "Unterminated IPv6 numeric address"
-msgstr "Adresse numérique IPv6 non terminée"
+msgstr "Adresse numÃ©rique IPv6 non terminÃ©e"
 
-#: src/url.c:647
+#: src/url.c:690
 msgid "IPv6 addresses not supported"
-msgstr "Adresses IPv6 non supportées"
+msgstr "Adresses IPv6 non prises en charge"
 
-#: src/url.c:649
+#: src/url.c:692
 msgid "Invalid IPv6 numeric address"
-msgstr "Adresse numérique IPv6 invalide"
+msgstr "Adresse numÃ©rique IPv6 incorrecte"
 
-#: src/url.c:951
+#: src/url.c:998
 msgid "HTTPS support not compiled in"
-msgstr "Support de HTTPS manquant (non compilé)"
+msgstr "HTTPS non activÃ© lors de la compilation."
 
-#: src/utils.c:108
+#: src/utils.c:129
 #, c-format
 msgid "%s: %s: Failed to allocate enough memory; memory exhausted.\n"
-msgstr "%s : %s : échec d'allocation de mémoire; mémoire épuisée.\n"
+msgstr "%sÂ : %sÂ : Ã©chec d'allocation de mÃ©moireÂ ; mÃ©moire Ã©puisÃ©e.\n"
 
-#: src/utils.c:114
+#: src/utils.c:135
 #, c-format
 msgid "%s: %s: Failed to allocate %ld bytes; memory exhausted.\n"
-msgstr "%s: %s: échec d'allocation de %ld octets; mémoire épuisée.\n"
+msgstr "%sÂ : %sÂ : Ã©chec d'allocation de %ldÂ octetsÂ ; mÃ©moire Ã©puisÃ©e.\n"
 
-#: src/utils.c:327
+#: src/utils.c:355
 #, c-format
-msgid "%s: aprintf: text buffer is too big (%ld bytes), aborting.\n"
-msgstr "%s : aprintf : tampon de texte trop grand (%ld octets), abandon.\n"
+msgid "%s: aprintf: text buffer is too big (%d bytes), aborting.\n"
+msgstr "%sÂ : aprintfÂ : tampon de texte trop grand (%dÂ octets), abandon.\n"
 
-#: src/utils.c:470
+#: src/utils.c:507
 #, c-format
 msgid "Continuing in background, pid %d.\n"
-msgstr "Poursuite à l'arrière plan, pid %d.\n"
+msgstr "Poursuite en arriÃ¨re plan, PIDÂ %d.\n"
 
-#: src/utils.c:521
+#: src/utils.c:583
 #, c-format
 msgid "Failed to unlink symlink %s: %s\n"
-msgstr "Impossible de supprimer le lien symbolique %s : %s\n"
+msgstr "Impossible de supprimer le lien symbolique %sÂ : %s\n"
 
-#~ msgid ""
-#~ "  -B,  --base=URL            prepends URL to relative links in -F -i "
-#~ "file.\n"
-#~ msgstr ""
-#~ "  -B,  --base=URL            accoler les URL aux liens relatifs dans -F -"
-#~ "i fichier.\n"
+#: src/utils.c:2316 src/utils.c:2335
+#, c-format
+msgid "Invalid regular expression %s, %s\n"
+msgstr "Expression rationnelle %s incorrecte, %s\n"
 
-#~ msgid "       --preserve-permissions  preserve remote file permissions.\n"
-#~ msgstr ""
-#~ "       --preserve-permissions  préserver les permissions des fichiers "
-#~ "distants.\n"
+#: src/utils.c:2359 src/utils.c:2383
+#, c-format
+msgid "Error while matching %s: %d\n"
+msgstr "Erreur de correspondance de %sÂ : %d\n"
 
-#~ msgid "Error in Set-Cookie, field `%s'"
-#~ msgstr "Erreur dans Set-Cookie(), champ « %s »"
+#: src/warc.c:222
+msgid "Error opening GZIP stream to WARC file.\n"
+msgstr "Erreur d'ouverture du flux GZIP vers le fichier WARC.\n"
 
-#~ msgid "%s (%s) - Connection closed at byte %s/%s. "
-#~ msgstr "%s (%s) - Fermeture de la connexion à l'octet %s/%s. "
+#: src/warc.c:797
+msgid "Error writing warcinfo record to WARC file.\n"
+msgstr "Erreur dâ€™Ã©criture de lâ€™enregistrement warcinfo vers le fichier WARC.\n"
 
-#~ msgid ""
-#~ "%s: %s: Invalid extended boolean `%s';\n"
-#~ "use one of `on', `off', `always', or `never'.\n"
-#~ msgstr ""
-#~ "%s: %s: booléen étendu invalide « %s »;\n"
-#~ "utiliser une des options « on », « off », « always » ou « never ».\n"
+#: src/warc.c:860
+#, c-format
+msgid ""
+"Opening WARC file %s.\n"
+"\n"
+msgstr ""
+"Ouverture du fichier WARC %s.\n"
+"\n"
 
-#~ msgid "  -Y,  --proxy                   explicitly turn on proxy.\n"
-#~ msgstr "  -Y,  --proxy                   activer explicitement le proxy.\n"
+#: src/warc.c:866
+#, c-format
+msgid "Error opening WARC file %s.\n"
+msgstr "Erreur d'ouverture du fichier WARC %s.\n"
 
-#~ msgid ""
-#~ "This program is distributed in the hope that it will be useful,\n"
-#~ "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-#~ "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-#~ "GNU General Public License for more details.\n"
-#~ msgstr ""
-#~ "Ce logiciel est distribué en espérant qu'il soit utile,\n"
-#~ "mais sans AUCUNE garantie; sans la garantie liée à des raisons\n"
-#~ "COMMERCIALES ou pour RÉPONDRE À UN BESOIN PARTICULIER.\n"
-#~ "selon les termes de la « GNU General Public License ».\n"
-#~ "Pour plus d'informations à ce sujet, consulter la « GNU General Public "
-#~ "License ».\n"
+#: src/warc.c:1063
+msgid "CDX file does not list original urls. (Missing column 'a'.)\n"
+msgstr ""
+"Le fichier CDX ne contient pas les URL dâ€™origine (colonne Â«Â aÂ Â» manquante).\n"
 
-#~ msgid "%s: Certificate verification error for %s: %s\n"
-#~ msgstr "%s: erreur de vérification du certificat pour %s: %s\n"
+#: src/warc.c:1066
+msgid "CDX file does not list checksums. (Missing column 'k'.)\n"
+msgstr ""
+"Le fichier CDX ne contient pas les sommes de contrÃ´le (colonne Â«Â kÂ Â» "
+"manquante).\n"
 
-#~ msgid "Failed writing to proxy: %s.\n"
-#~ msgstr "ÉCHEC d'écriture vers le proxy: %s.\n"
+#: src/warc.c:1069
+msgid "CDX file does not list record ids. (Missing column 'u'.)\n"
+msgstr ""
+"Le fichier CDX ne contient pas les identifiants dâ€™enregistrement (colonne "
+"Â«Â uÂ Â» manquante).\n"
 
-#~ msgid "File `%s' already there, will not retrieve.\n"
-#~ msgstr "Fichier « %s » est déjà là, pas de récupération.\n"
+#: src/warc.c:1093
+#, c-format
+msgid ""
+"Loaded %d record from CDX.\n"
+"\n"
+msgid_plural ""
+"Loaded %d records from CDX.\n"
+"\n"
+msgstr[0] ""
+"%dÂ enregistrement chargÃ© du CDX.\n"
+"\n"
+msgstr[1] ""
+"%dÂ enregistrements chargÃ©s du CDX.\n"
+"\n"
 
-#~ msgid ""
-#~ "%s (%s) - `%s' saved [%s/%s])\n"
-#~ "\n"
-#~ msgstr ""
-#~ "%s (%s) - « %s » sauvegardé [%s/%s]\n"
-#~ "\n"
+#: src/warc.c:1139
+#, c-format
+msgid "Could not read CDX file %s for deduplication.\n"
+msgstr "Impossible de lire le fichier CDX %s pour la dÃ©duplication.\n"
 
-#~ msgid "Empty host"
-#~ msgstr "Hôte vide"
+#: src/warc.c:1149
+msgid "Could not open temporary WARC manifest file.\n"
+msgstr "Impossible dâ€™ouvrir le fichier de manifeste WARC temporaire.\n"
 
-#~ msgid "Unable to convert `%s' to a bind address.  Reverting to ANY.\n"
-#~ msgstr "Incapable de convertir `%s' pour lier l'adresse. Retour à ANY.\n"
+#: src/warc.c:1159
+msgid "Could not open temporary WARC log file.\n"
+msgstr "Impossible dâ€™ouvrir le fichier de journalisation WARC temporaire.\n"
 
-#~ msgid ""
-#~ "\n"
-#~ "REST failed; will not truncate `%s'.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "ÉCHEC REST; aucune troncation de « %s »\n"
+#: src/warc.c:1168
+msgid "Could not open WARC file.\n"
+msgstr "Impossible dâ€™ouvrir le fichier WARC.\n"
 
-#~ msgid " [%s to go]"
-#~ msgstr " [%s restant]"
+#: src/warc.c:1177
+msgid "Could not open CDX file for output.\n"
+msgstr "Impossible dâ€™ouvrir le fichier CDX pour la sortie.\n"
 
-#~ msgid "Host not found"
-#~ msgstr "Hôte non repéré"
+#: src/warc.c:1207
+msgid "Could not open temporary WARC file.\n"
+msgstr "Impossible dâ€™ouvrir le fichier WARC temporaire.\n"
 
-#~ msgid "Failed to set up an SSL context\n"
-#~ msgstr "ÉCHEC d'initialisation du contexte SSL\n"
+#: src/warc.c:1473
+msgid "Found exact match in CDX file. Saving revisit record to WARC.\n"
+msgstr ""
+"Correspondance exacte trouvÃ©e dans le fichier CDX. Sauvegarde de "
+"lâ€™enregistrement revisitÃ© dans WARC.\n"
 
-#~ msgid "Failed to load certificates from %s\n"
-#~ msgstr "ÉCHEC de chargement des certificats de %s\n"
+#~ msgid "Invalid UTF-8 sequence: %s\n"
+#~ msgstr "SÃ©quence UTF-8 incorrecteÂ : %s\n"
 
-#~ msgid "Trying without the specified certificate\n"
-#~ msgstr "Essai sans le certificat spécifié\n"
-
-#~ msgid "Failed to get certificate key from %s\n"
-#~ msgstr "ÉCHEC d'obtention de la clé du certificat de %s\n"
-
-#~ msgid "End of file while parsing headers.\n"
-#~ msgstr "Fin de fichier lors de l'analyse du l'en-tête.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Continued download failed on this file, which conflicts with `-c'.\n"
-#~ "Refusing to truncate existing file `%s'.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Échec de la poursuite du téléchargement du fichier, en conflit avec « -c "
-#~ "».\n"
-#~ "Refus de tronquer le fichier existant « %s ».\n"
-#~ "\n"
-
-#~ msgid " (%s to go)"
-#~ msgstr " (%s restant)"
-
-#~ msgid ""
-#~ "Startup:\n"
-#~ "  -V,  --version           display the version of Wget and exit.\n"
-#~ "  -h,  --help              print this help.\n"
-#~ "  -b,  --background        go to background after startup.\n"
-#~ "  -e,  --execute=COMMAND   execute a `.wgetrc'-style command.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Démarrage:\n"
-#~ "  -V,  --version               afficher le nom et la version du logiciel\n"
-#~ "  -h,  --help                  afficher l'aide-mémoire\n"
-#~ "  -b,  --background            travailler à l'arrière plan après le "
-#~ "démarrage.\n"
-#~ "  -e,  --execute=COMMAND       exécuter une commande de style « .wgetrc "
-#~ "».\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Logging and input file:\n"
-#~ "  -o,  --output-file=FILE     log messages to FILE.\n"
-#~ "  -a,  --append-output=FILE   append messages to FILE.\n"
-#~ "  -d,  --debug                print debug output.\n"
-#~ "  -q,  --quiet                quiet (no output).\n"
-#~ "  -v,  --verbose              be verbose (this is the default).\n"
-#~ "  -nv, --non-verbose          turn off verboseness, without being quiet.\n"
-#~ "  -i,  --input-file=FILE      download URLs found in FILE.\n"
-#~ "  -F,  --force-html           treat input file as HTML.\n"
-#~ "  -B,  --base=URL             prepends URL to relative links in -F -i "
-#~ "file.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Journalisation et fichier d'entrée:\n"
-#~ "  -o,  --output-file=FICHIER   journaliser les messages dans le FICHIER.\n"
-#~ "  -a,  --append-output=FICHIER concaténer les messages au FICHIER.\n"
-#~ "  -d,  --debug                 afficher les informations de mise au "
-#~ "point.\n"
-#~ "  -q,  --quiet                 travailler silencieusement (sans sortie).\n"
-#~ "  -v,  --verbose               travailler en mode bavard (par défaut).\n"
-#~ "  -nv, --non-verbose           ne pas travailler en mode explicatif, \n"
-#~ "                               mais garder un niveau informatif "
-#~ "suffisant.\n"
-#~ "  -i,  --input-file=FICHIER    lire les URL du FICHIER.\n"
-#~ "  -F,  --force-html            traiter le fichier d'entrée comme du code "
-#~ "HTML.\n"
-#~ "  -B,  --base=URL              ajouter le URL aux liens relatifs de -F -i "
-#~ "fichier.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Download:\n"
-#~ "  -t,  --tries=NUMBER           set number of retries to NUMBER (0 "
-#~ "unlimits).\n"
-#~ "       --retry-connrefused      retry even if connection is refused.\n"
-#~ "  -O   --output-document=FILE   write documents to FILE.\n"
-#~ "  -nc, --no-clobber             don't clobber existing files or use .# "
-#~ "suffixes.\n"
-#~ "  -c,  --continue               resume getting a partially-downloaded "
-#~ "file.\n"
-#~ "       --progress=TYPE          select progress gauge type.\n"
-#~ "  -N,  --timestamping           don't re-retrieve files unless newer than "
-#~ "local.\n"
-#~ "  -S,  --server-response        print server response.\n"
-#~ "       --spider                 don't download anything.\n"
-#~ "  -T,  --timeout=SECONDS        set all timeout values to SECONDS.\n"
-#~ "       --dns-timeout=SECS       set the DNS lookup timeout to SECS.\n"
-#~ "       --connect-timeout=SECS   set the connect timeout to SECS.\n"
-#~ "       --read-timeout=SECS      set the read timeout to SECS.\n"
-#~ "  -w,  --wait=SECONDS           wait SECONDS between retrievals.\n"
-#~ "       --waitretry=SECONDS      wait 1...SECONDS between retries of a "
-#~ "retrieval.\n"
-#~ "       --random-wait            wait from 0...2*WAIT secs between "
-#~ "retrievals.\n"
-#~ "  -Y,  --proxy=on/off           turn proxy on or off.\n"
-#~ "  -Q,  --quota=NUMBER           set retrieval quota to NUMBER.\n"
-#~ "       --bind-address=ADDRESS   bind to ADDRESS (hostname or IP) on local "
-#~ "host.\n"
-#~ "       --limit-rate=RATE        limit download rate to RATE.\n"
-#~ "       --dns-cache=off          disable caching DNS lookups.\n"
-#~ "       --restrict-file-names=OS restrict chars in file names to ones OS "
-#~ "allows.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Téléchargement:\n"
-#~ "  -t,  --tries=NOMBRE            initialiser le NOMBRE d'essais (0 sans "
-#~ "limite).\n"
-#~ "       --retry-connrefused       ré-essayer même si la connexion est "
-#~ "refusée.\n"
-#~ "  -O   --output-document=FICHIER écrire les documents dans le FICHIER.\n"
-#~ "  -nc, --no-clobber              ne pas écraser les fichiers existants.\n"
-#~ "  -c,  --continue                redémarrer la récupération d'un fichier "
-#~ "existant.\n"
-#~ "       --progress=STYLE          utiliser le STYLE de jauge de "
-#~ "progression.\n"
-#~ "  -N,  --timestamping            ne pas récupérer un fichier plus vieux "
-#~ "qu'un fichier local.\n"
-#~ "  -S,  --server-response         afficher la réponse du serveur.\n"
-#~ "       --spider                  ne rien télécharger.\n"
-#~ "  -T,  --timeout=SECONDES        initialiser le délai de grâce en "
-#~ "SECONDES.\n"
-#~ "       --dns-timeout=N           fixer la minuterie de recherche du DNS à "
-#~ "N secondes.\n"
-#~ "       --connect-timeout=N       fixer le temps d'oisiveté à N secondes.\n"
-#~ "       --read-timeout=N          fixer le temps de lecture à N secondes.\n"
-#~ "  -w,  --wait=N                  attendre N secondes entre chaque essai.\n"
-#~ "       --waitretry=N             attendre 1...N secondes entre les "
-#~ "essais.\n"
-#~ "       --random-wait             attendre de 0...2*N secondes entre les "
-#~ "essais.\n"
-#~ "  -Y,  --proxy=on/off            activer (« on ») ou désactiver (« off ») "
-#~ "le proxy.\n"
-#~ "  -Q,  --quota=N                 initialiser le quota de récupération à "
-#~ "N.\n"
-#~ "       --bind-address=ADDRESS    lier l'ADRESSE (nom de l'hôte ou IP) à "
-#~ "l'hôte local.\n"
-#~ "       --limit-rate=TAUX         limiter le TAUX de téléchargement.\n"
-#~ "       --dns-cache=off           désactiver la cache lors de la "
-#~ "résolution DNS.\n"
-#~ "       --restrict-file-names=OS restrict chars in file names to ones OS "
-#~ "allows.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Directories:\n"
-#~ "  -nd, --no-directories            don't create directories.\n"
-#~ "  -x,  --force-directories         force creation of directories.\n"
-#~ "  -nH, --no-host-directories       don't create host directories.\n"
-#~ "  -P,  --directory-prefix=PREFIX   save files to PREFIX/...\n"
-#~ "       --cut-dirs=NUMBER           ignore NUMBER remote directory "
-#~ "components.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Répertoires:\n"
-#~ "  -nd  --no-directories            ne pas créer les répertoires.\n"
-#~ "  -x,  --force-directories         forcer la création des répertoires.\n"
-#~ "  -nH, --no-host-directories       ne pas créer les répertoires d'hôte.\n"
-#~ "  -P,  --directory-prefix=PRÉFIXE  sauvegarder les fichiers avec le "
-#~ "PRÉFIXE/...\n"
-#~ "       --cut-dirs=N                ignorer N composants des répertoires "
-#~ "de l'hôte.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "HTTP options:\n"
-#~ "       --http-user=USER      set http user to USER.\n"
-#~ "       --http-passwd=PASS    set http password to PASS.\n"
-#~ "  -C,  --cache=on/off        (dis)allow server-cached data (normally "
-#~ "allowed).\n"
-#~ "  -E,  --html-extension      save all text/html documents with .html "
-#~ "extension.\n"
-#~ "       --ignore-length       ignore `Content-Length' header field.\n"
-#~ "       --header=STRING       insert STRING among the headers.\n"
-#~ "       --proxy-user=USER     set USER as proxy username.\n"
-#~ "       --proxy-passwd=PASS   set PASS as proxy password.\n"
-#~ "       --referer=URL         include `Referer: URL' header in HTTP "
-#~ "request.\n"
-#~ "  -s,  --save-headers        save the HTTP headers to file.\n"
-#~ "  -U,  --user-agent=AGENT    identify as AGENT instead of Wget/VERSION.\n"
-#~ "       --no-http-keep-alive  disable HTTP keep-alive (persistent "
-#~ "connections).\n"
-#~ "       --cookies=off         don't use cookies.\n"
-#~ "       --load-cookies=FILE   load cookies from FILE before session.\n"
-#~ "       --save-cookies=FILE   save cookies to FILE after session.\n"
-#~ "       --post-data=STRING    use the POST method; send STRING as the "
-#~ "data.\n"
-#~ "       --post-file=FILE      use the POST method; send contents of FILE.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Options HTTP:\n"
-#~ "       --http-user=USAGER      utiliser le nom d'USAGER http.\n"
-#~ "       --http-passwd=MOT_DE_PASSE\n"
-#~ "                               utiliser le MOT_DE_PASSE http.\n"
-#~ "  -C,  --cache=on/off          activer (« on ») ou désactiver (« off ») le "
-#~ "cache\n"
-#~ "                               de données du serveur (activé par défaut)\n"
-#~ "  -E,  --html-extension        sauvegarder tous les documents texte/html "
-#~ "avec un suffixe .html\n"
-#~ "       --ignore-length         ignorer le champ « Content-Length » de l'en-"
-#~ "tête.\n"
-#~ "       --header=CHAÎNE         insérer la CHAÎNE à travers les en-têtes.\n"
-#~ "       --proxy-user=USAGER     utiliser le nom USAGER pour le proxy.\n"
-#~ "       --proxy-passwd=MOT_DE_PASSE\n"
-#~ "                               utiliser le MOT_DE_PASSE pour le proxy.\n"
-#~ "       --referer=URL           inclure l'en-tête `Referer: URL' dans la "
-#~ "requête HTTP.\n"
-#~ "  -s,  --save-headers          sauvegarder les en-têtes HTTP dans le "
-#~ "fichier.\n"
-#~ "  -U,  --user-agent=AGENT      identifier l'AGENT plutôt que Wget/"
-#~ "VERSION.\n"
-#~ "       --no-http-keep-alive    désactiver l'option HTTP keep-alive "
-#~ "(connexions persistantes).\n"
-#~ "       --cookies=off           ne pas utiliser les cookies.\n"
-#~ "       --load-cookies=FICHIER  charger les cookies à partir du FICHIER "
-#~ "avant la session.\n"
-#~ "       --save-cookies=FICHIER  sauvegarder les cookies dans le FICHIER "
-#~ "après la session.\n"
-#~ "       --post-data=CHAÎNE      utiliser la méthode POST; transmettre la "
-#~ "CHAÎNE comme des données.\n"
-#~ "       --post-file=FICHIER     utiliser la méthode POST; transmettre le "
-#~ "contenu du FICHIER.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "HTTPS (SSL) options:\n"
-#~ "       --sslcertfile=FILE     optional client certificate.\n"
-#~ "       --sslcertkey=KEYFILE   optional keyfile for this certificate.\n"
-#~ "       --egd-file=FILE        file name of the EGD socket.\n"
-#~ "       --sslcadir=DIR         dir where hash list of CA's are stored.\n"
-#~ "       --sslcafile=FILE       file with bundle of CA's\n"
-#~ "       --sslcerttype=0/1      Client-Cert type 0=PEM (default) / 1=ASN1 "
-#~ "(DER)\n"
-#~ "       --sslcheckcert=0/1     Check the server cert agenst given CA\n"
-#~ "       --sslprotocol=0-3      choose SSL protocol; 0=automatic,\n"
-#~ "                              1=SSLv2 2=SSLv3 3=TLSv1\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Options HTTPS (SSL):\n"
-#~ "       --sslcertfile=FICHIER     certificat optionel du client.\n"
-#~ "       --sslcertkey=FICHIER_CLES fichier optionel de clés pour ce "
-#~ "certificat.\n"
-#~ "       --egd-file=FICHIER        nom du fichier pour le socket EGD.\n"
-#~ "       --sslcadir=RÉP            RÉPertoire où la liste de hash où les CA "
-#~ "sont stockés\n"
-#~ "       --sslcafile=FICHIER       fichier lié avec les CA\n"
-#~ "       --sslcerttype=0/1         type de certficat-client 0=PEM (par "
-#~ "défaut) / 1=ASN1 (DER)\n"
-#~ "       --sslcheckcert=0/1        vérifier le certificat du serveur versus "
-#~ "le CA fourni\n"
-#~ "       --sslprotocol=0-3         sélectionner le protocol SSL ; "
-#~ "0=automatic,\n"
-#~ "                                 1=SSLv2 2=SSLv3 3=TLSv1\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "FTP options:\n"
-#~ "  -nr, --dont-remove-listing   don't remove `.listing' files.\n"
-#~ "  -g,  --glob=on/off           turn file name globbing on or off.\n"
-#~ "       --passive-ftp           use the \"passive\" transfer mode.\n"
-#~ "       --retr-symlinks         when recursing, get linked-to files (not "
-#~ "dirs).\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Option FTP:\n"
-#~ "  -nr, --dont-remove-listing   ne pas détruire les fichier « .listing »\n"
-#~ "  -g,  --glob=on/off           écraser (« on ») ou ne pas écraser (« off ») "
-#~ "les noms de fichiers\n"
-#~ "       --passive-ftp           utiliser le mode de transfert « passif ».\n"
-#~ "       --retr-symlinks         récupérer les liens symbolique via FTP.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Recursive retrieval:\n"
-#~ "  -r,  --recursive          recursive download.\n"
-#~ "  -l,  --level=NUMBER       maximum recursion depth (inf or 0 for "
-#~ "infinite).\n"
-#~ "       --delete-after       delete files locally after downloading them.\n"
-#~ "  -k,  --convert-links      convert non-relative links to relative.\n"
-#~ "  -K,  --backup-converted   before converting file X, back up as X.orig.\n"
-#~ "  -m,  --mirror             shortcut option equivalent to -r -N -l inf -"
-#~ "nr.\n"
-#~ "  -p,  --page-requisites    get all images, etc. needed to display HTML "
-#~ "page.\n"
-#~ "       --strict-comments    turn on strict (SGML) handling of HTML "
-#~ "comments.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Récupération récursive:\n"
-#~ "  -r,  --recursive             récupération récursive sur le web -- "
-#~ "utiliser avec précaution!.\n"
-#~ "  -l,  --level=N               fixer le niveau maximal récursif à N (0 "
-#~ "sans limite).\n"
-#~ "       --delete-after          détruire les fichiers téléchargés.\n"
-#~ "  -k,  --convert-links         convertir les liens non relatifs en liens "
-#~ "relatifs.\n"
-#~ "  -K,  --backup-converted      avant de convertir le fichier X, "
-#~ "l'archiver sous X.orig\n"
-#~ "  -m,  --mirror                activer l'option de récupération en mode "
-#~ "miroir.\n"
-#~ "  -p,  --page-requisites       ramasser toutes les images, etc. avant "
-#~ "d'afficher la page HTML\n"
-#~ "       --strict-comments       activer le traitement strict (SGML) des "
-#~ "commentaires HTML.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Recursive accept/reject:\n"
-#~ "  -A,  --accept=LIST                comma-separated list of accepted "
-#~ "extensions.\n"
-#~ "  -R,  --reject=LIST                comma-separated list of rejected "
-#~ "extensions.\n"
-#~ "  -D,  --domains=LIST               comma-separated list of accepted "
-#~ "domains.\n"
-#~ "       --exclude-domains=LIST       comma-separated list of rejected "
-#~ "domains.\n"
-#~ "       --follow-ftp                 follow FTP links from HTML "
-#~ "documents.\n"
-#~ "       --follow-tags=LIST           comma-separated list of followed HTML "
-#~ "tags.\n"
-#~ "  -G,  --ignore-tags=LIST           comma-separated list of ignored HTML "
-#~ "tags.\n"
-#~ "  -H,  --span-hosts                 go to foreign hosts when recursive.\n"
-#~ "  -L,  --relative                   follow relative links only.\n"
-#~ "  -I,  --include-directories=LIST   list of allowed directories.\n"
-#~ "  -X,  --exclude-directories=LIST   list of excluded directories.\n"
-#~ "  -np, --no-parent                  don't ascend to the parent "
-#~ "directory.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Acception ou rejet récursif:\n"
-#~ "  -A,  --accept=LISTE               liste séparée par des virgules "
-#~ "d'extensions acceptées.\n"
-#~ "  -R,  --reject=LISTE               liste séparée par des virgules "
-#~ "d'extensions rejetées.\n"
-#~ "  -D,  --domains=LISTE              liste séparée par des virgules de "
-#~ "domaines acceptés.\n"
-#~ "       --exclude-domains=LISTE      liste séparée par des virgules de "
-#~ "domaines rejetés.\n"
-#~ "       --follow-ftp                 suivre les liens FTP à partir des "
-#~ "documents HTML\n"
-#~ "       --follow-tags=LISTE          liste séparée par des virgules de "
-#~ "marqueurs HTML à suivre\n"
-#~ "  -G,  --ignore-tags=LISTE          liste séparée par des virgules de "
-#~ "marqueurs HTML à ignorer\n"
-#~ "  -H,  --span-hosts                 la récursion suit d'un hôte à "
-#~ "l'autre.\n"
-#~ "  -L,  --relative                   suivre les liens relatifs seulement.\n"
-#~ "  -I,  --include-directories=LISTE  lister les répertoires permis.\n"
-#~ "  -X,  --exclude-directories=LISTE  lister les répertoire exclus.\n"
-#~ "  -np, --no-parent                  ne pas remonter vers le répertoire "
-#~ "parent.\n"
-#~ "\n"
-
-#~ msgid "Starting WinHelp %s\n"
-#~ msgstr "Démarrage de WinHelp %s\n"
-
-#~ msgid "%s: %s: Not enough memory.\n"
-#~ msgstr "%s: %s: Pas assez de mémoire.\n"
-
-#~ msgid "Syntax error in Set-Cookie at character `%c'.\n"
-#~ msgstr "Erreur de syntaxe dans Set-Cookie sur le caractère « %c ».\n"
-
-#~ msgid "%s: %s: Cannot convert `%s' to an IP address.\n"
-#~ msgstr "%s: %s: ne peut convertir « %s » en une adresse IP.\n"
-
-#~ msgid "%s: %s: invalid command\n"
-#~ msgstr "%s: %s: commande invalide\n"
-
-#~ msgid "Could not find proxy host.\n"
-#~ msgstr "Ne peut repérer un hôte proxy.\n"
-
-#~ msgid "%s: Redirection cycle detected.\n"
-#~ msgstr "%s: boucle de redirection détectée.\n"
+#~ msgid "idn_decode failed (%d): %s\n"
+#~ msgstr "Ã‰chec d'idn_decode (%d)Â : %s\n"
 
 #~ msgid ""
 #~ "\n"
-#~ "CTRL+Break received, redirecting output to `%s'.\n"
-#~ "Execution continued in background.\n"
-#~ "You may stop Wget by pressing CTRL+ALT+DELETE.\n"
+#~ "%s received.\n"
 #~ msgstr ""
 #~ "\n"
-#~ "CTRL+Break reçu, redirection de la sortie vers `%s'.\n"
-#~ "L'exécution de poursuit en arrière plan.\n"
-#~ "Vous pouvez arrêter l'exécution de `wget' en appuyant CTRL+ALT+DELETE.\n"
-
-#~ msgid "Connection to %s:%hu refused.\n"
-#~ msgstr "Connexion vers %s:%hu refusée.\n"
-
-#~ msgid "Will try connecting to %s:%hu.\n"
-#~ msgstr "Tentative de connexion vers %s:%hu.\n"
-
-#~ msgid "Unknown/unsupported protocol"
-#~ msgstr "Protocole inconnu ou non supporté"
-
-#~ msgid "Invalid port specification"
-#~ msgstr "Spécification de port erronée"
-
-#~ msgid "%s: Cannot determine user-id.\n"
-#~ msgstr "%s: ne peut déterminer l'UID de l'usager.\n"
-
-#~ msgid "%s: Warning: uname failed: %s\n"
-#~ msgstr "%s: AVERTISSEMENT: échec de `uname': %s\n"
-
-#~ msgid "%s: Warning: gethostname failed\n"
-#~ msgstr "%s: AVERTISSEMENT: échec de la fonction gethostname()\n"
-
-#~ msgid "%s: Warning: cannot determine local IP address.\n"
-#~ msgstr "%s: AVERTISSEMENT: ne peut déterminer l'adresse IP locale.\n"
-
-#~ msgid "%s: Warning: cannot reverse-lookup local IP address.\n"
-#~ msgstr ""
-#~ "%s: AVERTISSEMENT: ne peut repérer l'adresse IP locale par requête "
-#~ "inverse.\n"
-
-#~ msgid "%s: Warning: reverse-lookup of local address did not yield FQDN!\n"
-#~ msgstr ""
-#~ "%s: AVERTISSEMENT: requête inverse de l'adresse IP locale n'a pas renvoyé "
-#~ "un nom complet (FQDN) !\n"
-
-#~ msgid "%s: Out of memory.\n"
-#~ msgstr "%s: mémoire épuisée.\n"
-
-#~ msgid "%s: Redirection to itself.\n"
-#~ msgstr "%s: redirection vers lui-même.\n"
-
-#~ msgid "Error (%s): Link %s without a base provided.\n"
-#~ msgstr "ERREUR (%s): lien %s sans base fournie.\n"
-
-#~ msgid "Error (%s): Base %s relative, without referer URL.\n"
-#~ msgstr "ERREUR (%s): base %s relative, sans URL référent.\n"
-
-#~ msgid ""
-#~ "Local file `%s' is more recent, not retrieving.\n"
-#~ "\n"
-#~ msgstr "Fichier local «%s» est plus récent, pas de récupération.\n"
+#~ "%s reÃ§u.\n"

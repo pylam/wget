@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
@@ -25,7 +25,7 @@ my %urls = (
     },
 );
 
-my $cmdline = $WgetTest::WGETPATH . " --debug --user=fiddle-dee-dee --password=Dodgson"
+my $cmdline = $WgetTest::WGETPATH . " --user=fiddle-dee-dee --password=Dodgson"
     . " -e http_proxy=localhost:{{port}} http://no.such.domain/needs-auth.txt";
 
 my $expected_error_code = 0;
@@ -38,12 +38,10 @@ my %expected_downloaded_files = (
 
 ###############################################################################
 
-my $the_test = HTTPTest->new (name => "Test-auth-basic",
-                              input => \%urls,
+my $the_test = HTTPTest->new (input => \%urls,
                               cmdline => $cmdline,
                               errcode => $expected_error_code,
                               output => \%expected_downloaded_files);
 exit $the_test->run();
 
 # vim: et ts=4 sw=4
-

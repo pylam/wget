@@ -1,6 +1,7 @@
 /* Declarations for connect.
    Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
-   2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+   2005, 2006, 2007, 2008, 2009, 2010, 2011, 2015 Free Software
+   Foundation, Inc.
 
 This file is part of GNU Wget.
 
@@ -31,7 +32,7 @@ as that of the covered work.  */
 #ifndef CONNECT_H
 #define CONNECT_H
 
-#include "host.h"		/* for definition of ip_address */
+#include "host.h"       /* for definition of ip_address */
 
 /* Function declarations */
 
@@ -50,6 +51,7 @@ enum {
   ENDPOINT_PEER
 };
 bool socket_ip_address (int, ip_address *, int);
+int  socket_family (int sock, int endpoint);
 
 bool retryable_socket_connect_error (int);
 

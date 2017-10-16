@@ -1,6 +1,6 @@
 /* Declarations for HTTP.
-   Copyright (C) 2005, 2006, 2007, 2008, 2009 Free Software Foundation,
-   Inc.
+   Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2015 Free
+   Software Foundation, Inc.
 
 This file is part of GNU Wget.
 
@@ -31,10 +31,12 @@ as that of the covered work.  */
 #ifndef HTTP_H
 #define HTTP_H
 
+#include "hsts.h"
+
 struct url;
 
-uerr_t http_loop (struct url *, char **, char **, const char *, int *,
-		  struct url *, struct iri *);
+uerr_t http_loop (const struct url *, struct url *, char **, char **, const char *,
+                  int *, struct url *, struct iri *);
 void save_cookies (void);
 void http_cleanup (void);
 time_t http_atotm (const char *);
@@ -43,7 +45,7 @@ typedef struct {
   /* A token consists of characters in the [b, e) range. */
   const char *b, *e;
 } param_token;
-bool extract_param (const char **, param_token *, param_token *, char);
+bool extract_param (const char **, param_token *, param_token *, char, bool *);
 
 
 #endif /* HTTP_H */
